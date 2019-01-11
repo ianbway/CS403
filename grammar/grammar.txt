@@ -1,17 +1,73 @@
-totem : 
-expression : unary | unary operator expression | unary comparator expression
-operator : PLUS | MINUS | MULTIPLY | DIVIDE 
-comparator : LESS_THAN | LESS_THAN_EQUAL | EQUAL | GREATER_THAN | GREATER_THAN_EQUAL
-unary : NUMBER | VARIABLE | OPEN_BRACKET expression CLOSE_BRACKET | MINUS unary
-product : product | unary MULTIPLY product
-quotient : quotient | unary DIVIDE quotient | quotient DIVIDE unary
-sum : sum | unary PLUS sum
-difference : difference | unary MINUS difference | difference MINUS unary
+totem : def | 
+		def totem
+
+def : element | 
+	  anima
+
+expression : unary | 
+			 unary operator expression | 
+			 unary comparator expression
+
+operator : PLUS | 
+		   MINUS | 
+		   MULTIPLY | 
+		   DIVIDE
+
+comparator : LESS_THAN |
+			 LESS_THAN_EQUAL |
+			 EQUAL |
+			 GREATER_THAN |
+			 GREATER_THAN_EQUAL
+
+unary : NUMBER |
+ 		VARIABLE |
+ 		OPEN_BRACKET expression CLOSE_BRACKET |
+ 		MINUS unary
+
+pole : figure |
+	   pole COMMA figure
+
+figure : unary |
+		 *empty*
+
+product : product |
+		  unary MULTIPLY product
+
+quotient : quotient |
+		   unary DIVIDE quotient |
+		   quotient DIVIDE unary
+
+sum : sum |
+ 	  unary PLUS sum
+
+difference : difference |
+			 unary MINUS difference |
+			 difference MINUS unary
+
 if : IF OPEN_BRACKET expression CLOSE_BRACKET segment elses
-elses : ELSE segment finally | ELSE if | *empty*
-finally: segment | *empty*
+
+elses : ELSE segment finally |
+ 		ELSE if |
+ 		*empty*
+
+finally: segment |
+		 *empty*
+
 while : WHILE OPEN_BRACKET expression CLOSE_BRACKET segment
+
 segment : OPEN_BRACKET OPEN_BRACKET symbol CLOSE_BRACKET CLOSE_BRACKET
-symbol : sym | sym symbol
-sym :  expression BAR | if | while
+
+symbol : sym |
+		 sym symbol
+
+sym :  expression BAR |
+	   if |
+	   while
+
 element : ELEMENT_NAME EQUAL ELEMENT_VALUE BAR
+
+anima : anima VARIABLE OPEN_BRACKET segment CLOSE_BRACKET
+
+animus : VARIABLE OPEN_BRACKET CLOSE_BRACKET |
+		 VARIABLE OPEN_BRACKET figure CLOSE_BRACKET |
+		 VARIABLE OPEN_BRACKET pole CLOSE_BRACKET
