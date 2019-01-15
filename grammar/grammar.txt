@@ -1,8 +1,8 @@
-totem : def | 
-        def totem
+program : def | 
+          def program
 
-def : element | 
-      anima
+def : var | 
+      funcDef
 
 expression : unary | 
              unary operator expression | 
@@ -24,11 +24,11 @@ unary : NUMBER |
         OPEN_BRACKET expression CLOSE_BRACKET |
         MINUS unary
 
-pole : figure |
-       pole COMMA figure
+list : item |
+       list COMMA item
 
-figure : unary |
-         *empty*
+item : unary |
+       *empty*
 
 product : product |
           unary MULTIPLY product
@@ -44,30 +44,35 @@ difference : difference |
              unary MINUS difference |
              difference MINUS unary
 
-if : IF OPEN_BRACKET expression CLOSE_BRACKET segment elses
+if : IF OPEN_BRACKET expression CLOSE_BRACKET block elses
 
-elses : ELSE segment finally |
+elses : ELSE block finally |
         ELSE if |
         *empty*
 
-finally: segment |
+finally: block |
          *empty*
 
-while : WHILE OPEN_BRACKET expression CLOSE_BRACKET segment
+while : WHILE OPEN_BRACKET expression CLOSE_BRACKET block
 
-segment : OPEN_BRACKET OPEN_BRACKET symbol CLOSE_BRACKET CLOSE_BRACKET
+block : OPEN_BRACKET OPEN_BRACKET statements CLOSE_BRACKET CLOSE_BRACKET |
+        OPEN_BRACKET OPEN_BRACKET statements return CLOSE_BRACKET CLOSE_BRACKET
 
-symbol : sym |
-         sym symbol
+return : VARIABLE |
+         NUMBER |
+         MINUS NUMBER
 
-sym :  expression BAR |
-       if |
-       while
+statements : statement |
+             statement statements
 
-element : ELEMENT_NAME EQUAL ELEMENT_VALUE BAR
+statement :  expression BAR |
+             if |
+             while
 
-anima : anima VARIABLE OPEN_BRACKET segment CLOSE_BRACKET
+var : VAR_NAME EQUAL VAR_VALUE BAR
 
-animus : VARIABLE OPEN_BRACKET CLOSE_BRACKET |
-         VARIABLE OPEN_BRACKET figure CLOSE_BRACKET |
-         VARIABLE OPEN_BRACKET pole CLOSE_BRACKET
+funcDef : FUNCTION VARIABLE OPEN_BRACKET list CLOSE_BRACKET block
+
+funcCall : VARIABLE OPEN_BRACKET CLOSE_BRACKET |
+           VARIABLE OPEN_BRACKET item CLOSE_BRACKET |
+           VARIABLE OPEN_BRACKET list CLOSE_BRACKET
