@@ -1,13 +1,29 @@
-func1[param1, param2]
-    [[
-        var1 = param + param2 |
+# Ian Braudaway #
 
-        print[var1] |
+# This is a line comment. It supports a single line, followed by a hash. # 
+# This function demonstrates math capability and prints to command line. #
+math[param1, param2]
+    [[
+        varSum = param1 + param2 |
+        varProduct = param1 * param2 |
+        varDifference = param1 - param2 |
+        varQuotient = param1 / param2 |
+
+        print[varSum] |
+        print[varProduct] |
+        print[varDifference] |
+        print[varQuotient] |
     ]]
 
-func2[listParam]
+##
+This is a block comment.
+Multiple lines are supported, followed by a double hash.
+This function demonstrates list operations, loops, conditionals, and return statements.
+##
+listOps[listParam]
     [[
         i = 0 |
+
         while [i < 10]
         [[
             if [listsParam[i] == top]
@@ -25,20 +41,23 @@ func2[listParam]
                 listParam[i] = listParam[i] - 1 |
             ]]
 
-            i = i + 1 |
+            finally
+            [[
+                i = i + 1 |
+            ]]
         ]]
 
         return listParam |
     ]]
 
+# This is the main function, which is automatically executed. #
 main[]
     [[
-
-        func1[4, 3] |
+        math[4, 3] |
 
         totem = [top, 4, 5, 6, bottom] |
 
-        returnTotem = func2[totem] |
+        returnTotem = listOps[totem] |
 
         print[returnTotem] |
 
