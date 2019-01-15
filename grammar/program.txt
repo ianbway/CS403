@@ -55,10 +55,10 @@ main[]
     [[
         math[4, 3] |
 
-        totem = [top, 4, 5, 6, bottom] |
+        emblem = [top, 4, 5, 6, bottom] |
 
-        returnTotem = listOps[totem] |
+        returnEmblem = listOps[emblem] |
 
-        print[returnTotem] |
+        print[returnEmblem] |
 
     ]]

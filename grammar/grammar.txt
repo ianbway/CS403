@@ -1,7 +1,7 @@
 program : def | 
           def program
 
-def : var | 
+def : varDef | 
       funcDef
 
 expression : unary | 
@@ -69,7 +69,7 @@ statement :  expression BAR |
              if |
              while
 
-var : VAR_NAME EQUAL VAR_VALUE BAR
+varDef : VAR_NAME EQUAL VAR_VALUE BAR
 
 funcDef : FUNCTION VARIABLE OPEN_BRACKET list CLOSE_BRACKET block
 
