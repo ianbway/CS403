@@ -2,17 +2,17 @@
 
 # This is a line comment. It supports a single line, followed by a hash. # 
 # This function demonstrates math capability and prints to command line. #
-math[param1, param2]
+math[param1| param2]
     [[
-        varSum = param1 + param2 |
-        varProduct = param1 * param2 |
-        varDifference = param1 - param2 |
-        varQuotient = param1 / param2 |
+        varSum = param1 + param2 
+        varProduct = param1 * param2 
+        varDifference = param1 - param2 
+        varQuotient = param1 / param2 
 
-        print[varSum] |
-        print[varProduct] |
-        print[varDifference] |
-        print[varQuotient] |
+        print[varSum] 
+        print[varProduct] 
+        print[varDifference] 
+        print[varQuotient] 
     ]]
 
 ##
@@ -22,43 +22,43 @@ This function demonstrates list operations, loops, conditionals, and return stat
 ##
 listOps[listParam]
     [[
-        i = 0 |
+        i = 0 
 
         while [i < 10]
         [[
             if [listsParam[i] == top]
             [[
-                i = i + 1 |
+                i = i + 1 
             ]]
 
             else if [listParam[i] == bottom]
             [[
-                i = 10 |
+                i = 10 
             ]]
 
             else
             [[
-                listParam[i] = listParam[i] - 1 |
+                listParam[i] = listParam[i] - 1 
             ]]
 
             finally
             [[
-                i = i + 1 |
+                i = i + 1 
             ]]
         ]]
 
-        return listParam |
+        return listParam 
     ]]
 
 # This is the main function, which is automatically executed. #
 main[]
     [[
-        math[4, 3] |
+        math[4| 3] 
 
-        emblem = [top, 4, 5, 6, bottom] |
+        emblem = [top| 4| 5| 6| bottom] 
 
-        returnEmblem = listOps[emblem] |
+        returnEmblem = listOps[emblem] 
 
-        print[returnEmblem] |
+        print[returnEmblem] 
 
     ]]
