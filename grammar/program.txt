@@ -1,0 +1,45 @@
+func1[param1, param2]
+    [[
+        var1 = param + param2 |
+
+        print[var1] |
+    ]]
+
+func2[listParam]
+    [[
+        i = 0 |
+        while [i < 10]
+        [[
+            if [listsParam[i] == top]
+            [[
+                i = i + 1 |
+            ]]
+
+            else if [listParam[i] == bottom]
+            [[
+                i = 10 |
+            ]]
+
+            else
+            [[
+                listParam[i] = listParam[i] - 1 |
+            ]]
+
+            i = i + 1 |
+        ]]
+
+        return listParam |
+    ]]
+
+main[]
+    [[
+
+        func1[4, 3] |
+
+        totem = [top, 4, 5, 6, bottom] |
+
+        returnTotem = func2[totem] |
+
+        print[returnTotem] |
+
+    ]]
