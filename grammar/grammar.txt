@@ -54,9 +54,8 @@ while : WHILE OPEN_BRACKET expression CLOSE_BRACKET block
 block : OPEN_BRACKET OPEN_BRACKET statements CLOSE_BRACKET CLOSE_BRACKET |
         OPEN_BRACKET OPEN_BRACKET statements return CLOSE_BRACKET CLOSE_BRACKET
 
-return : VARIABLE |
-         NUMBER |
-         MINUS NUMBER
+return : unary |
+         *empty*
 
 statements : statement |
              statement statements
@@ -70,4 +69,4 @@ varDef : VAR VARIABLE optInit
 optInit : EQUAL expression |
           *empty*
 
-funcDef : FUNCTION VARIABLE OPEN_BRACKET paramList CLOSE_BRACKET block
+funcDef : FUNCTION VARIABLE OPEN_BRACKET optParamList CLOSE_BRACKET block
