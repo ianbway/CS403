@@ -27,12 +27,12 @@ func listOps[listParam]
 
         while [i < 10]
         [[
-            if [listsParam[i] == top]
+            if [listsParam[i] == "top"]
             [[
                 i = i + 1 
             ]]
 
-            else if [listParam[i] == bottom]
+            else if [listParam[i] == "bottom"]
             [[
                 i = 10 
             ]]
@@ -93,10 +93,12 @@ func main[]
 
         compare[]
 
-        var emblem = [top| 4| 5| 6| bottom] 
+        var emblem = ["top"| 4| 5| 6| "bottom"] 
 
         var returnEmblem = listOps[emblem] 
 
         print[returnEmblem] 
 
     ]]
+
+main[]

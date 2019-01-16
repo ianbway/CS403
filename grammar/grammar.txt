@@ -26,6 +26,7 @@ unary : INTEGER |
         STRING |
         VARIABLE OPEN_BRACKET optArgList CLOSE_BRACKET |
         OPEN_BRACKET expression CLOSE_BRACKET |
+        OPEN_BRACKET optArgList CLOSE_BRACKET |
         PRINT OPEN_BRACKET argList CLOSE_BRACKET
 
 argList : expression |
