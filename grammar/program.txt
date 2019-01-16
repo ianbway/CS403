@@ -2,12 +2,12 @@
 
 # This is a line comment. It supports a single line, followed by a hash. # 
 # This function demonstrates math capability and prints to command line. #
-math[param1| param2]
+func math[param1| param2]
     [[
-        varSum = param1 + param2 
-        varProduct = param1 * param2 
-        varDifference = param1 - param2 
-        varQuotient = param1 / param2 
+        var varSum = param1 + param2 
+        var varProduct = param1 * param2 
+        var varDifference = param1 - param2 
+        var varQuotient = param1 / param2 
 
         print[varSum] 
         print[varProduct] 
@@ -20,9 +20,9 @@ This is a block comment.
 Multiple lines are supported, followed by a double hash.
 This function demonstrates list operations, loops, conditionals, and return statements.
 ##
-listOps[listParam]
+func listOps[listParam]
     [[
-        i = 0 
+        var i = 0 
 
         while [i < 10]
         [[
@@ -50,14 +50,51 @@ listOps[listParam]
         return listParam 
     ]]
 
+# This function uses comparators #
+func compare[]
+    [[
+        if [4 > 3]
+        [[
+            print["4 is greater than 3."]
+        ]]
+
+        if [4 < 5]
+        [[
+            print["4 is less than 5."]
+        ]]
+
+        if [4 == 4]
+        [[
+            print["4 is equal to 4."]
+        ]]
+
+        if [4 <= 4]
+        [[
+            print["4 is less than or equal to 4."]
+        ]]
+
+        if [4 >= 4]
+        [[
+            print["4 is greater than or equal to 4."]
+        ]]
+
+        if [6 % 3 == 0]
+        [[
+            print["6 cleanly divides by 3."]
+        ]]
+
+    ]]
+
 # This is the main function, which is automatically executed. #
-main[]
+func main[]
     [[
         math[4| 3] 
 
-        emblem = [top| 4| 5| 6| bottom] 
+        compare[]
 
-        returnEmblem = listOps[emblem] 
+        var emblem = [top| 4| 5| 6| bottom] 
+
+        var returnEmblem = listOps[emblem] 
 
         print[returnEmblem] 
 

@@ -69,4 +69,4 @@ varDef : VAR VARIABLE optInit
 optInit : EQUAL expression |
           *empty*
 
-funcDef : FUNCTION VARIABLE OPEN_BRACKET optParamList CLOSE_BRACKET block
+funcDef : FUNC VARIABLE OPEN_BRACKET optParamList CLOSE_BRACKET block
