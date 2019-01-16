@@ -1,5 +1,6 @@
 program : def | 
-          def program
+          def program |
+          statement
 
 def : varDef | 
       funcDef
@@ -14,19 +15,23 @@ operator : PLUS |
            LESS_THAN |
            LESS_THAN_EQUAL |
            EQUAL |
+           NOT EQUAL |
            GREATER_THAN |
            GREATER_THAN_EQUAL |
-           MODULO
+           MODULO |
+           OR |
+           AND
 
 unary : INTEGER |
         REAL |
         VARIABLE |
         VARIABLE PLUS PLUS |
         MINUS unary |
+        NOT unary |
         STRING |
         VARIABLE OPEN_BRACKET optArgList CLOSE_BRACKET |
         OPEN_BRACKET expression CLOSE_BRACKET |
-        OPEN_BRACKET optArgList CLOSE_BRACKET |
+        AT OPEN_BRACKET optArgList CLOSE_BRACKET |
         PRINT OPEN_BRACKET argList CLOSE_BRACKET
 
 argList : expression |
@@ -43,27 +48,23 @@ optParamList : paramList |
 
 if : IF OPEN_BRACKET expression CLOSE_BRACKET block elses
 
-elses : ELSE block finally |
+elses : ELSE block |
         ELSE if |
         *empty*
 
-finally: block |
-         *empty*
-
 while : WHILE OPEN_BRACKET expression CLOSE_BRACKET block
 
-block : OPEN_BRACKET OPEN_BRACKET statements CLOSE_BRACKET CLOSE_BRACKET |
-        OPEN_BRACKET OPEN_BRACKET statements return CLOSE_BRACKET CLOSE_BRACKET
-
-return : unary |
-         *empty*
+block : OPEN_BRACKET OPEN_BRACKET statements CLOSE_BRACKET CLOSE_BRACKET
 
 statements : statement |
              statement statements
 
 statement :  expression |
              if |
-             while
+             while |
+             funcDef |
+             varDef |
+             RETURN
 
 varDef : VAR VARIABLE optInit
 

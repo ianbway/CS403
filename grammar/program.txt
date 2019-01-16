@@ -42,10 +42,7 @@ func listOps[listParam]
                 listParam[i] = listParam[i] - 1 
             ]]
 
-            finally
-            [[
-                i++ 
-            ]]
+            i++ 
         ]]
 
         return listParam 
@@ -84,21 +81,34 @@ func compare[]
             print["6 cleanly divides by 3."]
         ]]
 
+        if [a != !a]
+        [[
+            print["a is not equal to not a."]
+        ]]
+
+        if [1 and 1 == 1]
+        [[
+            print["true logical anded with true is true."]
+        ]]
+
+        if [1 or 0 == 1]
+        [[
+            print["true logical ored with false is true."]
+        ]]
     ]]
 
-# This is the main function, which is automatically executed. #
+# This is the main function, with a call to it below. #
 func main[]
     [[
         math[4| 3] 
 
         compare[]
 
-        var emblem = ["top"| 4| 5| 6| "bottom"] 
+        var emblem = @["top"| 4| 5| 6| "bottom"] 
 
         var returnEmblem = listOps[emblem] 
 
         print[returnEmblem] 
-
     ]]
 
 main[]
