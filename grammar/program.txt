@@ -23,6 +23,7 @@ This function demonstrates list operations, loops, conditionals, and return stat
 func listOps[listParam]
     [[
         var i = 0 
+        var j
 
         while [i < 10]
         [[
@@ -43,7 +44,7 @@ func listOps[listParam]
 
             finally
             [[
-                i = i + 1 
+                i++ 
             ]]
         ]]
 
@@ -53,14 +54,14 @@ func listOps[listParam]
 # This function uses comparators #
 func compare[]
     [[
-        if [4 > 3]
+        if [4 > -3]
         [[
-            print["4 is greater than 3."]
+            print["4 is greater than -3."]
         ]]
 
-        if [4 < 5]
+        if [[4 + 6] < [5 + 6]]
         [[
-            print["4 is less than 5."]
+            print["4 + 6 is less than 5 + 6."]
         ]]
 
         if [4 == 4]
@@ -73,9 +74,9 @@ func compare[]
             print["4 is less than or equal to 4."]
         ]]
 
-        if [4 >= 4]
+        if [4.0 >= 4.0]
         [[
-            print["4 is greater than or equal to 4."]
+            print["4.0 is greater than or equal to 4.0."]
         ]]
 
         if [6 % 3 == 0]
