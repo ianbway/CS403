@@ -97,12 +97,14 @@ func compare[]
         ]]
     ]]
 
-# This method demonstrates nested function definitions #
+# This function demonstrates nested function definitions. #
 func nest[number]
     [[
         func nestFunc[num]
         [[
-            return number+num
+            var sumNums = number + num
+
+            return sumNums
         ]]
 
         return nestFunc
