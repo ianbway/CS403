@@ -97,6 +97,17 @@ func compare[]
         ]]
     ]]
 
+# This method demonstrates nested function definitions #
+func nest[number]
+    [[
+        func nestFunc[num]
+        [[
+            return number+num
+        ]]
+
+        return nestFunc
+    ]]
+
 # This is the main function, with a call to it below. #
 func main[]
     [[
@@ -109,6 +120,9 @@ func main[]
         var returnEmblem = listOps[emblem] 
 
         print[returnEmblem] 
+
+        var nestReturn = nest[2]
+        print[nestReturn]
     ]]
 
 main[]
