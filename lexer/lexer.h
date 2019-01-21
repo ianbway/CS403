@@ -3,3 +3,5 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
+extern LEXEME *lex();
