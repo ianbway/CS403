@@ -4,3 +4,4 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lexeme.h"
+#include "types.h"
