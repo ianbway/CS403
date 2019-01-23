@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct scanner SCANNER;
+typedef struct SCANNER SCANNER;
 
 extern SCANNER *newScanner(FILE *);
 extern void scanner(SCANNER *);

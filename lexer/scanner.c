@@ -4,18 +4,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "scanner.h"
-#include "types.h"
-#include "lexeme.h"
 #include "lexer.h"
+#include "lexeme.h"
+#include "types.h"
 
-#include "string.h"
-#include "real.h"
-#include "integer.h"
+// #include "string.h"
+// #include "real.h"
+// #include "integer.h"
 
 struct SCANNER
 {
     FILE *file;
-}
+};
 
 SCANNER *
 newScanner(FILE *fp)

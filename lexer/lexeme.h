@@ -8,16 +8,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct lexeme LEXEME;
+typedef struct LEXEME LEXEME;
 
 extern LEXEME *newLexeme(
     char *type,
-    char *string,
-    int integer,
-    double real,
+    char token);
 
-    bool isStr,
-    bool isInt,
-    bool isReal);
+extern char *getType(LEXEME *);
+extern void display(LEXEME *);
 
 #endif

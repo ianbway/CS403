@@ -10,20 +10,20 @@
 #include "lexeme.h"
 #include "types.h"
 
-#include "string.h"
-#include "real.h"
-#include "integer.h"
+// #include "string.h"
+// #include "real.h"
+// #include "integer.h"
 
-struct lexeme
+struct LEXEME
 {
     char *type;
     char *string;
     int integer;
     double real;
 
-    bool isStr = false;
-    bool isInt = false;
-    bool isReal = false;
+    bool isStr;
+    bool isInt;
+    bool isReal;
 };
 
 LEXEME *
@@ -42,7 +42,7 @@ newLexeme(char *type, char token)
     //string
     if (isalpha(token))
     {
-        lexeme->string = token;
+        lexeme->string = &token;
         lexeme->isStr = true;
     }
 

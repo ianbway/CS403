@@ -6,13 +6,13 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
+#include "lexeme.h"
 #include "lexer.h"
 #include "types.h"
-#include "lexeme.h"
 
-#include "string.h"
-#include "real.h"
-#include "integer.h"
+// #include "string.h"
+// #include "real.h"
+// #include "integer.h"
 
 char PushbackCharacter;
 bool CharacterHasBeenPushed = false;
@@ -20,7 +20,7 @@ bool CharacterHasBeenPushed = false;
 struct LEXER
 {
     FILE *file;
-}
+};
 
 LEXER *
 newLexer(FILE *fp)
@@ -51,7 +51,7 @@ myRead()
 }
 
 void 
-myPushback(ch)
+myPushback(char ch)
 {
     if (CharacterHasBeenPushed) 
     {
@@ -127,19 +127,19 @@ lex()
     { 
         // single character tokens 
 
-        case '[': return new lexeme(OPEN_BRACKET); 
-        case ']': return new lexeme(CLOSE_BRACKET); 
-        case '|': return new lexeme(BAR); 
-        case '+': return new lexeme(PLUS); //what about ++ and += ?
-        case '*': return new lexeme(MULTIPLY); 
-        case '-': return new lexeme(MINUS); 
-        case '/': return new lexeme(DIVIDE); 
-        case '<': return new lexeme(LESS_THAN); 
-        case '>': return new lexeme(GREATER_THAN); 
-        case '=': return new lexeme(EQUAL); 
-        case '@': return new lexeme(AT);
-        case '%': return new lexeme(MODULO);
-        case '!': return new lexeme(NOT);
+        case '[': return newLexeme(OPEN_BRACKET); 
+        case ']': return newLexeme(CLOSE_BRACKET); 
+        case '|': return newLexeme(BAR); 
+        case '+': return newLexeme(PLUS); //what about ++ and += ?
+        case '*': return newLexeme(MULTIPLY); 
+        case '-': return newLexeme(MINUS); 
+        case '/': return newLexeme(DIVIDE); 
+        case '<': return newLexeme(LESS_THAN); 
+        case '>': return newLexeme(GREATER_THAN); 
+        case '=': return newLexeme(EQUAL); 
+        case '@': return newLexeme(AT);
+        case '%': return newLexeme(MODULO);
+        case '!': return newLexeme(NOT);
 
         //add any other cases here
 
