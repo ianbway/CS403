@@ -32,3 +32,4 @@ extern char *GREATER_THAN_EQUAL;
 extern char *MODULO;
 extern char *OR;
 extern char *AND;
+extern char *ENDofINPUT;

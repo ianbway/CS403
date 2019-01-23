@@ -10,8 +10,27 @@
 #include "types.h"
 #include "lexeme.h"
 
+#include "string.h"
+#include "real.h"
+#include "integer.h"
+
 char PushbackCharacter;
 bool CharacterHasBeenPushed = false;
+
+struct LEXER
+{
+    FILE *file;
+}
+
+LEXER *
+newLexer(FILE *fp)
+{
+    LEXER *lex = malloc(sizeof(LEXER));
+    if (lex == 0) { fprintf(stderr,"out of memory\n"); exit(1); }
+
+    lex->file = fp;
+    return lex;
+}
 
 char myRead()
 {

@@ -6,16 +6,39 @@
 #include "scanner.h"
 #include "types.h"
 #include "lexeme.h"
+#include "lexer.h"
 
-void scanner(filename) 
+#include "string.h"
+#include "real.h"
+#include "integer.h"
+
+struct SCANNER
+{
+    FILE *file;
+}
+
+SCANNER *
+newScanner(FILE *fp)
+{
+    SCANNER *scan = malloc(sizeof(SCANNER));
+    if (scan == 0) { fprintf(stderr,"out of memory\n"); exit(1); }
+
+    scan->file = fp;
+    return scan;
+}
+
+void scanner(SCANNER *s) 
 { 
+	FILE *fileName = s->file;
+
     LEXEME *token; 
     LEXER *i = newLexer(fileName);
 
-    token = i.lex(); 
-    while (token.type != ENDofINPUT) 
+    token = lex(); 
+    while (getType(token) != ENDofINPUT) 
     { 
-        Lexeme.display(token); 
-        token = i.lex(); 
+    	// lexeme display token
+        display(token); 
+        token = lex(); 
     } 
 }

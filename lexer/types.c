@@ -33,3 +33,4 @@ char *GREATER_THAN_EQUAL = "greater than equal";
 char *MODULO = "modulo";
 char *OR = "or";
 char *AND = "and";
+char *ENDofINPUT = "end of input";

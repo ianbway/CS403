@@ -10,6 +10,10 @@
 #include "lexeme.h"
 #include "types.h"
 
+#include "string.h"
+#include "real.h"
+#include "integer.h"
+
 struct lexeme
 {
     char *type;
@@ -17,6 +21,12 @@ struct lexeme
     int integer;
     double real;
 };
+
+char *
+getType(LEXEME *lex)
+{
+    return lex->type;
+}
 
 static LEXEME *
 newLexeme(char *type, char token)
