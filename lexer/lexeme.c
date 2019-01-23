@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <assert.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
@@ -32,7 +31,11 @@ newLexeme(char *type, char token)
 {
     LEXEME *lexeme = malloc(sizeof(LEXEME));
 
-    assert(lexeme != 0);
+    if (lexeme == 0) 
+    { 
+        fprintf(stderr,"out of memory\n"); 
+        exit(1); 
+    }
 
     lexeme->type = type;
 

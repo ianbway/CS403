@@ -21,7 +21,11 @@ SCANNER *
 newScanner(FILE *fp)
 {
     SCANNER *scan = malloc(sizeof(SCANNER));
-    if (scan == 0) { fprintf(stderr,"out of memory\n"); exit(1); }
+    if (scan == 0) 
+    { 
+        fprintf(stderr,"out of memory\n"); 
+        exit(1); 
+    }
 
     scan->file = fp;
     return scan;
@@ -30,7 +34,7 @@ newScanner(FILE *fp)
 void 
 scanner(SCANNER *s) 
 { 
-	FILE *fileName = s->file;
+    FILE *fileName = s->file;
 
     LEXEME *token; 
     LEXER *i = newLexer(fileName);
@@ -38,7 +42,7 @@ scanner(SCANNER *s)
     token = lex(); 
     while (getType(token) != ENDofINPUT) 
     { 
-    	// lexeme display token
+        // lexeme display token
         display(token); 
         token = lex(); 
     } 

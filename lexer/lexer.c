@@ -26,7 +26,11 @@ LEXER *
 newLexer(FILE *fp)
 {
     LEXER *lex = malloc(sizeof(LEXER));
-    if (lex == 0) { fprintf(stderr,"out of memory\n"); exit(1); }
+    if (lex == 0) 
+    { 
+        fprintf(stderr,"out of memory\n"); 
+        exit(1); 
+    }
 
     lex->file = fp;
     return lex;
@@ -41,13 +45,19 @@ myRead()
         return PushbackCharacter;
     }
     else
+    {
         return Input.read();
+    }
 }
 
 void 
 myPushback(ch)
 {
-    if (CharacterHasBeenPushed) Fatal("too many pushbacks");
+    if (CharacterHasBeenPushed) 
+    {
+        Fatal("too many pushbacks");
+    }
+
     CharacterHasBeenPushed = true;
     PushbackCharacter = ch;
 }
@@ -57,7 +67,9 @@ skipWhiteSpace()
 {
     char ch;
     while (isspace(ch))
+    {
         ch = Input.read();
+    }
 
     // the character that got us out of the loop was NOT whitespace
     // so we need to push it back so it can be read again.
