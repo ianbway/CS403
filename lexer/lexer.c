@@ -36,11 +36,23 @@ void
 skipWhiteSpace(LEXER *lex)
 {
     char ch;
-    while (isspace(ch))
+
+    ch = fgetc(lex->file);
+    while (isspace(ch) || (ch == '#'))
     {
         if (ch == '\n')
         {
             lex->lineNumber = lex->lineNumber + 1;
+        }
+
+        if (ch == '#')
+        {
+            ch = fgetc(lex->file);
+            while (ch != '#')
+            {
+                ch = fgetc(lex->file);
+            }
+            //ungetc(ch, lex->file);
         }
 
         ch = fgetc(lex->file);
@@ -72,12 +84,24 @@ lexVariableOrKeyword(LEXER *lex)
 
     //token holds either a variable or a keyword, so figure it out
 
-    if (strcmp(token,"if") != 0) 
+    if (strcmp(token,"if") == 0) 
         return newLexeme(IF, NULL);
-    else if (strcmp(token,"else") != 0) 
+    else if (strcmp(token,"else") == 0) 
         return newLexeme(ELSE, NULL);
-    else if (strcmp(token,"while") != 0) 
+    else if (strcmp(token,"while") == 0) 
         return newLexeme(WHILE, NULL);
+    else if (strcmp(token,"var") == 0) 
+        return newLexeme(VAR, NULL);
+    else if (strcmp(token,"func") == 0) 
+        return newLexeme(FUNC, NULL);
+    else if (strcmp(token,"return") == 0) 
+        return newLexeme(RETURN, NULL);
+    else if (strcmp(token,"print") == 0) 
+        return newLexeme(PRINT, NULL);
+    else if (strcmp(token,"or") == 0) 
+        return newLexeme(OR, NULL);
+    else if (strcmp(token,"and") == 0) 
+        return newLexeme(AND, NULL);
         //more keyword testing here
     else //must be a variable!
         return newLexeme(VARIABLE,token);
@@ -96,7 +120,7 @@ lexNumber(LEXER *lex)
         token = token + ch;
         if (ch == '.' && real)
         {
-            fprintf(stderr,"Bad Number\n"); 
+            fprintf(stderr,"BAD NUMBER, line number : %d \n", lex->lineNumber); 
             exit(1);
         }
 
@@ -143,6 +167,7 @@ LEXEME *
 lex(LEXER *lex)
 {
     char ch;
+    char next;
 
     skipWhiteSpace(lex);
 
@@ -157,15 +182,75 @@ lex(LEXER *lex)
     { 
         // single character tokens 
 
-        case '[': return newLexeme(OPEN_BRACKET, NULL); 
-        case ']': return newLexeme(CLOSE_BRACKET, NULL); 
+        case '[': 
+            next = fgetc(lex->file);
+            if (next == '[')
+            {
+                return newLexeme(OPEN_BLOCK, NULL);
+            }
+
+            else
+            {
+                ungetc(next, lex->file);
+                return newLexeme(OPEN_BRACKET, NULL);
+            }
+             
+        case ']': 
+            next = fgetc(lex->file);
+            if (next == ']')
+            {
+                return newLexeme(CLOSE_BLOCK, NULL);
+            }
+
+            else
+            {
+                ungetc(next, lex->file);
+                return newLexeme(CLOSE_BRACKET, NULL);
+            }
+         
         case '|': return newLexeme(BAR, NULL); 
-        case '+': return newLexeme(PLUS, NULL); //what about ++ and += ?
+        case '+':  //what about ++ and += ?
+            next = fgetc(lex->file);
+            if (next == '+')
+            {
+                return newLexeme(PLUSPLUS, NULL);
+            }
+
+            else
+            {
+                ungetc(next, lex->file);
+                return newLexeme(PLUS, NULL);
+            }
+
         case '*': return newLexeme(MULTIPLY, NULL); 
         case '-': return newLexeme(MINUS, NULL); 
         case '/': return newLexeme(DIVIDE, NULL); 
-        case '<': return newLexeme(LESS_THAN, NULL); 
-        case '>': return newLexeme(GREATER_THAN, NULL); 
+        case '<': 
+            next = fgetc(lex->file);
+            if (next == '=')
+            {
+                return newLexeme(LESS_THAN_EQUAL, NULL);
+            }
+
+            else
+            {
+                ungetc(next, lex->file);
+                return newLexeme(LESS_THAN, NULL);
+            } 
+
+        case '>': 
+            next = fgetc(lex->file);
+            if (next == '=')
+            {
+                return newLexeme(GREATER_THAN_EQUAL, NULL);
+            }
+
+            else
+            {
+                ungetc(next, lex->file);
+                return newLexeme(GREATER_THAN, NULL);
+            }
+
         case '=': return newLexeme(EQUAL, NULL); 
         case '@': return newLexeme(AT, NULL);
         case '%': return newLexeme(MODULO, NULL);

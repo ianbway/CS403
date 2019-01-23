@@ -15,11 +15,11 @@ func math[param1| param2]
         print[varQuotient] 
     ]]
 
-##
+#
 This is a block comment.
 Multiple lines are supported, followed by a double hash.
 This function demonstrates list operations, loops, conditionals, and return statements.
-##
+#
 func listOps[listParam]
     [[
         var i = 0 
