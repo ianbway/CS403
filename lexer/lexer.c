@@ -10,13 +10,10 @@
 #include "lexer.h"
 #include "types.h"
 
-char PushbackCharacter;
-bool CharacterHasBeenPushed = false;
-
 struct LEXER
 {
     FILE *file;
-    //line number
+    int lineNumber;
 };
 
 LEXER *
@@ -30,100 +27,131 @@ newLexer(FILE *fp)
     }
 
     lex->file = fp;
+    lex->lineNumber = 0;
+
     return lex;
 }
 
-//take lexer obj, us fgetc on pointer
-char 
-myRead()
-{
-    if (CharacterHasBeenPushed)
-    {
-        CharacterHasBeenPushed = false;
-        return PushbackCharacter;
-    }
-    else
-    {
-        return Input.read();
-    }
-}
-
 void 
-myPushback(char ch)
-{
-    if (CharacterHasBeenPushed) 
-    {
-        fprintf(stderr,"too many pushbacks\n"); 
-        exit(1);
-    }
-
-    CharacterHasBeenPushed = true;
-    PushbackCharacter = ch;
-}
-
-// need lexer obj
-void 
-skipWhiteSpace()
+skipWhiteSpace(LEXER *lex)
 {
     char ch;
     while (isspace(ch))
     {
-        ch = Input.read();
+        if (ch == '\n')
+        {
+            lex->lineNumber = lex->lineNumber + 1;
+        }
+
+        ch = fgetc(lex->file);
     }
 
     // the character that got us out of the loop was NOT whitespace
     // so we need to push it back so it can be read again.
 
-    Input.pushback(ch);
+    ungetc(ch, lex->file);
 }
 
 LEXEME *
-lexVariableOrKeyword()
+lexVariableOrKeyword(LEXER *lex)
 {
     char ch;
     char *token = "";
         
-    ch = Input.read();
+    ch = fgetc(lex->file);
     while (isalpha(ch) || isdigit(ch))
     {
         token = token + ch; //grow the token string
-        ch = Input.read();
+        ch = fgetc(lex->file);
     }
 
     //push back the character that got us out of the loop
     //it may be some kind of punctuation
 
-    Input.pushback(ch);
+    ungetc(ch, lex->file);
 
     //token holds either a variable or a keyword, so figure it out
 
     if (strcmp(token,"if") != 0) 
-        return newLexeme(IF);
+        return newLexeme(IF, NULL);
     else if (strcmp(token,"else") != 0) 
-        return newLexeme(ELSE);
+        return newLexeme(ELSE, NULL);
     else if (strcmp(token,"while") != 0) 
-        return newLexeme(WHILE);
+        return newLexeme(WHILE, NULL);
         //more keyword testing here
     else //must be a variable!
         return newLexeme(VARIABLE,token);
 }
 
-//lexNumber
-
-//lexString
-
-// first argument lexer class
-// fget, unget 
 LEXEME *
-lex()
+lexNumber(LEXER *lex)
+{
+    int real = 0;
+    char ch;
+    char *token = "";
+
+    ch = fgetc(lex->file);
+    while ((!feof(lex->file) && (isdigit(ch))) || (ch == '.'))
+    {
+        token = token + ch;
+        if (ch == '.' && real)
+        {
+            fprintf(stderr,"Bad Number\n"); 
+            exit(1);
+        }
+
+        if (ch == '.')
+        {
+            real = 1;
+        }
+
+        ch = fgetc(lex->file);
+    }
+    ungetc(ch, lex->file);
+
+    if (real)
+    {
+        return newLexeme(REAL, token);
+    }
+
+    else
+    {
+        return newLexeme(INTEGER, token);
+    }
+}
+
+LEXEME *
+lexString(LEXER *lex)
+{
+
+    char ch;
+    char *token = "";
+
+    ch = fgetc(lex->file);
+    while ((!feof(lex->file) && (isalpha(ch))) || (ch == '\"'))
+    {
+        token = token + ch;
+
+        ch = fgetc(lex->file);
+    }
+    ungetc(ch, lex->file);
+
+    return newLexeme(STRING, token);
+}
+
+LEXEME *
+lex(LEXER *lex)
 {
     char ch;
 
-    skipWhiteSpace();
+    skipWhiteSpace(lex);
 
-    ch = Input.read(); 
+    ch = fgetc(lex->file); 
 
-    if (Input.failed) return newLexeme(ENDofINPUT, NULL); 
+    if (lex->file == NULL)
+    {
+        return newLexeme(ENDofINPUT, NULL); 
+    }
 
     switch(ch) 
     { 
@@ -150,21 +178,21 @@ lex()
         // variables/keywords, and strings) 
             if (isdigit(ch)) 
             { 
-                Input.pushback(ch); 
-                return lexNumber(); 
+                ungetc(ch, lex->file); 
+                return lexNumber(lex); 
             } 
             else if (isalpha(ch)) 
             { 
-                Input.pushback(ch); 
-                return lexVariableOrKeyword();
+                ungetc(ch, lex->file); 
+                return lexVariableOrKeyword(lex);
             } 
             else if (ch == '\"') 
             { 
-                return lexString(); 
+                return lexString(lex); 
             } 
             else
                 //need line #
-                fprintf(stderr,"UNKNOWN character\n"); 
+                fprintf(stderr,"UNKNOWN character, line number : %d \n", lex->lineNumber); 
                 exit(1);  
     } 
 }

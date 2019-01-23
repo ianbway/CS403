@@ -11,10 +11,10 @@
 typedef struct LEXER LEXER;
 
 extern LEXER *newLexer(FILE *fp);
-extern char myRead();
-extern void myPushback(char ch);
-extern void skipWhiteSpace();
-extern LEXEME *lexVariableOrKeyword();
-extern LEXEME *lex();
+extern char myRead(LEXER *lex);
+extern void myPushback(LEXER *lex, char ch);
+extern void skipWhiteSpace(LEXER *lex);
+extern LEXEME *lexVariableOrKeyword(LEXER *lex);
+extern LEXEME *lex(LEXER *lex);
 
 #endif

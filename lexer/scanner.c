@@ -16,18 +16,20 @@ main(int argc,char *argv[])
         exit(1);
     }
 
-    FILE *fileName = argv[1];
+    FILE *fileName = fopen(argv[1], "r");
 
     LEXEME *token; 
     LEXER *i = newLexer(fileName);
 
-    token = lex(); 
+    token = lex(i); 
     while (getType(token) != ENDofINPUT) 
     { 
         // lexeme display token
         display(token); 
-        token = lex(); 
+        token = lex(i); 
     }
+
+    fclose(fileName);
 
     return 0; 
 }

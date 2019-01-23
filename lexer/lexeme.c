@@ -31,19 +31,19 @@ newLexeme(char *type, char *token)
     lexeme->type = type;
 
     //string
-    if (lex->type == STRING)
+    if (type == STRING)
     {
         lexeme->string = token;
     }
 
     //int, convert string to integer
-    else if (lex->type == INTEGER)
+    else if (type == INTEGER)
     {
         lexeme->integer = atoi(token);
     }
 
     //real, convert string to float
-    else if (lex->type == REAL)
+    else if (type == REAL)
     {
         lexeme->real = atof(token);
     }
