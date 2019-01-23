@@ -3,16 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
 #include "lexeme.h"
 #include "types.h"
-
-// #include "string.h"
-// #include "real.h"
-// #include "integer.h"
 
 struct LEXEME
 {
@@ -20,13 +15,8 @@ struct LEXEME
     char *string;
     int integer;
     double real;
-
-    bool isStr;
-    bool isInt;
-    bool isReal;
 };
 
-//if integer atoi to convert
 LEXEME *
 newLexeme(char *type, char *token)
 {
@@ -41,25 +31,24 @@ newLexeme(char *type, char *token)
     lexeme->type = type;
 
     //string
-    if (isalpha(token))
+    if (lex->type == STRING)
     {
-        lexeme->string = &token;
-        lexeme->isStr = true;
+        lexeme->string = token;
     }
 
-    //int
-    else if (isdigit(token))
+    //int, convert string to integer
+    else if (lex->type == INTEGER)
     {
-        lexeme->integer = token;
-        lexeme->isInt = true;
+        lexeme->integer = atoi(token);
     }
 
-    //real
-    else
+    //real, convert string to float
+    else if (lex->type == REAL)
     {
-        lexeme->real = token;
-        lexeme->isReal = true;
+        lexeme->real = atof(token);
     }
+
+    //no token otherwise, the string integer and real fields remain null
 
     return lexeme;
 }
@@ -70,27 +59,32 @@ getType(LEXEME *lex)
     return lex->type;
 }
 
-// USE TYPES STRING. GET RID OF BOOLS
 void
 display(LEXEME *lex)
 {
     printf("%s ", lex->type);
 
     //string
-    if (lex->isStr == true)
+    if (lex->type == STRING)
     {
         printf("%s\n", lex->string);
     }
 
     //int
-    else if (lex->isInt == true)
+    else if (lex->type == INTEGER)
     {
         printf("%d\n", lex->integer);
     }
 
     //real
-    else
+    else if (lex->type == REAL)
     {
         printf("%f\n", lex->real);
+    }
+
+    //no token
+    else
+    {
+        printf("\n");
     }
 }

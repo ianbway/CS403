@@ -20,7 +20,7 @@ lexeme.o : lexeme.c lexeme.h
 lexer.o : lexer.c lexer.h
 	$(CC) $(OPTS) lexer.c
 
-scanner.o : scanner.c scanner.h
+scanner.o : scanner.c
 	$(CC) $(OPTS) scanner.c
 
 clean : 

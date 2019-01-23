@@ -6,13 +6,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 typedef struct LEXEME LEXEME;
 
 extern LEXEME *newLexeme(
     char *type,
-    char token);
+    char *token);
 
 extern char *getType(LEXEME *);
 extern void display(LEXEME *);

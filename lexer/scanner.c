@@ -3,39 +3,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "scanner.h"
 #include "lexer.h"
 #include "lexeme.h"
 #include "types.h"
 
-// #include "string.h"
-// #include "real.h"
-// #include "integer.h"
-
-struct SCANNER
+int 
+main(int argc,char *argv[]) 
 {
-    FILE *file;
-};
-
-SCANNER *
-newScanner(FILE *fp)
-{
-    SCANNER *scan = malloc(sizeof(SCANNER));
-    if (scan == 0) 
-    { 
-        fprintf(stderr,"out of memory\n"); 
-        exit(1); 
+    if (argc != 2)
+    {
+        fprintf(stderr,"scanner takes file as argument\n"); 
+        exit(1);
     }
 
-    scan->file = fp;
-    return scan;
-}
-
-// this is main. dont need struct, newscanner
-void 
-scanner(SCANNER *s) 
-{ 
-    FILE *fileName = s->file;
+    FILE *fileName = argv[1];
 
     LEXEME *token; 
     LEXER *i = newLexer(fileName);
@@ -46,5 +27,7 @@ scanner(SCANNER *s)
         // lexeme display token
         display(token); 
         token = lex(); 
-    } 
+    }
+
+    return 0; 
 }

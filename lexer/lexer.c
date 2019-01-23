@@ -10,10 +10,6 @@
 #include "lexer.h"
 #include "types.h"
 
-// #include "string.h"
-// #include "real.h"
-// #include "integer.h"
-
 char PushbackCharacter;
 bool CharacterHasBeenPushed = false;
 
@@ -127,25 +123,25 @@ lex()
 
     ch = Input.read(); 
 
-    if (Input.failed) return newLexeme(ENDofINPUT); 
+    if (Input.failed) return newLexeme(ENDofINPUT, NULL); 
 
     switch(ch) 
     { 
         // single character tokens 
 
-        case '[': return newLexeme(OPEN_BRACKET); 
-        case ']': return newLexeme(CLOSE_BRACKET); 
-        case '|': return newLexeme(BAR); 
-        case '+': return newLexeme(PLUS); //what about ++ and += ?
-        case '*': return newLexeme(MULTIPLY); 
-        case '-': return newLexeme(MINUS); 
-        case '/': return newLexeme(DIVIDE); 
-        case '<': return newLexeme(LESS_THAN); 
-        case '>': return newLexeme(GREATER_THAN); 
-        case '=': return newLexeme(EQUAL); 
-        case '@': return newLexeme(AT);
-        case '%': return newLexeme(MODULO);
-        case '!': return newLexeme(NOT);
+        case '[': return newLexeme(OPEN_BRACKET, NULL); 
+        case ']': return newLexeme(CLOSE_BRACKET, NULL); 
+        case '|': return newLexeme(BAR, NULL); 
+        case '+': return newLexeme(PLUS, NULL); //what about ++ and += ?
+        case '*': return newLexeme(MULTIPLY, NULL); 
+        case '-': return newLexeme(MINUS, NULL); 
+        case '/': return newLexeme(DIVIDE, NULL); 
+        case '<': return newLexeme(LESS_THAN, NULL); 
+        case '>': return newLexeme(GREATER_THAN, NULL); 
+        case '=': return newLexeme(EQUAL, NULL); 
+        case '@': return newLexeme(AT, NULL);
+        case '%': return newLexeme(MODULO, NULL);
+        case '!': return newLexeme(NOT, NULL);
 
         //add any other cases here
 
@@ -167,7 +163,8 @@ lex()
                 return lexString(); 
             } 
             else
-                return newLexeme(UNKNOWN, ch); 
-            //exit1, instead of above return
+                //need line #
+                fprintf(stderr,"UNKNOWN character\n"); 
+                exit(1);  
     } 
 }
