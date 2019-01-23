@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "lexer.h"
+#include "lexeme.h"
 
 typedef struct lexer LEXER;
 

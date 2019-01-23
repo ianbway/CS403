@@ -10,6 +10,6 @@
 typedef struct scanner SCANNER;
 
 extern SCANNER *newScanner(FILE *);
-extern void scanner(FILE *fp);
+extern void scanner(SCANNER *);
 
 #endif

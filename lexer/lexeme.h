@@ -6,11 +6,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct lexeme LEXEME;
 
 extern LEXEME *newLexeme(
     char *type,
-    char token);
+    char *string,
+    int integer,
+    double real,
+
+    bool isStr,
+    bool isInt,
+    bool isReal);
 
 #endif

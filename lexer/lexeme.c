@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <string.h>
 #include <ctype.h>
@@ -20,15 +21,13 @@ struct lexeme
     char *string;
     int integer;
     double real;
+
+    bool isStr = false;
+    bool isInt = false;
+    bool isReal = false;
 };
 
-char *
-getType(LEXEME *lex)
-{
-    return lex->type;
-}
-
-static LEXEME *
+LEXEME *
 newLexeme(char *type, char token)
 {
     LEXEME *lexeme = malloc(sizeof(LEXEME));
@@ -37,23 +36,56 @@ newLexeme(char *type, char token)
 
     lexeme->type = type;
 
-    if (isdigit(token))
-    {
-        if (fmod(token,1) != 0)
-        {
-            lexeme->real = token;
-        }
-
-        else
-        {
-            lexeme->integer = token;
-        }
-    }
-
-    else
+    //string
+    if (isalpha(token))
     {
         lexeme->string = token;
+        lexeme->isStr = true;
+    }
+
+    //int
+    else if (isdigit(token))
+    {
+        lexeme->integer = token;
+        lexeme->isInt = true;
+    }
+
+    //real
+    else
+    {
+        lexeme->real = token;
+        lexeme->isReal = true;
     }
 
     return lexeme;
+}
+
+char *
+getType(LEXEME *lex)
+{
+    return lex->type;
+}
+
+void
+display(LEXEME *lex)
+{
+    printf("%s ", lex->type);
+
+    //string
+    if (lex->isStr == true)
+    {
+        printf("%s\n", lex->string);
+    }
+
+    //int
+    else if (lex->isInt == true)
+    {
+        printf("%d\n", lex->integer);
+    }
+
+    //real
+    else
+    {
+        printf("%f\n", lex->real);
+    }
 }

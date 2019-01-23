@@ -32,7 +32,8 @@ newLexer(FILE *fp)
     return lex;
 }
 
-char myRead()
+char 
+myRead()
 {
     if (CharacterHasBeenPushed)
     {
@@ -43,14 +44,16 @@ char myRead()
         return Input.read();
 }
 
-void myPushback(ch)
+void 
+myPushback(ch)
 {
     if (CharacterHasBeenPushed) Fatal("too many pushbacks");
     CharacterHasBeenPushed = true;
     PushbackCharacter = ch;
 }
 
-void skipWhiteSpace()
+void 
+skipWhiteSpace()
 {
     char ch;
     while (isspace(ch))
@@ -62,7 +65,8 @@ void skipWhiteSpace()
     Input.pushback(ch);
 }
 
-LEXEME *lexVariableOrKeyword()
+LEXEME *
+lexVariableOrKeyword()
 {
     char ch;
     char *token = "";

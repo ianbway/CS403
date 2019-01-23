@@ -27,7 +27,8 @@ newScanner(FILE *fp)
     return scan;
 }
 
-void scanner(SCANNER *s) 
+void 
+scanner(SCANNER *s) 
 { 
 	FILE *fileName = s->file;
 
