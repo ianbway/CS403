@@ -20,6 +20,7 @@ bool CharacterHasBeenPushed = false;
 struct LEXER
 {
     FILE *file;
+    //line number
 };
 
 LEXER *
@@ -36,6 +37,7 @@ newLexer(FILE *fp)
     return lex;
 }
 
+//take lexer obj, us fgetc on pointer
 char 
 myRead()
 {
@@ -55,13 +57,15 @@ myPushback(char ch)
 {
     if (CharacterHasBeenPushed) 
     {
-        Fatal("too many pushbacks");
+        fprintf(stderr,"too many pushbacks\n"); 
+        exit(1);
     }
 
     CharacterHasBeenPushed = true;
     PushbackCharacter = ch;
 }
 
+// need lexer obj
 void 
 skipWhiteSpace()
 {
@@ -112,6 +116,8 @@ lexVariableOrKeyword()
 
 //lexString
 
+// first argument lexer class
+// fget, unget 
 LEXEME *
 lex()
 {
@@ -162,5 +168,6 @@ lex()
             } 
             else
                 return newLexeme(UNKNOWN, ch); 
+            //exit1, instead of above return
     } 
 }

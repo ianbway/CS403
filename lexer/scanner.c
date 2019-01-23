@@ -31,6 +31,7 @@ newScanner(FILE *fp)
     return scan;
 }
 
+// this is main. dont need struct, newscanner
 void 
 scanner(SCANNER *s) 
 { 

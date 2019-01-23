@@ -26,8 +26,9 @@ struct LEXEME
     bool isReal;
 };
 
+//if integer atoi to convert
 LEXEME *
-newLexeme(char *type, char token)
+newLexeme(char *type, char *token)
 {
     LEXEME *lexeme = malloc(sizeof(LEXEME));
 
@@ -69,6 +70,7 @@ getType(LEXEME *lex)
     return lex->type;
 }
 
+// USE TYPES STRING. GET RID OF BOOLS
 void
 display(LEXEME *lex)
 {
