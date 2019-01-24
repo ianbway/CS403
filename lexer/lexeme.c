@@ -30,7 +30,7 @@ newLexeme(char *type, char *token)
 
     lexeme->type = type;
 
-    //string
+    //string or variable
     if ((lexeme->type == STRING) || (lexeme->type == VARIABLE))
     {
         lexeme->string = token;

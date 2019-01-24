@@ -27,7 +27,7 @@ newLexer(FILE *fp)
     }
 
     lex->file = fp;
-    lex->lineNumber = 0;
+    lex->lineNumber = 1;
 
     return lex;
 }
@@ -50,6 +50,11 @@ skipWhiteSpace(LEXER *lex)
             ch = fgetc(lex->file);
             while (ch != '#')
             {
+                if (ch == '\n')
+                {
+                    lex->lineNumber = lex->lineNumber + 1;
+                }
+
                 ch = fgetc(lex->file);
             }
         }
