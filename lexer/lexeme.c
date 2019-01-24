@@ -31,19 +31,19 @@ newLexeme(char *type, char *token)
     lexeme->type = type;
 
     //string
-    if (type == STRING)
+    if ((lexeme->type == STRING) || (lexeme->type == VARIABLE))
     {
         lexeme->string = token;
     }
 
     //int, convert string to integer
-    else if (type == INTEGER)
+    else if (lexeme->type == INTEGER)
     {
         lexeme->integer = atoi(token);
     }
 
     //real, convert string to float
-    else if (type == REAL)
+    else if (lexeme->type == REAL)
     {
         lexeme->real = atof(token);
     }
@@ -65,7 +65,7 @@ display(LEXEME *lex)
     printf("%s ", lex->type);
 
     //string
-    if (lex->type == STRING)
+    if ((lex->type == STRING) || (lex->type == VARIABLE))
     {
         printf("%s\n", lex->string);
     }

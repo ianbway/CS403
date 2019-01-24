@@ -29,6 +29,8 @@ main(int argc,char *argv[])
         token = lex(i); 
     }
 
+    printf("ENDofINPUT\n");
+
     fclose(fileName);
 
     return 0; 

@@ -52,7 +52,6 @@ skipWhiteSpace(LEXER *lex)
             {
                 ch = fgetc(lex->file);
             }
-            //ungetc(ch, lex->file);
         }
 
         ch = fgetc(lex->file);
@@ -68,12 +67,20 @@ LEXEME *
 lexVariableOrKeyword(LEXER *lex)
 {
     char ch;
-    char *token = "";
-        
+    int length = 32;
+    int index = 0;    
+    char *token = malloc(sizeof(char) * length + 1);   // + 1 for the null byte
+
     ch = fgetc(lex->file);
-    while (isalpha(ch) || isdigit(ch))
+    while (((!feof(lex->file)) && (isalpha(ch))) || (isdigit(ch)))
     {
-        token = token + ch; //grow the token string
+        if (index == length)
+        {
+            token = realloc(token,sizeof(char) * length * 2 + 1);
+            length *= 2;
+        }
+        token[index++] = ch;
+        token[index] = '\0';
         ch = fgetc(lex->file);
     }
 
@@ -112,12 +119,13 @@ lexNumber(LEXER *lex)
 {
     int real = 0;
     char ch;
-    char *token = "";
+    int length = 32;
+    int index = 0;    
+    char *token = malloc(sizeof(char) * length + 1);   // + 1 for the null byte
 
     ch = fgetc(lex->file);
     while ((!feof(lex->file) && (isdigit(ch))) || (ch == '.'))
     {
-        token = token + ch;
         if (ch == '.' && real)
         {
             fprintf(stderr,"BAD NUMBER, line number : %d \n", lex->lineNumber); 
@@ -128,6 +136,14 @@ lexNumber(LEXER *lex)
         {
             real = 1;
         }
+
+        if (index == length)
+        {
+            token = realloc(token,sizeof(char) * length * 2 + 1);
+            length *= 2;
+        }
+        token[index++] = ch;
+        token[index] = '\0';
 
         ch = fgetc(lex->file);
     }
@@ -147,18 +163,24 @@ lexNumber(LEXER *lex)
 LEXEME *
 lexString(LEXER *lex)
 {
-
     char ch;
-    char *token = "";
+    int length = 32;
+    int index = 0;    
+    char *token = malloc(sizeof(char) * length + 1);   // + 1 for the null byte
 
     ch = fgetc(lex->file);
-    while ((!feof(lex->file) && (isalpha(ch))) || (ch == '\"'))
+    while ((!feof(lex->file) && (ch != '\"')))
     {
-        token = token + ch;
+        if (index == length)
+        {
+            token = realloc(token,sizeof(char) * length * 2 + 1);
+            length *= 2;
+        }
+        token[index++] = ch;
+        token[index] = '\0';
 
         ch = fgetc(lex->file);
     }
-    ungetc(ch, lex->file);
 
     return newLexeme(STRING, token);
 }
@@ -274,6 +296,10 @@ lex(LEXER *lex)
             else if (ch == '\"') 
             { 
                 return lexString(lex); 
+            }
+            else if (feof(lex->file))
+            {
+                return newLexeme(ENDofINPUT, NULL); 
             } 
             else
                 //need line #
