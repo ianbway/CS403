@@ -1,5 +1,6 @@
 # Ian Braudaway #
 
+# This is the first test.# 
 # This is a line comment. It supports a single line, followed by a hash. # 
 # This function demonstrates math capability and prints to command line. #
 func math[param1| param2]
@@ -9,6 +10,7 @@ func math[param1| param2]
         var varDifference = param1 - param2 
         var varQuotient = param1 / param2 
 
+        print["This is test 1 for the lexer portion of CS403."] 
         print[varSum] 
         print[varProduct] 
         print[varDifference] 

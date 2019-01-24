@@ -133,7 +133,7 @@ lexNumber(LEXER *lex)
     {
         if (ch == '.' && real)
         {
-            fprintf(stderr,"BAD NUMBER, line number : %d \n", lex->lineNumber); 
+            fprintf(stdout,"BAD NUMBER: %c , line number : %d \n", ch, lex->lineNumber); 
             exit(1);
         }
 
@@ -308,7 +308,7 @@ lex(LEXER *lex)
             } 
             else
                 //need line #
-                fprintf(stderr,"UNKNOWN character, line number : %d \n", lex->lineNumber); 
+                fprintf(stdout,"UNKNOWN CHARACTER: %c , line number : %d \n", ch, lex->lineNumber); 
                 exit(1);  
     } 
 }

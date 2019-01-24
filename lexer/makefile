@@ -27,33 +27,33 @@ clean :
 	rm -f $(SCANNER_OBJS) ./types ./lexeme ./lexer ./scanner
 
 test1 : 
-	./scanner ./test1.txt
+	./scanner ./test1.e
 
 test2 : 
-	./scanner ./test2.txt
+	./scanner ./test2.e
 
 test3 : 
-	./scanner ./test3.txt
+	./scanner ./test3.e
 
 test4 : 
-	./scanner ./test4.txt
+	./scanner ./test4.e
 
 test5 : 
-	./scanner ./test5.txt
+	./scanner ./test5.e
 
 run :
 	@echo "TEST 1:"
-	./scanner ./test1.txt
+	./scanner ./test1.e
 	@echo ""
 	@echo "TEST 2:"
-	./scanner ./test2.txt
+	./scanner ./test2.e
 	@echo ""
 	@echo "TEST 3:"
-	./scanner ./test3.txt
+	./scanner ./test3.e
 	@echo ""
 	@echo "TEST 4:"
-	./scanner ./test4.txt
+	./scanner ./test4.e
 	@echo ""
 	@echo "TEST 5:"
-	./scanner ./test5.txt
+	./scanner ./test5.e
 	@echo ""
