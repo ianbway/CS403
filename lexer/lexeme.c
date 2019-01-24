@@ -67,7 +67,7 @@ display(LEXEME *lex)
     //string
     if ((lex->type == STRING) || (lex->type == VARIABLE))
     {
-        printf("%s\n", lex->string);
+        printf("\"%s\"\n", lex->string);
     }
 
     //int
