@@ -40,3 +40,20 @@ test4 :
 
 test5 : 
 	./scanner ./test5.txt
+
+run :
+	@echo "TEST 1:"
+	./scanner ./test1.txt
+	@echo ""
+	@echo "TEST 2:"
+	./scanner ./test2.txt
+	@echo ""
+	@echo "TEST 3:"
+	./scanner ./test3.txt
+	@echo ""
+	@echo "TEST 4:"
+	./scanner ./test4.txt
+	@echo ""
+	@echo "TEST 5:"
+	./scanner ./test5.txt
+	@echo ""
