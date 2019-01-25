@@ -64,7 +64,7 @@ statement :  expression |
              while |
              funcDef |
              varDef |
-             RETURN
+             RETURN expression
 
 varDef : VAR VARIABLE optInit
 
