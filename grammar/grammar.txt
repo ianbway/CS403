@@ -24,15 +24,17 @@ operator : PLUS |
 
 unary : INTEGER |
         REAL |
-        VARIABLE |
-        VARIABLE PLUS PLUS |
+        varExpression |
         MINUS unary |
         NOT unary |
         STRING |
-        VARIABLE OPEN_BRACKET optArgList CLOSE_BRACKET |
         OPEN_BRACKET expression CLOSE_BRACKET |
         AT OPEN_BRACKET optArgList CLOSE_BRACKET |
         PRINT OPEN_BRACKET argList CLOSE_BRACKET
+
+varExpression : VARIABLE |
+                VARIABLE PLUS PLUS |
+                VARIABLE OPEN_BRACKET optArgList CLOSE_BRACKET
 
 argList : expression |
           expression BAR argList

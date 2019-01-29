@@ -3,9 +3,135 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "lexer.h"
 #include "lexeme.h"
 #include "types.h"
+
+LEXEME *CurrentLexeme;
+
+void 
+unary() 
+{ 
+    if (check(INTEGER)) 
+    { 
+        match(INTEGER); 
+    }
+    else if (check(REAL))
+    {
+        match(REAL);
+    } 
+    else if (varExpressionPending()) 
+    { 
+        varExpression(); 
+    }
+    else if (check(MINUS))
+    {
+        match(MINUS);
+        unary();
+    } 
+    else if (check(NOT))
+    {
+        match(NOT);
+        unary();
+    }
+    else if (check(STRING))
+    {
+        match(STRING);
+    }
+    else if (check(AT))
+    {
+        match(AT);
+        match(OPEN_BRACKET);
+        optArgList();
+        match(CLOSE_BRACKET);
+    }
+    else if (check(PRINT))
+    {
+        match(PRINT);
+        match(OPEN_BRACKET);
+        argList();
+        match(CLOSE_BRACKET);
+    }
+    else 
+    { 
+        match(OPEN_BRACKET); 
+        expression(); 
+        match(CLOSE_BRACKET); 
+    } 
+}
+
+void 
+varExpression() 
+{ 
+    match(VARIABLE); 
+    if (check(OPEN_BRACKET)) 
+    { 
+        match(OPEN_BRACKET); 
+        optArgList();
+        match(CLOSE_BRACKET); 
+    }
+    else if (check(PLUS))
+    {
+        match(PLUS);
+        match(PLUS);
+    } 
+}
+
+bool
+varExpressionPending() 
+{ 
+    return check(VARIABLE); 
+}
+
+bool
+operatorPending()
+{
+    return check(PLUS) || check(TIMES) || check(MULTIPLY) || check(DIVIDE) || 
+           check(LESS_THAN) || check(LESS_THAN_EQUAL) || check(EQUAL) || 
+           check(NOT) || check(GREATER_THAN) || check(GREATER_THAN_EQUAL) ||
+           check(MODULO) || check(OR) || check(AND);
+}
+
+void 
+expression() 
+{ 
+    unary(); 
+    if (operatorPending()) 
+    { 
+        operator(); 
+        expression(); 
+    } 
+}
+
+bool 
+check(char *type) 
+{ 
+    return getType(CurrentLexeme) == type; 
+}
+
+void 
+advance() 
+{ 
+    CurrentLexeme = lex(); 
+} 
+
+void 
+match(char *type) 
+{ 
+    matchNoAdvance(type); 
+    advance(); 
+}
+
+void 
+matchNoAdvance(char *type)
+{
+    if (!check(type))
+    {
+        fprintf(stdout,"syntax error, expected: %s, got: %s, line number: %d \n", getType(CurrentLexeme), type, ); 
+        exit(1);
+    }
+}
 
 int 
 main(int argc,char *argv[]) 
@@ -24,12 +150,8 @@ main(int argc,char *argv[])
     token = lex(i); 
     while (getType(token) != ENDofINPUT) 
     { 
-        // lexeme display token
-        display(token); 
         token = lex(i); 
     }
-
-    printf("ENDofINPUT\n");
 
     fclose(fileName);
 
