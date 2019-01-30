@@ -8,6 +8,7 @@
 #include "lexeme.h"
 #include "types.h"
 
+LEXER *GlobalLexer;
 LEXEME *CurrentLexeme;
 
 void 
@@ -423,7 +424,7 @@ check(char *type)
 void 
 advance() 
 { 
-    CurrentLexeme = lex(); 
+    CurrentLexeme = lex(GlobalLexer); 
 } 
 
 void 
@@ -439,7 +440,7 @@ matchNoAdvance(char *type)
     if (!check(type))
     {
         fprintf(stdout,"syntax error, expected: %s, got: %s, line number: %d \n", 
-                getType(CurrentLexeme), type, ); 
+                getType(CurrentLexeme), type, getLineNumber(GlobalLexer)); 
         exit(1);
     }
 }
@@ -456,13 +457,11 @@ main(int argc,char *argv[])
     FILE *fileName = fopen(argv[1], "r");
 
     LEXEME *token; 
-    LEXER *i = newLexer(fileName);
+    LEXER *GlobalLexer = newLexer(fileName);
 
-    token = lex(i); 
-    while (getType(token) != ENDofINPUT) 
-    { 
-        token = lex(i); 
-    }
+    CurrentLexeme = lex(GlobalLexer); 
+    program(); 
+    match(ENDofINPUT);
 
     fclose(fileName);
 

@@ -32,6 +32,12 @@ newLexer(FILE *fp)
     return lex;
 }
 
+int
+getLineNumber(LEXER *lex)
+{
+    return lex->lineNumber;
+}
+
 void 
 skipWhiteSpace(LEXER *lex)
 {
