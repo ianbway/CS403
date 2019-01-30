@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 #include "lexer.h"
 #include "lexeme.h"
 #include "types.h"
@@ -424,22 +425,17 @@ def()
 void
 program()
 {
+    printf("global lexer: %p\n", GlobalLexer);
+
+
     if (check(FUNC) || check(VAR)) 
     {
        def(); 
+       program();
     }
-    else if (check(FUNC) || check(VAR) || statementPending())
-    {
-        program();
-    }
-    else if (statementPending())
+    else (statementPending())
     {
         statement();
-    }
-    else
-    {
-        fprintf(stdout,"program error \n"); 
-        exit(1);
     }
 }
 
@@ -452,6 +448,7 @@ check(char *type)
 void 
 advance() 
 { 
+    printf("global lexer: %p\n", GlobalLexer);
     CurrentLexeme = lex(GlobalLexer); 
 } 
 
@@ -484,7 +481,9 @@ main(int argc,char *argv[])
 
     FILE *fileName = fopen(argv[1], "r");
 
-    LEXER *GlobalLexer = newLexer(fileName);
+    assert(fileName != 0);
+
+    GlobalLexer = newLexer(fileName);
 
     CurrentLexeme = lex(GlobalLexer); 
     program(); 
