@@ -53,11 +53,16 @@ unary()
         argList();
         match(CLOSE_BRACKET);
     }
-    else 
+    else if (check(OPEN_BRACKET))
     { 
         match(OPEN_BRACKET); 
         expression(); 
         match(CLOSE_BRACKET); 
+    }
+    else
+    {
+        fprintf(stdout,"unary error \n"); 
+        exit(1);
     } 
 }
 
@@ -102,6 +107,20 @@ expression()
         operator(); 
         expression(); 
     } 
+}
+
+void
+program()
+{
+    def();
+    if (programPending())
+    {
+        program();
+    }
+    else if (statementPending())
+    {
+        statement();
+    }
 }
 
 bool 
