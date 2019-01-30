@@ -11,6 +11,34 @@
 LEXER *GlobalLexer;
 LEXEME *CurrentLexeme;
 
+static void unary();
+static void operator();
+static void varExpression();
+static bool varExpressionPending();
+static bool operatorPending();
+static bool expressionPending();
+static void expression();
+static bool statementPending();
+static void elses();
+static void ifRule();
+static void whileRule();
+static void statement();
+static void statements();
+static void block();
+static void optInit();
+static void argList();
+static void optArgList();
+static void paramList();
+static void optParamList();
+static void funcDef();
+static void varDef();
+static void def();
+static void program();
+static bool check(char *);
+static void advance();
+static void match(char *);
+static void matchNoAdvance(char *);
+
 void 
 unary() 
 { 
@@ -100,7 +128,7 @@ operator()
     }
     else if (check(NOT))
     {
-        match(NOT):
+        match(NOT);
         match(EQUAL);
     }
     else if (check(GREATER_THAN))
@@ -157,7 +185,7 @@ varExpressionPending()
 bool
 operatorPending()
 {
-    return check(PLUS) || check(TIMES) || check(MULTIPLY) || check(DIVIDE) || 
+    return check(PLUS) || check(MINUS) || check(MULTIPLY) || check(DIVIDE) || 
            check(LESS_THAN) || check(LESS_THAN_EQUAL) || check(EQUAL) || 
            check(NOT) || check(GREATER_THAN) || check(GREATER_THAN_EQUAL) ||
            check(MODULO) || check(OR) || check(AND);
@@ -265,7 +293,7 @@ statement()
 void
 statements()
 {
-    statement()
+    statement();
     if (statementPending())
     {
         statements();
@@ -400,7 +428,7 @@ program()
     {
        def(); 
     }
-    else if (programPending())
+    else if (check(FUNC) || check(VAR) || statementPending())
     {
         program();
     }
@@ -456,12 +484,13 @@ main(int argc,char *argv[])
 
     FILE *fileName = fopen(argv[1], "r");
 
-    LEXEME *token; 
     LEXER *GlobalLexer = newLexer(fileName);
 
     CurrentLexeme = lex(GlobalLexer); 
     program(); 
     match(ENDofINPUT);
+
+    printf("legal\n");
 
     fclose(fileName);
 

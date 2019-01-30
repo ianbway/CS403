@@ -11,6 +11,7 @@
 typedef struct LEXER LEXER;
 
 extern LEXER *newLexer(FILE *fp);
+extern int getLineNumber(LEXER *lex);
 extern LEXEME *lex(LEXER *lex);
 
 #endif
