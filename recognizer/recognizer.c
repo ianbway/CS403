@@ -83,17 +83,12 @@ unary()
         argList();
         match(CLOSE_BRACKET);
     }
-    else if (check(OPEN_BRACKET))
+    else
     { 
         match(OPEN_BRACKET); 
         expression(); 
         match(CLOSE_BRACKET); 
     }
-    else
-    {
-        fprintf(stdout,"unary error \n"); 
-        exit(1);
-    } 
 }
 
 void
@@ -148,33 +143,30 @@ operator()
     {
         match(OR);
     }
-    else if (check(AND))
-    {
-        match(AND);
-    }
     else
     {
-        fprintf(stdout,"operator error \n"); 
-        exit(1);
+        match(AND);
     }
 }
 
 void 
 varExpression() 
 { 
-    match(VARIABLE); 
-    if (check(OPEN_BRACKET)) 
+    if (check(VARIABLE))
+    {
+        match(VARIABLE); 
+    }
+    else if (check(OPEN_BRACKET)) 
     { 
         match(OPEN_BRACKET); 
         optArgList();
         match(CLOSE_BRACKET); 
     }
-    else if (check(PLUS))
+    else
     {
         match(PLUS);
         match(PLUS);
     } 
-    // else do nothing
 }
 
 bool
@@ -232,7 +224,6 @@ elses()
             block();
         }
     }
-    // else do nothing
 }
 
 void
@@ -279,15 +270,10 @@ statement()
     {
         varDef();
     }
-    else if (check(RETURN))
+    else
     {
         match(RETURN);
         expression();
-    }
-    else
-    {
-        fprintf(stdout,"statement error \n"); 
-        exit(1);
     }
 }
 
@@ -304,19 +290,9 @@ statements()
 void
 block()
 {
-    if (check(OPEN_BRACKET))
-    {
-        match(OPEN_BRACKET);
-        match(OPEN_BRACKET);
-        statements();
-        match(CLOSE_BRACKET);
-        match(CLOSE_BRACKET);
-    }
-    else
-    {
-        fprintf(stdout,"block error \n"); 
-        exit(1);
-    }
+    match(OPEN_BLOCK);
+    statements();
+    match(CLOSE_BLOCK);
 }
 
 void
@@ -347,7 +323,6 @@ optArgList()
     {
         argList();
     }
-    // else do nothing
 }
 
 void
@@ -371,37 +346,25 @@ optParamList()
     {
         paramList();
     }
-    // else do nothing
 }
 
 void
 funcDef()
 {
     match(FUNC);
-    if (check(VARIABLE))
-    {
-        match(VARIABLE);
-        match(OPEN_BRACKET);
-        optParamList();
-        match(CLOSE_BRACKET);
-        block();
-    }
+    match(VARIABLE);
+    match(OPEN_BRACKET);
+    optParamList();
+    match(CLOSE_BRACKET);
+    block();
 }
 
 void
 varDef()
 {
     match(VAR);
-    if (check(VARIABLE))
-    {
-        match(VARIABLE);
-        optInit();
-    }
-    else
-    {
-        fprintf(stdout,"varDef error \n"); 
-        exit(1);
-    }
+    match(VARIABLE);
+    optInit();
 }
 
 void
@@ -411,29 +374,21 @@ def()
     {
         varDef();
     }
-    else if (check(FUNC))
-    {
-        funcDef();
-    }
     else
     {
-        fprintf(stdout,"definition error \n"); 
-        exit(1);
+        funcDef();
     }
 }
 
 void
 program()
 {
-    printf("global lexer: %p\n", GlobalLexer);
-
-
     if (check(FUNC) || check(VAR)) 
     {
        def(); 
        program();
     }
-    else (statementPending())
+    else
     {
         statement();
     }
@@ -448,7 +403,6 @@ check(char *type)
 void 
 advance() 
 { 
-    printf("global lexer: %p\n", GlobalLexer);
     CurrentLexeme = lex(GlobalLexer); 
 } 
 
@@ -464,7 +418,7 @@ matchNoAdvance(char *type)
 {
     if (!check(type))
     {
-        fprintf(stdout,"syntax error, expected: %s, got: %s, line number: %d \n", 
+        fprintf(stdout,"illegal\nexpected: %s\ngot: %s\nline number: %d\n", 
                 getType(CurrentLexeme), type, getLineNumber(GlobalLexer)); 
         exit(1);
     }
