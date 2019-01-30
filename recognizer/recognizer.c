@@ -424,19 +424,9 @@ matchNoAdvance(char *type)
     }
 }
 
-int 
-main(int argc,char *argv[]) 
+void
+recognize(FILE *fileName)
 {
-    if (argc != 2)
-    {
-        fprintf(stderr,"recognizer takes file as argument\n"); 
-        exit(1);
-    }
-
-    FILE *fileName = fopen(argv[1], "r");
-
-    assert(fileName != 0);
-
     GlobalLexer = newLexer(fileName);
 
     CurrentLexeme = lex(GlobalLexer); 
@@ -444,8 +434,4 @@ main(int argc,char *argv[])
     match(ENDofINPUT);
 
     printf("legal\n");
-
-    fclose(fileName);
-
-    return 0; 
 }

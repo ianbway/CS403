@@ -1,7 +1,7 @@
 # Ian Braudaway
 # makefile for recognizer / parser
 
-RECOGNIZER_OBJS = types.o lexeme.o lexer.o recognizer.o
+RECOGNIZER_OBJS = types.o lexeme.o lexer.o recognizer.o main.o
 OPTS = -Wall -Wextra -std=c99 -g -c
 LOPTS = -Wall -Wextra -std=c99 -g
 CC = gcc
@@ -20,8 +20,11 @@ lexeme.o : lexeme.c lexeme.h
 lexer.o : lexer.c lexer.h
 	$(CC) $(OPTS) lexer.c
 
-recognizer.o : recognizer.c
+recognizer.o : recognizer.c recognizer.h
 	$(CC) $(OPTS) recognizer.c
+
+main.o : main.c
+	$(CC) $(OPTS) main.c
 
 clean : 
 	rm -f $(RECOGNIZER_OBJS) ./types ./lexeme ./lexer ./recognizer
@@ -42,6 +45,23 @@ test5 :
 	./recognizer ./test5.e
 
 run :
+	@echo "TEST 1:"
+	./recognizer ./test1.e
+	@echo ""
+	@echo "TEST 2:"
+	./recognizer ./test2.e
+	@echo ""
+	@echo "TEST 3:"
+	./recognizer ./test3.e
+	@echo ""
+	@echo "TEST 4:"
+	./recognizer ./test4.e
+	@echo ""
+	@echo "TEST 5:"
+	./recognizer ./test5.e
+	@echo ""
+
+test :
 	@echo "TEST 1:"
 	./recognizer ./test1.e
 	@echo ""
