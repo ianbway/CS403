@@ -15,7 +15,6 @@ LEXEME *CurrentLexeme;
 static void unary();
 static void operator();
 static void varExpression();
-static bool varExpressionPending();
 static bool operatorPending();
 static bool expressionPending();
 static void expression();
@@ -51,7 +50,7 @@ unary()
     {
         match(REAL);
     } 
-    else if (varExpressionPending()) 
+    else if (check(VARIABLE)) 
     { 
         varExpression(); 
     }
@@ -152,11 +151,8 @@ operator()
 void 
 varExpression() 
 { 
-    if (check(VARIABLE))
-    {
-        match(VARIABLE); 
-    }
-    else if (check(OPEN_BRACKET)) 
+    match(VARIABLE); 
+    if (check(OPEN_BRACKET)) 
     { 
         match(OPEN_BRACKET); 
         optArgList();
@@ -167,12 +163,6 @@ varExpression()
         match(PLUS);
         match(PLUS);
     } 
-}
-
-bool
-varExpressionPending() 
-{ 
-    return check(VARIABLE); 
 }
 
 bool
@@ -187,7 +177,7 @@ operatorPending()
 bool
 expressionPending()
 {
-    return check(INTEGER) || check(REAL) || varExpressionPending() || 
+    return check(INTEGER) || check(REAL) || check(VARIABLE) || 
            check(MINUS) || check(NOT) || check(STRING) || check(OPEN_BRACKET) ||
            check(AT) || check(PRINT);
 }
@@ -385,12 +375,17 @@ program()
 {
     if (check(FUNC) || check(VAR)) 
     {
-       def(); 
-       program();
+        def();
+        if (!check(ENDofINPUT))
+        { 
+            program();
+        }
+        match(ENDofINPUT);
     }
     else
     {
         statement();
+        match(ENDofINPUT);
     }
 }
 
@@ -431,7 +426,7 @@ recognize(FILE *fileName)
 
     CurrentLexeme = lex(GlobalLexer); 
     program(); 
-    match(ENDofINPUT);
+    //match(ENDofINPUT);
 
     printf("legal\n");
 }
