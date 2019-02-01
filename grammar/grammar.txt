@@ -15,6 +15,7 @@ operator : PLUS |
            LESS_THAN |
            LESS_THAN_EQUAL |
            EQUAL |
+           COMPARE_EQUAL |
            NOT EQUAL |
            GREATER_THAN |
            GREATER_THAN_EQUAL |
@@ -33,7 +34,6 @@ unary : INTEGER |
         PRINT OPEN_BRACKET argList CLOSE_BRACKET
 
 varExpression : VARIABLE |
-                VARIABLE PLUS PLUS |
                 VARIABLE OPEN_BRACKET optArgList CLOSE_BRACKET
 
 argList : expression |
@@ -56,7 +56,7 @@ elses : ELSE block |
 
 while : WHILE OPEN_BRACKET expression CLOSE_BRACKET block
 
-block : OPEN_BRACKET OPEN_BRACKET statements CLOSE_BRACKET CLOSE_BRACKET
+block : OPEN_BLOCK statements CLOSE_BLOCK
 
 statements : statement |
              statement statements

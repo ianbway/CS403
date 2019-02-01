@@ -121,6 +121,10 @@ operator()
     {
         match(EQUAL);
     }
+    else if (check(COMPARE_EQUAL))
+    {
+        match(COMPARE_EQUAL);
+    }
     else if (check(NOT))
     {
         match(NOT);
@@ -158,11 +162,6 @@ varExpression()
         optArgList();
         match(CLOSE_BRACKET); 
     }
-    else
-    {
-        match(PLUS);
-        match(PLUS);
-    } 
 }
 
 bool
@@ -171,7 +170,7 @@ operatorPending()
     return check(PLUS) || check(MINUS) || check(MULTIPLY) || check(DIVIDE) || 
            check(LESS_THAN) || check(LESS_THAN_EQUAL) || check(EQUAL) || 
            check(NOT) || check(GREATER_THAN) || check(GREATER_THAN_EQUAL) ||
-           check(MODULO) || check(OR) || check(AND);
+           check(MODULO) || check(OR) || check(AND) || check(COMPARE_EQUAL);
 }
 
 bool
@@ -205,6 +204,7 @@ elses()
 {
     if (check(ELSE))
     {
+        match(ELSE);
         if (check(IF))
         {
             ifRule();
@@ -413,7 +413,7 @@ matchNoAdvance(char *type)
 {
     if (!check(type))
     {
-        fprintf(stdout,"illegal\nexpected: %s\ngot: %s\nline number: %d\n", 
+        fprintf(stdout," illegal\n current lexeme: %s\n recognize error: %s\n line number: %d\n", 
                 getType(CurrentLexeme), type, getLineNumber(GlobalLexer)); 
         exit(1);
     }
@@ -428,5 +428,5 @@ recognize(FILE *fileName)
     program(); 
     //match(ENDofINPUT);
 
-    printf("legal\n");
+    printf(" legal\n");
 }

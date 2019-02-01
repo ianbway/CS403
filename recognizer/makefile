@@ -29,19 +29,24 @@ main.o : main.c
 clean : 
 	rm -f $(RECOGNIZER_OBJS) ./types ./lexeme ./lexer ./recognizer
 
-test1 : 
+test1 :
+	@echo "TEST 1:"
 	./recognizer ./test1.e
 
-test2 : 
+test2 :
+	@echo "TEST 2:" 
 	./recognizer ./test2.e
 
 test3 : 
+	@echo "TEST 3:"
 	./recognizer ./test3.e
 
 test4 : 
+	@echo "TEST 4:"
 	./recognizer ./test4.e
 
 test5 : 
+	@echo "TEST 5:"
 	./recognizer ./test5.e
 
 run :

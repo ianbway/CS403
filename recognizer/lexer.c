@@ -215,48 +215,14 @@ lex(LEXER *lex)
     { 
         // single character tokens 
 
-        case '[': 
-            next = fgetc(lex->file);
-            if (next == '[')
-            {
-                return newLexeme(OPEN_BLOCK, NULL);
-            }
-
-            else
-            {
-                ungetc(next, lex->file);
-                return newLexeme(OPEN_BRACKET, NULL);
-            }
-             
-        case ']': 
-            next = fgetc(lex->file);
-            if (next == ']')
-            {
-                return newLexeme(CLOSE_BLOCK, NULL);
-            }
-
-            else
-            {
-                ungetc(next, lex->file);
-                return newLexeme(CLOSE_BRACKET, NULL);
-            }
-         
+        case '[': return newLexeme(OPEN_BRACKET, NULL);
+        case ']': return newLexeme(CLOSE_BRACKET, NULL);
+        case ':': return newLexeme(OPEN_BLOCK, NULL);
+        case ';': return newLexeme(CLOSE_BLOCK, NULL);
         case '|': return newLexeme(BAR, NULL); 
-        case '+':  //what about ++ and += ?
-            next = fgetc(lex->file);
-            if (next == '+')
-            {
-                return newLexeme(PLUSPLUS, NULL);
-            }
-
-            else
-            {
-                ungetc(next, lex->file);
-                return newLexeme(PLUS, NULL);
-            }
-
+        case '+': return newLexeme(PLUS, NULL); //what about ++ and += ?
         case '*': return newLexeme(MULTIPLY, NULL); 
-        case '-': return newLexeme(MINUS, NULL); 
+        case '-': return newLexeme(MINUS, NULL);
         case '/': return newLexeme(DIVIDE, NULL); 
         case '<': 
             next = fgetc(lex->file);
@@ -284,7 +250,19 @@ lex(LEXER *lex)
                 return newLexeme(GREATER_THAN, NULL);
             }
 
-        case '=': return newLexeme(EQUAL, NULL); 
+        case '=': 
+            next = fgetc(lex->file);
+            if (next == '=')
+            {
+                return newLexeme(COMPARE_EQUAL, NULL);
+            }
+
+            else
+            {
+                ungetc(next, lex->file);
+                return newLexeme(EQUAL, NULL);
+            } 
+
         case '@': return newLexeme(AT, NULL);
         case '%': return newLexeme(MODULO, NULL);
         case '!': return newLexeme(NOT, NULL);
