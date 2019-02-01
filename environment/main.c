@@ -1,5 +1,5 @@
 // Ian Braudaway
-// Main method for recognizer
+// Main method for environment
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +9,7 @@
 #include "lexeme.h"
 #include "types.h"
 #include "recognizer.h"
+#include "environment.h"
 
 int 
 main(int argc,char *argv[]) 
