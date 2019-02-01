@@ -51,34 +51,34 @@ test5 :
 
 run :
 	@echo "TEST 1:"
-	./recognizer ./test1.e
+	-./recognizer ./test1.e
 	@echo ""
 	@echo "TEST 2:"
-	./recognizer ./test2.e
+	-./recognizer ./test2.e
 	@echo ""
 	@echo "TEST 3:"
-	./recognizer ./test3.e
+	-./recognizer ./test3.e
 	@echo ""
 	@echo "TEST 4:"
-	./recognizer ./test4.e
+	-./recognizer ./test4.e
 	@echo ""
 	@echo "TEST 5:"
-	./recognizer ./test5.e
+	-./recognizer ./test5.e
 	@echo ""
 
 test :
 	@echo "TEST 1:"
-	./recognizer ./test1.e
+	-./recognizer ./test1.e
 	@echo ""
 	@echo "TEST 2:"
-	./recognizer ./test2.e
+	-./recognizer ./test2.e
 	@echo ""
 	@echo "TEST 3:"
-	./recognizer ./test3.e
+	-./recognizer ./test3.e
 	@echo ""
 	@echo "TEST 4:"
-	./recognizer ./test4.e
+	-./recognizer ./test4.e
 	@echo ""
 	@echo "TEST 5:"
-	./recognizer ./test5.e
+	-./recognizer ./test5.e
 	@echo ""

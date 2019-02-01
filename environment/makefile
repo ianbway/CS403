@@ -54,34 +54,34 @@ test5 :
 
 run :
 	@echo "TEST 1:"
-	./environment ./test1.e
+	-./environment ./test1.e
 	@echo ""
 	@echo "TEST 2:"
-	./environment ./test2.e
+	-./environment ./test2.e
 	@echo ""
 	@echo "TEST 3:"
-	./environment ./test3.e
+	-./environment ./test3.e
 	@echo ""
 	@echo "TEST 4:"
-	./environment ./test4.e
+	-./environment ./test4.e
 	@echo ""
 	@echo "TEST 5:"
-	./environment ./test5.e
+	-./environment ./test5.e
 	@echo ""
 
 test :
 	@echo "TEST 1:"
-	./environment ./test1.e
+	-./environment ./test1.e
 	@echo ""
 	@echo "TEST 2:"
-	./environment ./test2.e
+	-./environment ./test2.e
 	@echo ""
 	@echo "TEST 3:"
-	./environment ./test3.e
+	-./environment ./test3.e
 	@echo ""
 	@echo "TEST 4:"
-	./environment ./test4.e
+	-./environment ./test4.e
 	@echo ""
 	@echo "TEST 5:"
-	./environment ./test5.e
+	-./environment ./test5.e
 	@echo ""
