@@ -31,54 +31,99 @@ clean :
 
 test1 :
 	@echo "TEST 1:"
+	cat ./test1.e
+	@echo ""
+	@echo ""
 	./recognizer ./test1.e
 
 test2 :
 	@echo "TEST 2:" 
+	cat ./test2.e
+	@echo ""
+	@echo ""
 	./recognizer ./test2.e
 
 test3 : 
 	@echo "TEST 3:"
+	cat ./test3.e
+	@echo ""
+	@echo ""
 	./recognizer ./test3.e
 
 test4 : 
 	@echo "TEST 4:"
+	cat ./test4.e
+	@echo ""
+	@echo ""
 	./recognizer ./test4.e
 
 test5 : 
 	@echo "TEST 5:"
+	cat ./test5.e
+	@echo ""
+	@echo ""
 	./recognizer ./test5.e
 
 run :
 	@echo "TEST 1:"
+	cat ./test1.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test1.e
 	@echo ""
 	@echo "TEST 2:"
+	cat ./test2.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test2.e
 	@echo ""
 	@echo "TEST 3:"
+	cat ./test3.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test3.e
 	@echo ""
 	@echo "TEST 4:"
+	cat ./test4.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test4.e
 	@echo ""
 	@echo "TEST 5:"
+	cat ./test5.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test5.e
 	@echo ""
 
 test :
 	@echo "TEST 1:"
+	cat ./test1.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test1.e
 	@echo ""
 	@echo "TEST 2:"
+	cat ./test2.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test2.e
 	@echo ""
 	@echo "TEST 3:"
+	cat ./test3.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test3.e
 	@echo ""
 	@echo "TEST 4:"
+	cat ./test4.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test4.e
 	@echo ""
 	@echo "TEST 5:"
+	cat ./test5.e
+	@echo ""
+	@echo ""
 	-./recognizer ./test5.e
 	@echo ""
