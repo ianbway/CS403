@@ -1,6 +1,6 @@
 # Ian Braudaway #
 
-# This is the fifth test. It will have a symbol that gives the lexer an error # 
+# This is the fifth test. # 
 
 func problemTest[] 
     :
