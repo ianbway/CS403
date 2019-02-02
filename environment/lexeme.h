@@ -14,6 +14,12 @@ extern LEXEME *newLexeme(
     char *token);
 
 extern char *getType(LEXEME *);
+
+extern LEXEME *getLeft(LEXEME *lex);
+extern LEXEME *getRight(LEXEME *lex);
+extern void setLeft(LEXEME *lex, LEXEME *leftLex);
+extern void setRight(LEXEME *lex, LEXEME *rightLex);
+
 extern void display(LEXEME *);
 
 #endif

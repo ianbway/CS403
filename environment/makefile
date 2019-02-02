@@ -32,56 +32,12 @@ main.o : main.c
 clean : 
 	rm -f $(ENVIRONMENT_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment
 
-test1 :
-	@echo "TEST 1:"
-	./environment ./test1.e
-
-test2 :
-	@echo "TEST 2:" 
-	./environment ./test2.e
-
-test3 : 
-	@echo "TEST 3:"
-	./environment ./test3.e
-
-test4 : 
-	@echo "TEST 4:"
-	./environment ./test4.e
-
-test5 : 
-	@echo "TEST 5:"
-	./environment ./test5.e
-
 run :
-	@echo "TEST 1:"
-	-./environment ./test1.e
-	@echo ""
-	@echo "TEST 2:"
-	-./environment ./test2.e
-	@echo ""
-	@echo "TEST 3:"
-	-./environment ./test3.e
-	@echo ""
-	@echo "TEST 4:"
-	-./environment ./test4.e
-	@echo ""
-	@echo "TEST 5:"
-	-./environment ./test5.e
+	@echo "MAKE RUN"
+	-./environment
 	@echo ""
 
 test :
-	@echo "TEST 1:"
-	-./environment ./test1.e
-	@echo ""
-	@echo "TEST 2:"
-	-./environment ./test2.e
-	@echo ""
-	@echo "TEST 3:"
-	-./environment ./test3.e
-	@echo ""
-	@echo "TEST 4:"
-	-./environment ./test4.e
-	@echo ""
-	@echo "TEST 5:"
-	-./environment ./test5.e
+	@echo "MAKE TEST"
+	-./environment
 	@echo ""

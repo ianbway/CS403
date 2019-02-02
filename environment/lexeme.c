@@ -15,6 +15,9 @@ struct LEXEME
     char *string;
     int integer;
     double real;
+
+    LEXEME *left;
+    LEXEME *right;
 };
 
 LEXEME *
@@ -57,6 +60,30 @@ char *
 getType(LEXEME *lex)
 {
     return lex->type;
+}
+
+LEXEME *
+getLeft(LEXEME *lex)
+{
+    return lex->left;
+}
+
+LEXEME *
+getRight(LEXEME *lex)
+{
+    return lex->right;
+}
+
+void
+setLeft(LEXEME *lex, LEXEME *leftLex)
+{
+    lex->left = leftLex;
+}
+
+void
+setRight(LEXEME *lex, LEXEME *rightLex)
+{
+    lex->right = rightLex;
 }
 
 void

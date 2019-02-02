@@ -9,3 +9,9 @@
 #include "lexeme.h"
 #include "types.h"
 #include "recognizer.h"
+
+extern LEXEME *create();
+extern LEXEME *lookup(LEXEME *, LEXEME *);
+extern void update(LEXEME *, LEXEME *, LEXEME *);
+extern LEXEME *insert(LEXEME *, LEXEME *, LEXEME *);
+extern LEXEME *extend(LEXEME *, LEXEME *, LEXEME *);

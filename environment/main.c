@@ -12,21 +12,11 @@
 #include "environment.h"
 
 int 
-main(int argc,char *argv[]) 
+main() 
 {
-    if (argc != 2)
-    {
-        fprintf(stderr,"recognizer takes file as argument\n"); 
-        exit(1);
-    }
 
-    FILE *fileName = fopen(argv[1], "r");
+    create();
 
-    assert(fileName != 0);
 
-    recognize(fileName);
-
-    fclose(fileName);
-
-    return 0; 
+    return 0;
 }
