@@ -114,3 +114,42 @@ extend(LEXEME *variables, LEXEME *values, LEXEME *env)
 {
     return cons("ENV", variables, cons("ENV", values, env));
 }
+
+void
+displayEnvironment(LEXEME *env, bool lt)
+{
+    // Display only local table
+    if (lt == true) 
+    {
+        fprintf(stdout, "The local environment is:\n");
+        if (env != NULL)
+        {
+            LEXEME *vars = car(env);
+            LEXEME *vals = car(cdr(env));
+            while (vars != NULL)
+            {
+                fprintf(stdout, "Variable: %s Value: %s \n", getType(vars), getType(vals));
+                vars = cdr(vars);
+                vals = cdr(vals);
+            }
+        }
+    }
+
+    // Display all tables
+    else
+    {
+        fprintf(stdout, "The environment is:\n");
+        while (env != NULL)
+        {
+            LEXEME *vars = car(env);
+            LEXEME *vals = car(cdr(env));
+            while (vars != NULL)
+            {
+                fprintf(stdout, "Variable: %s Value: %s \n", getType(vars), getType(vals));
+                vars = cdr(vars);
+                vals = cdr(vals);
+            }
+            env = cdr(cdr(env));
+        }
+    }
+}
