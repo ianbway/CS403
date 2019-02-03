@@ -59,7 +59,15 @@ newLexeme(char *type, char *token)
 char *
 getType(LEXEME *lex)
 {
-    return lex->type;
+    if (lex != NULL) 
+    {
+        return lex->type;
+    }
+
+    else
+    {
+        return NULL;
+    }
 }
 
 LEXEME *

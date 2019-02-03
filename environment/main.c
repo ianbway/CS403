@@ -46,5 +46,14 @@ main()
     displayEnvironment(env3, true);
     displayEnvironment(env3, false);
 
+    printf("Lookup Test\n");
+    LEXEME *rZ = lookup(z, env3);
+    printf("Type of looked up Z: %s\n", getType(rZ));
+
+    printf("Update Test\n");
+    LEXEME *goodbye = newLexeme("goodbye", NULL);
+    update(z, goodbye, env3);
+    displayEnvironment(env3, false);
+
     return 0;
 }

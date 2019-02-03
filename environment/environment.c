@@ -91,6 +91,7 @@ update(LEXEME *variable, LEXEME *values, LEXEME *env)
             if (getType(variable) == getType(car(vars)))
             {
                 setCar(vals, values);
+                return;
             }
             vars = cdr(vars);
             vals = cdr(vals);
@@ -128,7 +129,14 @@ displayEnvironment(LEXEME *env, bool lt)
             LEXEME *vals = car(cdr(env));
             while (vars != NULL)
             {
-                fprintf(stdout, "Variable: %s Value: %s \n", getType(vars), getType(vals));
+                if (getType(car(vars)) == NULL ||  getType(car(vals)) == NULL)
+                {
+                    fprintf(stdout, "Variable: %s Value: %s \n", getType(vars), getType(vals));
+                }
+                else
+                {
+                    fprintf(stdout, "Variable: %s Value: %s \n", getType(car(vars)), getType(car(vals)));
+                }
                 vars = cdr(vars);
                 vals = cdr(vals);
             }
@@ -145,7 +153,14 @@ displayEnvironment(LEXEME *env, bool lt)
             LEXEME *vals = car(cdr(env));
             while (vars != NULL)
             {
-                fprintf(stdout, "Variable: %s Value: %s \n", getType(vars), getType(vals));
+                if (getType(car(vars)) == NULL ||  getType(car(vals)) == NULL)
+                {
+                    fprintf(stdout, "Variable: %s Value: %s \n", getType(vars), getType(vals));
+                }
+                else
+                {
+                    fprintf(stdout, "Variable: %s Value: %s \n", getType(car(vars)), getType(car(vals)));
+                }
                 vars = cdr(vars);
                 vals = cdr(vals);
             }
