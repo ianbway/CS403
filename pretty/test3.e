@@ -28,7 +28,7 @@ func processReal[param]
         print[234.4323]
 
         # This should cause problems for the recognizer. There is a close block not a close bracket #
-        if [4 > 3;
+        if [4 > 3]
         :
             print["4 is greater than 3."]
         ;

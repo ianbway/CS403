@@ -10,3 +10,5 @@
 #include "types.h"
 #include "recognizer.h"
 #include "environment.h"
+
+extern void prettyPrint(LEXEME *);

@@ -24,7 +24,8 @@ main(int argc,char *argv[])
 
     assert(fileName != 0);
 
-    pp(fileName);
+    LEXEME *tree = recognize(fileName);
+    prettyPrint(tree);
 
     fclose(fileName);
 

@@ -9,4 +9,4 @@
 #include "lexeme.h"
 #include "types.h"
 
-extern void recognize(FILE *filename);
+extern LEXEME *recognize(FILE *filename);

@@ -12,61 +12,74 @@
 LEXER *GlobalLexer;
 LEXEME *CurrentLexeme;
 
-static void unary();
-static void operator();
-static void varExpression();
+static LEXEME *unary();
+static LEXEME *operator();
+static LEXEME *varExpression();
 static bool operatorPending();
 static bool expressionPending();
-static void expression();
+static LEXEME *expression();
 static bool statementPending();
-static void elses();
-static void ifRule();
-static void whileRule();
-static void statement();
-static void statements();
-static void block();
-static void optInit();
-static void argList();
-static void optArgList();
-static void paramList();
-static void optParamList();
-static void funcDef();
-static void varDef();
-static void def();
-static void program();
+static LEXEME *elses();
+static LEXEME *ifRule();
+static LEXEME *whileRule();
+static LEXEME *statement();
+static LEXEME *statements();
+static LEXEME *block();
+static LEXEME *optInit();
+static LEXEME *argList();
+static LEXEME *optArgList();
+static LEXEME *paramList();
+static LEXEME *optParamList();
+static LEXEME *funcDef();
+static LEXEME *varDef();
+static LEXEME *def();
+static LEXEME *program();
 static bool check(char *);
 static void advance();
-static void match(char *);
+static LEXEME *match(char *);
 static void matchNoAdvance(char *);
 
-void 
+LEXEME *
+cons(char *type, LEXEME *left, LEXEME *right)
+{
+    LEXEME *consLex = newLexeme(type, NULL);
+    setLeft(consLex, left);
+    setRight(consLex, right);
+    return consLex;
+}
+
+LEXEME *
 unary() 
 { 
+    LEXEME *tree;
+
     if (check(INTEGER)) 
     { 
-        match(INTEGER); 
+        return match(INTEGER); 
     }
     else if (check(REAL))
     {
-        match(REAL);
+        return match(REAL);
     } 
     else if (check(VARIABLE)) 
     { 
-        varExpression(); 
+        return varExpression(); 
     }
     else if (check(MINUS))
     {
         match(MINUS);
-        unary();
+        tree = unary();
+        return cons("MINUS", NULL, tree);
     } 
     else if (check(NOT))
     {
         match(NOT);
-        unary();
+        tree = unary();
+        return cons("NOT", NULL, tree);
     }
     else if (check(STRING))
     {
-        match(STRING);
+        return match(STRING);
     }
     else if (check(AT))
     {
@@ -90,40 +103,40 @@ unary()
     }
 }
 
-void
+LEXEME *
 operator()
 {
     if (check(PLUS))
     {
-        match(PLUS);
+        return match(PLUS);
     }
     else if (check(MINUS))
     {
-        match(MINUS);
+        return match(MINUS);
     }
     else if (check(MULTIPLY))
     {
-        match(MULTIPLY);
+        return match(MULTIPLY);
     }
     else if (check(DIVIDE))
     {
-        match(DIVIDE);
+        return match(DIVIDE);
     }
     else if (check(LESS_THAN))
     {
-        match(LESS_THAN);
+        return match(LESS_THAN);
     }
     else if (check(LESS_THAN_EQUAL))
     {
-        match(LESS_THAN_EQUAL);
+        return match(LESS_THAN_EQUAL);
     }
     else if (check(EQUAL))
     {
-        match(EQUAL);
+        return match(EQUAL);
     }
     else if (check(COMPARE_EQUAL))
     {
-        match(COMPARE_EQUAL);
+        return match(COMPARE_EQUAL);
     }
     else if (check(NOT))
     {
@@ -132,23 +145,23 @@ operator()
     }
     else if (check(GREATER_THAN))
     {
-        match(GREATER_THAN);
+        return match(GREATER_THAN);
     }
     else if (check(GREATER_THAN_EQUAL))
     {
-        match(GREATER_THAN_EQUAL);
+        return match(GREATER_THAN_EQUAL);
     }
     else if (check(MODULO))
     {
-        match(MODULO);
+        return match(MODULO);
     }
     else if (check(OR))
     {
-        match(OR);
+        return match(OR);
     }
     else
     {
-        match(AND);
+        return match(AND);
     }
 }
 
@@ -181,15 +194,22 @@ expressionPending()
            check(AT) || check(PRINT);
 }
 
-void 
+LEXEME * 
 expression() 
 { 
-    unary(); 
+    LEXEME *tree;
+    LEXEME *temp;
+
+    tree = unary(); 
     if (operatorPending()) 
     { 
-        operator(); 
-        expression(); 
-    } 
+        temp = operator();
+        setLeft(temp, tree);
+        setRight(temp, expression()); 
+        tree = temp; 
+    }
+
+    return tree; 
 }
 
 bool
@@ -401,11 +421,14 @@ advance()
     CurrentLexeme = lex(GlobalLexer); 
 } 
 
-void 
+LEXEME * 
 match(char *type) 
 { 
     matchNoAdvance(type); 
     advance(); 
+
+    matchLex = newLexeme(type, NULL);
+    return matchLex;
 }
 
 void 
@@ -419,14 +442,15 @@ matchNoAdvance(char *type)
     }
 }
 
-void
+LEXEME *
 recognize(FILE *fileName)
 {
     GlobalLexer = newLexer(fileName);
 
     CurrentLexeme = lex(GlobalLexer); 
-    program(); 
-    //match(ENDofINPUT);
+    LEXEME *tree = program(); 
 
     printf(" legal\n");
+
+    return tree;
 }
