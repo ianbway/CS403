@@ -1,51 +1,74 @@
 #Ian Braudaway
 #ENVIRONMENT
 
-MAKE RUN
-./environment
-Creating a new environment
-The environment is:
-Adding variable x with value 3
-The environment is:
-Variable: x Value: 3
-Variable: w Value: 2
-Variable: v Value: 1
-Extending the environment with y:4 and z:"hello"
-The local environment is:
-Variable: y Value: 4
-Variable: y Value: 4
-Variable: y Value: 4
-The environment is:
-Variable: y Value: 4
-Variable: y Value: 4
-Variable: y Value: 4
-Variable: x Value: 3
-Variable: w Value: 2
-Variable: v Value: 1
-The local environment is:
-Variable: z Value: hello
-Variable: z Value: hello
-Variable: z Value: hello
-The environment is:
-Variable: z Value: hello
-Variable: z Value: hello
-Variable: z Value: hello
-Variable: y Value: 4
-Variable: y Value: 4
-Variable: y Value: 4
-Variable: x Value: 3
-Variable: w Value: 2
-Variable: v Value: 1
-Lookup Test
-Type of looked up Z: hello
-Update Test
-The environment is:
-Variable: z Value: goodbye
-Variable: z Value: hello
-Variable: z Value: hello
-Variable: y Value: 4
-Variable: y Value: 4
-Variable: y Value: 4
-Variable: x Value: 3
-Variable: w Value: 2
-Variable: v Value: 1
+CONS:
+static LEXEME *cons(char *, LEXEME *, LEXEME *);
+The cons function is internal to the environment module.
+It constructs a new lexeme of the given type, assigns left and right pointers to new lexemes, and returns the new lexeme.
+
+
+CAR:
+static LEXEME *car(LEXEME *);
+The car function is internal to the environment module.
+It returns the lexeme that is assigned to the left pointer of the given lexeme.
+
+
+CDR:
+static LEXEME *cdr(LEXEME *);
+The cdr function is internal to the environment module.
+It returns the lexeme that is assigned to the right pointer of the given lexeme.
+
+
+SET CAR:
+static void setCar(LEXEME *, LEXEME *);
+The set car function is internal to the environment module.
+It assigns the left pointer of the given lexeme in the first argument of the function call 
+to the lexeme given in the second argument of the function call.
+
+
+SET CDR:
+static void setCdr(LEXEME *, LEXEME *);
+The set cdr function is internal to the environment module.
+It assigns the right pointer of the given lexeme in the first argument of the function call 
+to the lexeme given in the second argument of the function call.
+
+
+CREATE:
+extern LEXEME *create();
+The create function is public.
+It returns a newly constructed blank environment with a blank table, represented as a lexeme.
+
+
+LOOKUP:
+extern LEXEME *lookup(LEXEME *, LEXEME *);
+The lookup function is public.
+It searches through each table in each environment until it finds a lexeme of the same type
+as the second argument of the function call.
+
+
+UPDATE:
+extern void update(LEXEME *, LEXEME *, LEXEME *);
+The update function is public.
+It searches through each table in each environment until it finds a lexeme of the same type
+as the second argument of the function call. It then updates the value of that variable.
+
+
+INSERT:
+extern LEXEME *insert(LEXEME *, LEXEME *, LEXEME *);
+The insert function is public.
+It inserts a new variable and value lexeme into a given environment.
+
+
+EXTEND:
+extern LEXEME *extend(LEXEME *, LEXEME *, LEXEME *);
+The extend function is public.
+It extends the environment with a new initial variable and value lexeme for a new table.
+This becomes the new local environment.
+
+
+DISPLAY ENVIRONMENT:
+extern void displayEnvironment(LEXEME *, bool lt);
+The display environment function is public.
+It displays each variable and value in each environment if the provided boolean is false.
+If the provided boolean is true it only displays the local environment.
+

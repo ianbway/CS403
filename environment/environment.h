@@ -5,10 +5,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "lexer.h"
 #include "lexeme.h"
 #include "types.h"
-#include "recognizer.h"
 
 extern LEXEME *create();
 extern LEXEME *lookup(LEXEME *, LEXEME *);
