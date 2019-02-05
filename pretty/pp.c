@@ -39,7 +39,7 @@ prettyPrint(LEXEME *tree)
             prettyPrint(tree.right);
         }
 
-        else 
+        else
         { 
                 print("bad expression!"); 
         }

@@ -262,28 +262,28 @@ statement()
 {
     if (expressionPending())
     {
-        expression();
+        return expression();
     }
     else if (check(IF))
     {
-        ifRule();
+        return ifRule();
     }
     else if (check(WHILE))
     {
-        whileRule();
+        return whileRule();
     }
     else if (check(FUNC))
     {
-        funcDef();
+        return funcDef();
     }
     else if (check(VAR))
     {
-        varDef();
+        return varDef();
     }
     else
     {
         match(RETURN);
-        expression();
+        return expression();
     }
 }
 
@@ -315,46 +315,68 @@ optInit()
     }
 }
 
-void
+LEXEME *
 argList()
 {
-    expression();
+    LEXEME *tree;
+    LEXEME *temp;
+
+    tree = expression();
     if (check(BAR))
     {
-        match(BAR);
-        argList();
+        temp = match(BAR);
+        setLeft(temp, tree);
+        setRight(temp, argList());
+        tree = temp;
     }
+
+    return tree;
 }
 
-void
+LEXEME *
 optArgList()
 {
     if (expressionPending())
     {
-        argList();
+        return argList();
+    }
+    else
+    {
+        return NULL;
     }
 }
 
 void
 paramList()
 {
+    LEXEME *tree;
+    LEXEME *temp;
+
     if (check(VARIABLE))
     {
-        match(VARIABLE);
+        tree = match(VARIABLE);
         if (check(BAR))
         {
-            match(BAR);
-            paramList();
+            temp = match(BAR);
+            setLeft(temp, tree);
+            setRight(temp, paramList());
+            tree = temp;
         }
     }
+
+    return tree;
 }
 
-void
+LEXEME *
 optParamList()
 {
     if (check(VARIABLE))
     {
-        paramList();
+        return paramList();
+    }
+    else
+    {
+        return NULL;
     }
 }
 
@@ -377,16 +399,16 @@ varDef()
     optInit();
 }
 
-void
+LEXEME *
 def()
 {
     if (check(VAR))
     {
-        varDef();
+        return varDef();
     }
     else
     {
-        funcDef();
+        return funcDef();
     }
 }
 
