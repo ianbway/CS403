@@ -9,17 +9,13 @@
 
 typedef struct LEXEME LEXEME;
 
-extern LEXEME *newLexeme(
-    char *type,
-    char *token);
-
+extern LEXEME *newLexeme(char *, char *);
 extern char *getType(LEXEME *);
-
-extern LEXEME *getLeft(LEXEME *lex);
-extern LEXEME *getRight(LEXEME *lex);
-extern void setLeft(LEXEME *lex, LEXEME *leftLex);
-extern void setRight(LEXEME *lex, LEXEME *rightLex);
-
+extern char *getStringToken(LEXEME *);
+extern LEXEME *getLeft(LEXEME *);
+extern LEXEME *getRight(LEXEME *);
+extern void setLeft(LEXEME *, LEXEME *);
+extern void setRight(LEXEME *, LEXEME *);
 extern void display(LEXEME *);
 
 #endif

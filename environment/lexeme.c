@@ -33,14 +33,8 @@ newLexeme(char *type, char *token)
 
     lexeme->type = type;
 
-    //string or variable
-    if ((lexeme->type == STRING) || (lexeme->type == VARIABLE))
-    {
-        lexeme->string = token;
-    }
-
     //int, convert string to integer
-    else if (lexeme->type == INTEGER)
+    if (lexeme->type == INTEGER)
     {
         lexeme->integer = atoi(token);
     }
@@ -51,7 +45,11 @@ newLexeme(char *type, char *token)
         lexeme->real = atof(token);
     }
 
-    //no token otherwise, the string integer and real fields remain null
+    //string or variable, or anything else
+    else
+    {
+        lexeme->string = token;
+    }
 
     return lexeme;
 }
@@ -70,16 +68,46 @@ getType(LEXEME *lex)
     }
 }
 
+char *
+getStringToken(LEXEME *lex)
+{
+    if ((lex != NULL) && (lex->string != NULL)) 
+    {
+        return lex->string;
+    }
+
+    else
+    {
+        return NULL;
+    }
+}
+
 LEXEME *
 getLeft(LEXEME *lex)
 {
-    return lex->left;
+    if ((lex != NULL) && (lex->left != NULL))
+    {
+        return lex->left;
+    }
+    
+    else
+    {
+        return NULL;
+    }
 }
 
 LEXEME *
 getRight(LEXEME *lex)
 {
-    return lex->right;
+    if ((lex != NULL) && (lex->right != NULL))
+    {
+        return lex->right;
+    }
+    
+    else
+    {
+        return NULL;
+    }
 }
 
 void
