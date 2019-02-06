@@ -30,7 +30,7 @@ main.o : main.c
 	$(CC) $(OPTS) main.c
 
 clean : 
-	rm -f $(ENVIRONMENT_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment ./pp
+	rm -f $(PP_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment ./pp
 
 test1 :
 	@echo "TEST 1:"
