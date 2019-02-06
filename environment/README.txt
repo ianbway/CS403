@@ -1,34 +1,40 @@
 #Ian Braudaway
 #ENVIRONMENT
 
+TREE WALKER HELPER:
+static LEXEME *treeWalkerHelper(LEXEME *, LEXEME *);
+The treeWalkerHelper is private to the environment module.
+It does the work of walking through the environments and tables.
+
+
 CONS:
-static LEXEME *cons(char *, LEXEME *, LEXEME *);
-The cons function is internal to the environment module.
+extern LEXEME *cons(char *, LEXEME *, LEXEME *);
+The cons function is public.
 It constructs a new lexeme of the given type, assigns left and right pointers to new lexemes, and returns the new lexeme.
 
 
 CAR:
-static LEXEME *car(LEXEME *);
-The car function is internal to the environment module.
+extern LEXEME *car(LEXEME *);
+The car function is public.
 It returns the lexeme that is assigned to the left pointer of the given lexeme.
 
 
 CDR:
-static LEXEME *cdr(LEXEME *);
-The cdr function is internal to the environment module.
+extern LEXEME *cdr(LEXEME *);
+The cdr function is public.
 It returns the lexeme that is assigned to the right pointer of the given lexeme.
 
 
 SET CAR:
-static void setCar(LEXEME *, LEXEME *);
-The set car function is internal to the environment module.
+extern void setCar(LEXEME *, LEXEME *);
+The set car function is public.
 It assigns the left pointer of the given lexeme in the first argument of the function call 
 to the lexeme given in the second argument of the function call.
 
 
 SET CDR:
-static void setCdr(LEXEME *, LEXEME *);
-The set cdr function is internal to the environment module.
+extern void setCdr(LEXEME *, LEXEME *);
+The set cdr function is public.
 It assigns the right pointer of the given lexeme in the first argument of the function call 
 to the lexeme given in the second argument of the function call.
 

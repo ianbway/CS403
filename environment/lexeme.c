@@ -125,35 +125,59 @@ setRight(LEXEME *lex, LEXEME *rightLex)
 void
 display(LEXEME *lex)
 {
-    printf("%s ", lex->type);
+    fprintf(stdout, "%s ", lex->type);
 
     //string
     if (lex->type == STRING)
     {
-        printf("\"%s\"\n", lex->string);
+        fprintf(stdout, "\"%s\"\n", lex->string);
     }
 
     //variable
     else if (lex->type == VARIABLE)
     {
-        printf("%s\n", lex->string);
+        fprintf(stdout, "%s\n", lex->string);
     }
 
     //int
     else if (lex->type == INTEGER)
     {
-        printf("%d\n", lex->integer);
+        fprintf(stdout, "%d\n", lex->integer);
     }
 
     //real
     else if (lex->type == REAL)
     {
-        printf("%f\n", lex->real);
+        fprintf(stdout, "%f\n", lex->real);
     }
 
     //no token
     else
     {
-        printf("\n");
+        fprintf(stdout, "\n");
     }
+}
+
+void
+displayLexemeValue(LEXEME *lex)
+{
+
+    //int
+    if (lex->type == INTEGER)
+    {
+        fprintf(stdout, "%d\n", lex->integer);
+    }
+
+    //real
+    else if (lex->type == REAL)
+    {
+        fprintf(stdout, "%f\n", lex->real);
+    }
+
+    //string
+    else
+    {
+        fprintf(stdout, "%s\n", lex->string);
+    }
+
 }

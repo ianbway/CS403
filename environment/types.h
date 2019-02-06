@@ -36,4 +36,7 @@ extern char *GREATER_THAN_EQUAL;
 extern char *MODULO;
 extern char *OR;
 extern char *AND;
+extern char *ENV;
+extern char *JOIN;
+extern char *VALUES;
 extern char *ENDofINPUT;

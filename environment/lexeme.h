@@ -17,5 +17,6 @@ extern LEXEME *getRight(LEXEME *);
 extern void setLeft(LEXEME *, LEXEME *);
 extern void setRight(LEXEME *, LEXEME *);
 extern void display(LEXEME *);
+extern void displayLexemeValue(LEXEME *);
 
 #endif

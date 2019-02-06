@@ -37,4 +37,7 @@ char *GREATER_THAN_EQUAL = "GREATER_THAN_EQUAL";
 char *MODULO = "MODULO";
 char *OR = "OR";
 char *AND = "AND";
+char *ENV = "ENV";
+char *JOIN = "JOIN";
+char *VALUES = "VALUES";
 char *ENDofINPUT = "END_OF_INPUT";

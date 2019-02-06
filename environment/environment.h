@@ -9,9 +9,15 @@
 #include "lexeme.h"
 #include "types.h"
 
+extern LEXEME *cons(char *, LEXEME *, LEXEME *);
+extern LEXEME *car(LEXEME *);
+extern LEXEME *cdr(LEXEME *);
+extern void setCar(LEXEME *, LEXEME *);
+extern void setCdr(LEXEME *, LEXEME *);
+
 extern LEXEME *create();
-extern LEXEME *lookup(char *, LEXEME *);
-extern void update(char *, LEXEME *, LEXEME *);
+extern LEXEME *lookup(LEXEME *, LEXEME *);
+extern void update(LEXEME *, LEXEME *, LEXEME *);
 extern LEXEME *insert(LEXEME *, LEXEME *, LEXEME *);
 extern LEXEME *extend(LEXEME *, LEXEME *, LEXEME *);
 extern void displayEnvironment(LEXEME *, bool lt);

@@ -17,7 +17,7 @@ main()
     LEXEME *env = create();
     displayEnvironment(env, false);
 
-    printf("\nAdding variable v, w, and x with values 1, 2, 3.\n");
+    printf("Adding variable v, w, and x with values 1, 2, 3.\n");
     LEXEME *v = newLexeme(VARIABLE, "v");
     LEXEME *one = newLexeme(INTEGER, "1");
     LEXEME *w = newLexeme(VARIABLE, "w");
@@ -30,10 +30,12 @@ main()
     displayEnvironment(env, true);
     displayEnvironment(env, false);
 
-    printf("\nExtending the environment with y:4\n");
+    printf("Extending the environment with y:4\n");
     LEXEME *y = newLexeme(VARIABLE, "y");
     LEXEME *four = newLexeme(INTEGER, "4");
-    LEXEME *env2 = extend(y, four, env);
+    LEXEME *vars = cons("IDLIST", y, NULL);
+    LEXEME *vals = cons("VALLIST", four, NULL);
+    LEXEME *env2 = extend(vars, vals, env);
     printf("Inserting a:5\n");
     LEXEME *a = newLexeme(VARIABLE, "a");
     LEXEME *five = newLexeme(INTEGER, "5");
@@ -45,13 +47,15 @@ main()
     displayEnvironment(env2, true);
     displayEnvironment(env2, false);
 
-    printf("\nExtending the environment with z:\"hello\"\n");
+    printf("Extending the environment with NULL variables and NULL values.\n");
+    LEXEME *env3 = extend(NULL, NULL, env2);
+    printf("Inserting z:\"hello\"\n");
     LEXEME *z = newLexeme(VARIABLE, "z");
     LEXEME *hello = newLexeme(STRING, "hello");
-    LEXEME *env3 = extend(z, hello, env2);
-    printf("Inserting c:7\n");
+    insert(z, hello, env3);
+    printf("Inserting c:7.1\n");
     LEXEME *c = newLexeme(VARIABLE, "c");
-    LEXEME *seven = newLexeme(REAL, "7.0");
+    LEXEME *seven = newLexeme(REAL, "7.1");
     insert(c, seven, env3);
     printf("Inserting d:8\n");
     LEXEME *d = newLexeme(VARIABLE, "d");
@@ -60,13 +64,14 @@ main()
     displayEnvironment(env3, true);
     displayEnvironment(env3, false);
 
-    printf("\nLookup Test.\n");
-    LEXEME *rZ = lookup("z", env3);
-    printf("Type of looked up Z: %s\n", getStringToken(rZ));
+    printf("Lookup Test. (We are looking up the z variable.)\n");
+    LEXEME *rZ = lookup(z, env3);
+    fprintf(stdout, "Looked up var: %s\n\n", getStringToken(rZ));
 
-    printf("\nUpdate Test, hello will become goodbye.\n");
+    printf("Update Test, hello will become goodbye. (This is the value of the z variable.)\n");
     LEXEME *goodbye = newLexeme(STRING, "goodbye");
-    update("z", goodbye, env3);
+    update(z, goodbye, env3);
+    displayEnvironment(env3, true);
     displayEnvironment(env3, false);
 
     return 0;
