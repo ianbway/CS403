@@ -33,14 +33,8 @@ newLexeme(char *type, char *token)
 
     lexeme->type = type;
 
-    //string or variable
-    if ((lexeme->type == STRING) || (lexeme->type == VARIABLE))
-    {
-        lexeme->string = token;
-    }
-
     //int, convert string to integer
-    else if (lexeme->type == INTEGER)
+    if (lexeme->type == INTEGER)
     {
         lexeme->integer = atoi(token);
     }
@@ -51,7 +45,11 @@ newLexeme(char *type, char *token)
         lexeme->real = atof(token);
     }
 
-    //no token otherwise, the string integer and real fields remain null
+    //string or variable, or anything else
+    else
+    {
+        lexeme->string = token;
+    }
 
     return lexeme;
 }
@@ -70,16 +68,46 @@ getType(LEXEME *lex)
     }
 }
 
+char *
+getStringToken(LEXEME *lex)
+{
+    if ((lex != NULL) && (lex->string != NULL)) 
+    {
+        return lex->string;
+    }
+
+    else
+    {
+        return NULL;
+    }
+}
+
 LEXEME *
 getLeft(LEXEME *lex)
 {
-    return lex->left;
+    if ((lex != NULL) && (lex->left != NULL))
+    {
+        return lex->left;
+    }
+    
+    else
+    {
+        return NULL;
+    }
 }
 
 LEXEME *
 getRight(LEXEME *lex)
 {
-    return lex->right;
+    if ((lex != NULL) && (lex->right != NULL))
+    {
+        return lex->right;
+    }
+    
+    else
+    {
+        return NULL;
+    }
 }
 
 void
@@ -97,35 +125,59 @@ setRight(LEXEME *lex, LEXEME *rightLex)
 void
 display(LEXEME *lex)
 {
-    printf("%s ", lex->type);
+    fprintf(stdout, "%s ", lex->type);
 
     //string
     if (lex->type == STRING)
     {
-        printf("\"%s\"\n", lex->string);
+        fprintf(stdout, "\"%s\"\n", lex->string);
     }
 
     //variable
     else if (lex->type == VARIABLE)
     {
-        printf("%s\n", lex->string);
+        fprintf(stdout, "%s\n", lex->string);
     }
 
     //int
     else if (lex->type == INTEGER)
     {
-        printf("%d\n", lex->integer);
+        fprintf(stdout, "%d\n", lex->integer);
     }
 
     //real
     else if (lex->type == REAL)
     {
-        printf("%f\n", lex->real);
+        fprintf(stdout, "%f\n", lex->real);
     }
 
     //no token
     else
     {
-        printf("\n");
+        fprintf(stdout, "\n");
     }
+}
+
+void
+displayLexemeValue(LEXEME *lex)
+{
+
+    //int
+    if (lex->type == INTEGER)
+    {
+        fprintf(stdout, "%d\n", lex->integer);
+    }
+
+    //real
+    else if (lex->type == REAL)
+    {
+        fprintf(stdout, "%f\n", lex->real);
+    }
+
+    //string
+    else
+    {
+        fprintf(stdout, "%s\n", lex->string);
+    }
+
 }

@@ -5,17 +5,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "lexer.h"
+#include <string.h>
 #include "lexeme.h"
 #include "types.h"
-#include "recognizer.h"
 #include "environment.h"
 
-static LEXEME *cons(char *, LEXEME *, LEXEME *);
-static LEXEME *car(LEXEME *);
-static LEXEME *cdr(LEXEME *);
-static void setCar(LEXEME *, LEXEME *);
-static void setCdr(LEXEME *, LEXEME *);
+static LEXEME *treeWalkerHelper(LEXEME *, LEXEME *);
 
 LEXEME *
 cons(char *type, LEXEME *left, LEXEME *right)
@@ -53,118 +48,94 @@ setCdr(LEXEME *lex, LEXEME *newRight)
 LEXEME *
 create()
 {
-    return cons("ENV", NULL, cons("VALUES", NULL, NULL));
+    return cons(ENV, NULL, cons(VALUES, NULL, NULL));
+}
+
+LEXEME *
+treeWalkerHelper(LEXEME *variable, LEXEME *env)
+{
+    while (env != NULL)
+    {
+        LEXEME *vars = car(env);
+        LEXEME *vals = car(cdr(env));
+        while (vars != NULL)
+        {
+            if (strcmp(getStringToken(variable), getStringToken(car(vars))) == 0)
+            {
+                return vals;
+            }
+            
+            vars = cdr(vars);
+            vals = cdr(vals);
+        }
+        env = cdr(cdr(env));
+    }
+    fprintf(stdout,"FATAL variable: %s is undefined.\n", getStringToken(variable)); 
+    exit(1); 
+    return NULL;
 }
 
 LEXEME *
 lookup(LEXEME *variable, LEXEME *env)
 {
-    while (env != NULL)
-    {
-        LEXEME *vars = car(env);
-        LEXEME *vals = car(cdr(env));
-        while (vars != NULL)
-        {
-            if (getType(variable) == getType(car(vars)))
-            {
-                return car(vals);
-            }
-            vars = cdr(vars);
-            vals = cdr(vals);
-        }
-        env = cdr(cdr(env));
-    }
-    fprintf(stdout,"FATAL variable: %s is undefined.\n", getType(variable)); 
-    exit(1); 
-    return NULL;
+    return car(treeWalkerHelper(variable, env));
 }
 
 void
 update(LEXEME *variable, LEXEME *values, LEXEME *env)
 {
-    while (env != NULL)
-    {
-        LEXEME *vars = car(env);
-        LEXEME *vals = car(cdr(env));
-        while (vars != NULL)
-        {
-            if (getType(variable) == getType(car(vars)))
-            {
-                setCar(vals, values);
-                return;
-            }
-            vars = cdr(vars);
-            vals = cdr(vals);
-        }
-        env = cdr(cdr(env));
-    }
-    fprintf(stdout,"FATAL variable SET: %s is undefined.\n", getType(variable)); 
-    exit(1); 
+    setCar(treeWalkerHelper(variable, env), values);
+    return;
 }
 
 LEXEME *
 insert(LEXEME *variable, LEXEME *value, LEXEME *env)
 {
-    setCar(env, cons("JOIN", variable, car(env)));
-    setCar(cdr(env), cons("JOIN", value, car(cdr(env))));
+    setCar(env, cons(JOIN, variable, car(env)));
+    setCar(cdr(env), cons(JOIN, value, car(cdr(env))));
     return value;
 }
 
 LEXEME *
 extend(LEXEME *variables, LEXEME *values, LEXEME *env)
 {
-    return cons("ENV", variables, cons("ENV", values, env));
+    return cons(ENV, variables, cons(ENV, values, env));
 }
 
 void
 displayEnvironment(LEXEME *env, bool lt)
 {
-    // Display only local table
-    if (lt == true) 
+    int envCount = 0;
+
+    if (lt)
     {
         fprintf(stdout, "The local environment is:\n");
-        if (env != NULL)
-        {
-            LEXEME *vars = car(env);
-            LEXEME *vals = car(cdr(env));
-            while (vars != NULL)
-            {
-                if (getType(car(vars)) == NULL ||  getType(car(vals)) == NULL)
-                {
-                    fprintf(stdout, "Variable: %s Value: %s \n", getType(vars), getType(vals));
-                }
-                else
-                {
-                    fprintf(stdout, "Variable: %s Value: %s \n", getType(car(vars)), getType(car(vals)));
-                }
-                vars = cdr(vars);
-                vals = cdr(vals);
-            }
-        }
     }
 
-    // Display all tables
     else
     {
         fprintf(stdout, "The environment is:\n");
-        while (env != NULL)
-        {
-            LEXEME *vars = car(env);
-            LEXEME *vals = car(cdr(env));
-            while (vars != NULL)
-            {
-                if (getType(car(vars)) == NULL ||  getType(car(vals)) == NULL)
-                {
-                    fprintf(stdout, "Variable: %s Value: %s \n", getType(vars), getType(vals));
-                }
-                else
-                {
-                    fprintf(stdout, "Variable: %s Value: %s \n", getType(car(vars)), getType(car(vals)));
-                }
-                vars = cdr(vars);
-                vals = cdr(vals);
-            }
-            env = cdr(cdr(env));
-        }
     }
+
+    while (env != NULL)
+    {
+        fprintf(stdout, "Scope Level = %d\n", envCount);
+
+        LEXEME *vars = car(env);
+        LEXEME *vals = car(cdr(env));
+        while (vars != NULL)
+        {
+            printf(" %s : ", getStringToken(car(vars)));
+            displayLexemeValue(car(vals));
+            vars = cdr(vars);
+            vals = cdr(vals);
+        }
+        if (lt)
+        {
+            break;
+        }
+        envCount = envCount + 1;
+        env = cdr(cdr(env));
+    }
+    fprintf(stdout, "\n");
 }

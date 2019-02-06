@@ -5,10 +5,15 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "lexer.h"
+#include <string.h>
 #include "lexeme.h"
 #include "types.h"
-#include "recognizer.h"
+
+extern LEXEME *cons(char *, LEXEME *, LEXEME *);
+extern LEXEME *car(LEXEME *);
+extern LEXEME *cdr(LEXEME *);
+extern void setCar(LEXEME *, LEXEME *);
+extern void setCdr(LEXEME *, LEXEME *);
 
 extern LEXEME *create();
 extern LEXEME *lookup(LEXEME *, LEXEME *);
