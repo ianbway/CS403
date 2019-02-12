@@ -257,7 +257,7 @@ whileRule()
     block();
 }
 
-void
+LEXEME *
 statement()
 {
     if (expressionPending())
@@ -282,37 +282,61 @@ statement()
     }
     else
     {
-        match(RETURN);
-        return expression();
+        LEXEME *tree = match(RETURN);
+        LEXEME *temp = expression();
+        setLeft(temp, tree);
+        tree = temp;
+        return tree;
     }
 }
 
-void
+LEXEME *
 statements()
 {
-    statement();
+    LEXEME *tree;
+    LEXEME *temp;
+
+    tree = statement();
     if (statementPending())
     {
-        statements();
+        temp = statements();
+        setLeft(temp, tree);
+        tree = temp;
     }
+
+    return tree;
 }
 
-void
+LEXEME *
 block()
 {
-    match(OPEN_BLOCK);
-    statements();
-    match(CLOSE_BLOCK);
+    LEXEME *tree;
+    LEXEME *temp;
+
+    tree = match(OPEN_BLOCK);
+    temp = statements();
+    setLeft(temp, tree);
+    setRight(temp, match(CLOSE_BLOCK));
+    tree = temp;
+
+    return tree;
 }
 
-void
+LEXEME *
 optInit()
 {
+    LEXEME *tree;
+    LEXEME *temp;
+
     if (check(EQUAL))
     {
-        match(EQUAL);
-        expression();
+        tree = match(EQUAL);
+        temp = expression();
+        setLeft(temp, tree);
+        tree = temp;
     }
+
+    return tree;
 }
 
 LEXEME *
@@ -346,7 +370,7 @@ optArgList()
     }
 }
 
-void
+LEXEME *
 paramList()
 {
     LEXEME *tree;
@@ -380,23 +404,37 @@ optParamList()
     }
 }
 
-void
+LEXEME *
 funcDef()
 {
+    LEXEME *tree;
+    LEXEME *temp;
+
     match(FUNC);
-    match(VARIABLE);
+    tree = match(VARIABLE);
     match(OPEN_BRACKET);
-    optParamList();
+    temp = optParamList();
+    setLeft(temp, tree);
     match(CLOSE_BRACKET);
-    block();
+    setRight(temp, block());
+    tree = temp;
+
+    return tree;
 }
 
-void
+LEXEME *
 varDef()
 {
+    LEXEME *tree;
+    LEXEME *temp;
+
     match(VAR);
-    match(VARIABLE);
-    optInit();
+    tree = match(VARIABLE);
+    temp = optInit();
+    setLeft(temp, tree);
+    tree = temp;
+
+    return tree;
 }
 
 LEXEME *
