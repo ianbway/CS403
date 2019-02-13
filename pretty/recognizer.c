@@ -176,16 +176,18 @@ LEXEME *
 varExpression() 
 {
     LEXEME *tree = NULL;
+    LEXEME *v;
 
-    match(VARIABLE); 
+    v = match(VARIABLE); 
     if (check(OPEN_BRACKET)) 
     { 
         match(OPEN_BRACKET); 
         tree = optArgList();
-        match(CLOSE_BRACKET); 
+        match(CLOSE_BRACKET);
+        return cons(VARIABLE_EXPR, v, tree); 
     }
     
-    return cons(VARIABLE, NULL, tree);
+    return v;
 }
 
 bool
@@ -536,7 +538,7 @@ recognize(FILE *fileName)
     CurrentLexeme = lex(GlobalLexer); 
     LEXEME *tree = program(); 
 
-    printf(" legal\n");
+    //printf(" legal\n");
 
     return tree;
 }

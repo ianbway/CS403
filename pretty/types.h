@@ -49,3 +49,4 @@ extern char *ARGLIST;
 extern char *STATEMENTS;
 extern char *IFJOIN;
 extern char *PARAMLIST;
+extern char *VARIABLE_EXPR;

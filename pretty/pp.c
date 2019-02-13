@@ -25,9 +25,13 @@ prettyPrint(LEXEME *tree)
     else if (getType(tree) == VARIABLE)
     { 
         printf("%s", getStringToken(tree));
+    }
+    else if (getType(tree) == VARIABLE_EXPR)
+    {
+        prettyPrint(getLeft(tree));
         printf("[");
         prettyPrint(getRight(tree));
-        printf("]");
+        printf("]\n");
     }
     else if (getType(tree) == STRING)
     { 
@@ -41,9 +45,9 @@ prettyPrint(LEXEME *tree)
     }
     else if (getType(tree) == OPEN_BLOCK)
     {
-        printf(":");
+        printf("\t:\n");
         prettyPrint(getRight(tree));
-        printf(";");
+        printf("\t;\n");
     }
     else if (getType(tree) == UMINUS)
     {
@@ -143,26 +147,26 @@ prettyPrint(LEXEME *tree)
         printf("@");
         printf("[");
         prettyPrint(getRight(tree));
-        printf("]");
+        printf("]\n");
     }
     else if (getType(tree) == PRINT)
     {
         printf("print");
         printf("[");
         prettyPrint(getRight(tree));
-        printf("]");
+        printf("]\n");
     }
     else if (getType(tree) == IF)
     {
         printf("if ");
         printf("[");
         prettyPrint(getLeft(tree));
-        printf("]");
+        printf("]\n");
         prettyPrint(getRight(tree));
     }
     else if (getType(tree) == ELSE)
     {
-        printf("else ");
+        printf("else \n");
         prettyPrint(getRight(tree));
     }
     else if (getType(tree) == WHILE)
@@ -170,13 +174,14 @@ prettyPrint(LEXEME *tree)
         printf("while ");
         printf("[");
         prettyPrint(getLeft(tree));
-        printf("]");
+        printf("]\n");
         prettyPrint(getRight(tree));
     }
     else if (getType(tree) == RETURN)
     {
         printf("return ");
         prettyPrint(getRight(tree));
+        printf("\n");
     }
 
     else if (getType(tree) == MOREPROGRAM)
@@ -189,6 +194,7 @@ prettyPrint(LEXEME *tree)
         printf("var ");
         prettyPrint(getLeft(tree));
         prettyPrint(getRight(tree));
+        printf("\n");
     }
     else if (getType(tree) == FUNC)
     {
@@ -201,7 +207,7 @@ prettyPrint(LEXEME *tree)
         prettyPrint(getLeft(tree));
         printf("[");
         prettyPrint(getRight(tree));
-        printf("]");
+        printf("]\n");
     }
     else if (getType(tree) == ARGLIST)
     {
@@ -229,6 +235,10 @@ prettyPrint(LEXEME *tree)
     {
         prettyPrint(getLeft(tree));
         printf("\n");
+    }
+    else if (getType(tree) == NULL)
+    {
+        
     }
     else 
     {
