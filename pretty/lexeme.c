@@ -82,6 +82,34 @@ getStringToken(LEXEME *lex)
     }
 }
 
+int
+getIntegerToken(LEXEME *lex)
+{
+    if ((lex != NULL)) 
+    {
+        return lex->integer;
+    }
+
+    else
+    {
+        return 1;
+    }
+}
+
+double
+getRealToken(LEXEME *lex)
+{
+    if ((lex != NULL)) 
+    {
+        return lex->real;
+    }
+
+    else
+    {
+        return 1.0;
+    }
+}
+
 LEXEME *
 getLeft(LEXEME *lex)
 {

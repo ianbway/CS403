@@ -69,13 +69,13 @@ unary()
     {
         match(MINUS);
         tree = unary();
-        return cons("MINUS", NULL, tree);
+        return cons(UMINUS, NULL, tree);
     } 
     else if (check(NOT))
     {
         match(NOT);
         tree = unary();
-        return cons("NOT", NULL, tree);
+        return cons(UNOT, NULL, tree);
     }
     else if (check(STRING))
     {
@@ -85,21 +85,24 @@ unary()
     {
         match(AT);
         match(OPEN_BRACKET);
-        optArgList();
+        tree = optArgList();
         match(CLOSE_BRACKET);
+        return cons(AT, NULL, tree);
     }
     else if (check(PRINT))
     {
         match(PRINT);
         match(OPEN_BRACKET);
-        argList();
+        tree = argList();
         match(CLOSE_BRACKET);
+        return cons(PRINT, NULL, tree);
     }
     else
     { 
         match(OPEN_BRACKET); 
-        expression(); 
+        tree = expression(); 
         match(CLOSE_BRACKET); 
+        return cons(OPEN_BRACKET, NULL, tree);
     }
 }
 
@@ -140,8 +143,12 @@ operator()
     }
     else if (check(NOT))
     {
+        LEXEME *tree;
+
         match(NOT);
-        match(EQUAL);
+        tree = match(EQUAL);
+
+        return cons(NOT, NULL, tree);
     }
     else if (check(GREATER_THAN))
     {
@@ -165,16 +172,20 @@ operator()
     }
 }
 
-void 
+LEXEME *
 varExpression() 
-{ 
+{
+    LEXEME *tree = NULL;
+
     match(VARIABLE); 
     if (check(OPEN_BRACKET)) 
     { 
         match(OPEN_BRACKET); 
-        optArgList();
+        tree = optArgList();
         match(CLOSE_BRACKET); 
     }
+    
+    return cons(VARIABLE, NULL, tree);
 }
 
 bool
@@ -197,19 +208,21 @@ expressionPending()
 LEXEME * 
 expression() 
 { 
-    LEXEME *tree;
-    LEXEME *temp;
+    LEXEME *u;
+    LEXEME *o;
+    LEXEME *e;
 
-    tree = unary(); 
+    u = unary(); 
     if (operatorPending()) 
     { 
-        temp = operator();
-        setLeft(temp, tree);
-        setRight(temp, expression()); 
-        tree = temp; 
+        o = operator();
+        e = expression(); 
+        return cons(getType(o),u,e);
     }
-
-    return tree; 
+    else
+    {
+       return u;
+    }
 }
 
 bool
@@ -219,42 +232,61 @@ statementPending()
            check(RETURN) || expressionPending();
 }
 
-void
+LEXEME *
 elses()
 {
+    LEXEME *ir;
+    LEXEME *bl;
+
     if (check(ELSE))
     {
         match(ELSE);
         if (check(IF))
         {
-            ifRule();
+            ir = ifRule();
+            return cons(ELSE, NULL, ir);
         }
         else
         {
-            block();
+            bl = block();
+            return cons(ELSE, NULL, bl);
         }
+    }
+
+    else
+    {
+        return NULL;
     }
 }
 
-void
+LEXEME *
 ifRule()
 {
+    LEXEME *e;
+    LEXEME *bl;
+    LEXEME *ir;
+
     match(IF);
     match(OPEN_BRACKET);
-    expression();
+    e = expression();
     match(CLOSE_BRACKET);
-    block();
-    elses();
+    bl = block();
+    ir = cons(IF, e, bl);
+
+    return cons(ELSE, ir, elses());
 }
 
-void
+LEXEME *
 whileRule()
 {
+    LEXEME *e;
+
     match(WHILE);
     match(OPEN_BRACKET);
-    expression();
+    e = expression();
     match(CLOSE_BRACKET);
-    block();
+
+    return cons(WHILE, e, block());
 }
 
 LEXEME *
@@ -282,79 +314,67 @@ statement()
     }
     else
     {
-        LEXEME *tree = match(RETURN);
-        LEXEME *temp = expression();
-        setLeft(temp, tree);
-        tree = temp;
-        return tree;
+        match(RETURN);
+        return cons(RETURN, NULL, expression());
     }
 }
 
 LEXEME *
 statements()
 {
-    LEXEME *tree;
-    LEXEME *temp;
+    LEXEME *st;
+    LEXEME *sts = NULL;
 
-    tree = statement();
+    st = statement();
     if (statementPending())
     {
-        temp = statements();
-        setLeft(temp, tree);
-        tree = temp;
+        sts = statements();
     }
 
-    return tree;
+    return cons(getType(st), st, sts);
 }
 
 LEXEME *
 block()
 {
-    LEXEME *tree;
-    LEXEME *temp;
+    LEXEME *sts;
 
-    tree = match(OPEN_BLOCK);
-    temp = statements();
-    setLeft(temp, tree);
-    setRight(temp, match(CLOSE_BLOCK));
-    tree = temp;
+    match(OPEN_BLOCK);
+    sts = statements();
+    match(CLOSE_BLOCK);
 
-    return tree;
+    return cons(OPEN_BLOCK, NULL, sts);
 }
 
 LEXEME *
 optInit()
 {
-    LEXEME *tree;
-    LEXEME *temp;
-
     if (check(EQUAL))
     {
-        tree = match(EQUAL);
-        temp = expression();
-        setLeft(temp, tree);
-        tree = temp;
+        match(EQUAL);
+        return cons(EQUAL, NULL, expression());
     }
-
-    return tree;
+    else
+    {
+        return NULL;
+    }
 }
 
 LEXEME *
 argList()
 {
-    LEXEME *tree;
-    LEXEME *temp;
+    LEXEME *e;
 
-    tree = expression();
+    e = expression();
     if (check(BAR))
     {
-        temp = match(BAR);
-        setLeft(temp, tree);
-        setRight(temp, argList());
-        tree = temp;
+        match(BAR);
+        return cons(getType(e), e, argList());
     }
-
-    return tree;
+    else
+    {
+        return e;
+    }
 }
 
 LEXEME *
@@ -373,22 +393,25 @@ optArgList()
 LEXEME *
 paramList()
 {
-    LEXEME *tree;
-    LEXEME *temp;
+    LEXEME *v;
 
     if (check(VARIABLE))
     {
-        tree = match(VARIABLE);
+        v = match(VARIABLE);
         if (check(BAR))
         {
-            temp = match(BAR);
-            setLeft(temp, tree);
-            setRight(temp, paramList());
-            tree = temp;
+            match(BAR);
+            return cons(getType(v), NULL , paramList());
+        }
+        else
+        {
+            return v;
         }
     }
-
-    return tree;
+    else
+    {
+        return NULL;
+    }
 }
 
 LEXEME *
@@ -407,34 +430,26 @@ optParamList()
 LEXEME *
 funcDef()
 {
-    LEXEME *tree;
-    LEXEME *temp;
+    LEXEME *f;
+    LEXEME *id;
 
     match(FUNC);
-    tree = match(VARIABLE);
+    id = match(VARIABLE);
     match(OPEN_BRACKET);
-    temp = optParamList();
-    setLeft(temp, tree);
+    f = cons(FUNC, id, optParamList());
     match(CLOSE_BRACKET);
-    setRight(temp, block());
-    tree = temp;
 
-    return tree;
+    return cons(FUNC, f, block());
 }
 
 LEXEME *
 varDef()
 {
-    LEXEME *tree;
-    LEXEME *temp;
+    LEXEME *id;
 
     match(VAR);
-    tree = match(VARIABLE);
-    temp = optInit();
-    setLeft(temp, tree);
-    tree = temp;
-
-    return tree;
+    id = match(VARIABLE);
+    return cons(VAR, id, optInit());
 }
 
 LEXEME *
@@ -450,22 +465,30 @@ def()
     }
 }
 
-void
+LEXEME *
 program()
 {
+    LEXEME *d;
+    LEXEME *st;
+
     if (check(FUNC) || check(VAR)) 
     {
-        def();
+        d = def();
         if (!check(ENDofINPUT))
         { 
-            program();
+            return cons(getType(d), d, program());
         }
-        match(ENDofINPUT);
+        else
+        {
+            match(ENDofINPUT);
+            return cons(getType(d), NULL, d);
+        }
     }
     else
     {
-        statement();
+        st = statement();
         match(ENDofINPUT);
+        return st;
     }
 }
 
@@ -487,7 +510,7 @@ match(char *type)
     matchNoAdvance(type); 
     advance(); 
 
-    matchLex = newLexeme(type, NULL);
+    LEXEME *matchLex = newLexeme(type, NULL);
     return matchLex;
 }
 

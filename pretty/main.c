@@ -9,7 +9,6 @@
 #include "lexeme.h"
 #include "types.h"
 #include "recognizer.h"
-#include "environment.h"
 
 int 
 main(int argc,char *argv[]) 

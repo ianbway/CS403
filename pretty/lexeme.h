@@ -12,6 +12,8 @@ typedef struct LEXEME LEXEME;
 extern LEXEME *newLexeme(char *, char *);
 extern char *getType(LEXEME *);
 extern char *getStringToken(LEXEME *);
+extern int getIntegerToken(LEXEME *);
+extern double getRealToken(LEXEME *);
 extern LEXEME *getLeft(LEXEME *);
 extern LEXEME *getRight(LEXEME *);
 extern void setLeft(LEXEME *, LEXEME *);

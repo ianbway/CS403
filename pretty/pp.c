@@ -9,7 +9,6 @@
 #include "lexeme.h"
 #include "types.h"
 #include "recognizer.h"
-#include "environment.h"
 #include "pp.h"
 
 void
@@ -17,31 +16,37 @@ prettyPrint(LEXEME *tree)
 {
     switch (getType(tree))
     {
-        case INTEGER  { print(tree.ival);}
-        case REAL     { print(tree.rval);}
-        case VARIABLE { print(tree.sval); }
-        case STRING   { print('\"', tree.sval, '\"'); }
-        case OPAREN
+        case INTEGER :  { printf("%d", getIntegerToken(tree));}
+        case REAL :     { printf("%f", getRealToken(tree));}
+        case VARIABLE : { printf("%s", getStringToken(tree));}
+        case STRING :  { printf("\"%s\"", getStringToken(tree));}
+        case OPAREN :
         {
-            print("(");
-            prettyPrint(tree.right);
-            print(")");
+            printf("(");
+            prettyPrint(getRight(tree));
+            printf(")");
         }
-        case UMINUS
+        case UMINUS :
         {
-            print("-");
-            print(tree.right);
+            printf("-");
+            print(getRight(tree));
         }
-        case PLUS
+        case PLUS :
         {
-            prettyPrint(tree.left);
-            print(" + ");
-            prettyPrint(tree.right);
+            prettyPrint(getLeft(tree));
+            printf(" + ");
+            prettyPrint(getRight(tree));
         }
 
-        else
-        { 
-                print("bad expression!"); 
+        default :
+        {
+            printf("bad expression!\n"); 
         }
     }
 }
+
+
+
+
+
+

@@ -40,3 +40,6 @@ extern char *ENV;
 extern char *JOIN;
 extern char *VALUES;
 extern char *ENDofINPUT;
+
+extern char *UMINUS;
+extern char *UNOT;

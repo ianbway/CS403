@@ -41,3 +41,6 @@ char *ENV = "ENV";
 char *JOIN = "JOIN";
 char *VALUES = "VALUES";
 char *ENDofINPUT = "END_OF_INPUT";
+
+char *UMINUS = "UMINUS";
+char *UNOT = "UNOT";

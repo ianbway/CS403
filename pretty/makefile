@@ -1,7 +1,7 @@
 # Ian Braudaway
 # makefile for pretty printer
 
-PP_OBJS = types.o lexeme.o lexer.o recognizer.o environment.o main.o
+PP_OBJS = types.o lexeme.o lexer.o recognizer.o pp.o main.o
 OPTS = -Wall -Wextra -std=c99 -g -c
 LOPTS = -Wall -Wextra -std=c99 -g
 CC = gcc
@@ -23,14 +23,14 @@ lexer.o : lexer.c lexer.h
 recognizer.o : recognizer.c recognizer.h
 	$(CC) $(OPTS) recognizer.c
 
-environment.o : environment.c environment.h
-	$(CC) $(OPTS) environment.c
+pp.o : pp.c pp.h
+	$(CC) $(OPTS) pp.c
 
 main.o : main.c
 	$(CC) $(OPTS) main.c
 
 clean : 
-	rm -f $(PP_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment ./pp
+	rm -f $(PP_OBJS) ./types ./lexeme ./lexer ./recognizer ./pp
 
 test1 :
 	@echo "TEST 1:"
