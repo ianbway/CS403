@@ -32,61 +32,117 @@ main.o : main.c
 clean : 
 	rm -f $(PP_OBJS) ./types ./lexeme ./lexer ./recognizer ./pp
 
-test1 :
-	@echo "TEST 1:"
-	cat ./test1.e
+test1 : pp
+	@echo Original file:
+	@cat test1.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test1.e > test1.pp.1
+	@cat test1.pp.1
 	@echo ""
-	./pp ./test1.e
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test1.pp.1 > test1.pp.2
+	@cat test1.pp.2
+	diff -s -q test1.pp.1 test1.pp.2
 
-test2 :
-	@echo "TEST 2:" 
-	cat ./test2.e
+test2 : pp
+	@echo Original file:
+	@cat test2.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test2.e > test2.pp.1
+	@cat test2.pp.1
 	@echo ""
-	./pp ./test2.e
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test2.pp.1 > test2.pp.2
+	@cat test2.pp.2
+	diff -s -q test2.pp.1 test2.pp.2
 
-test3 : 
-	@echo "TEST 3:"
-	cat ./test3.e
+test3 : pp
+	@echo Original file:
+	@cat test3.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test3.e > test3.pp.1
+	@cat test3.pp.1
 	@echo ""
-	./pp ./test3.e
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test3.pp.1 > test3.pp.2
+	@cat test3.pp.2
+	diff -s -q test3.pp.1 test3.pp.2
 
-run :
-	@echo "MAKE RUN"
-	@echo "TEST 1:"
-	cat ./test1.e
+run : pp
+	@echo "TEST 1: "
+	@echo Original file:
+	@cat test1.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test1.e > test1.pp.1
+	@cat test1.pp.1
 	@echo ""
-	-./pp ./test1.e
-	@echo "TEST 2:" 
-	cat ./test2.e
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test1.pp.1 > test1.pp.2
+	@cat test1.pp.2
+	diff -s -q test1.pp.1 test1.pp.2
+	@echo "TEST 2: "
+	@echo Original file:
+	@cat test2.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test2.e > test2.pp.1
+	@cat test2.pp.1
 	@echo ""
-	-./pp ./test2.e
-	@echo "TEST 3:"
-	cat ./test3.e
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test2.pp.1 > test2.pp.2
+	@cat test2.pp.2
+	diff -s -q test2.pp.1 test2.pp.2
+	@echo "TEST 3: "
+	@echo Original file:
+	@cat test3.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test3.e > test3.pp.1
+	@cat test3.pp.1
 	@echo ""
-	-./pp ./test3.e
-	@echo ""
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test3.pp.1 > test3.pp.2
+	@cat test3.pp.2
+	diff -s -q test3.pp.1 test3.pp.2
 
-test :
-	@echo "MAKE RUN"
-	@echo "TEST 1:"
-	cat ./test1.e
+test : pp
+	@echo "TEST 1: "
+	@echo Original file:
+	@cat test1.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test1.e > test1.pp.1
+	@cat test1.pp.1
 	@echo ""
-	-./pp ./test1.e
-	@echo "TEST 2:" 
-	cat ./test2.e
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test1.pp.1 > test1.pp.2
+	@cat test1.pp.2
+	diff -s -q test1.pp.1 test1.pp.2
+	@echo "TEST 2: "
+	@echo Original file:
+	@cat test2.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test2.e > test2.pp.1
+	@cat test2.pp.1
 	@echo ""
-	-./pp ./test2.e
-	@echo "TEST 3:"
-	cat ./test3.e
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test2.pp.1 > test2.pp.2
+	@cat test2.pp.2
+	diff -s -q test2.pp.1 test2.pp.2
+	@echo "TEST 3: "
+	@echo Original file:
+	@cat test3.e
 	@echo ""
+	@echo Pretty Printed version of the original:
+	@pp test3.e > test3.pp.1
+	@cat test3.pp.1
 	@echo ""
-	-./pp ./test3.e
-	@echo ""
+	@echo Pretty Printed version of the pretty printed version:
+	@pp test3.pp.1 > test3.pp.2
+	@cat test3.pp.2
+	diff -s -q test3.pp.1 test3.pp.2

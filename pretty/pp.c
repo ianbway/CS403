@@ -14,35 +14,55 @@
 void
 prettyPrint(LEXEME *tree)
 {
-    switch (getType(tree))
+    if (getType(tree) == INTEGER)
     {
-        case INTEGER :  { printf("%d", getIntegerToken(tree));}
-        case REAL :     { printf("%f", getRealToken(tree));}
-        case VARIABLE : { printf("%s", getStringToken(tree));}
-        case STRING :  { printf("\"%s\"", getStringToken(tree));}
-        case OPAREN :
-        {
-            printf("(");
-            prettyPrint(getRight(tree));
-            printf(")");
-        }
-        case UMINUS :
-        {
-            printf("-");
-            print(getRight(tree));
-        }
-        case PLUS :
-        {
-            prettyPrint(getLeft(tree));
-            printf(" + ");
-            prettyPrint(getRight(tree));
-        }
-
-        default :
-        {
-            printf("bad expression!\n"); 
-        }
+        printf("%d", getIntegerToken(tree));
     }
+    else if (getType(tree) == REAL)
+    { 
+        printf("%f", getRealToken(tree));
+    }
+    else if (getType(tree) == VARIABLE)
+    { 
+        printf("%s", getStringToken(tree));
+    }
+    else if (getType(tree) == STRING)
+    { 
+        printf("\"%s\"", getStringToken(tree));
+    }
+    else if (getType(tree) == OPEN_BRACKET)
+    {
+        printf("[");
+        prettyPrint(getRight(tree));
+        printf("]");
+    }
+    else if (getType(tree) == OPEN_BLOCK)
+    {
+        printf("[[");
+        prettyPrint(getRight(tree));
+        printf("]]");
+    }
+    else if (getType(tree) == UMINUS)
+    {
+        printf("-");
+        prettyPrint(getRight(tree));
+    }
+    else if (getType(tree) == UNOT)
+    {
+        printf("!");
+        prettyPrint(getRight(tree));
+    }
+    else if (getType(tree) == PLUS)
+    {
+        prettyPrint(getLeft(tree));
+        printf(" + ");
+        prettyPrint(getRight(tree));
+    }
+
+    else 
+    {
+        printf("bad expression!\n"); 
+    }  
 }
 
 

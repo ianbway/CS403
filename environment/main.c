@@ -74,5 +74,11 @@ main()
     displayEnvironment(env3, true);
     displayEnvironment(env3, false);
 
+    printf("Update Test, 3 will become 33. (This is the value of the x variable.)\n");
+    LEXEME *thirtyThree = newLexeme(INTEGER, "33");
+    update(x, thirtyThree, env3);
+    displayEnvironment(env3, true);
+    displayEnvironment(env3, false);
+
     return 0;
 }
