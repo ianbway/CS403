@@ -30,7 +30,7 @@ main.o : main.c
 	$(CC) $(OPTS) main.c
 
 clean : 
-	rm -f $(PP_OBJS) ./types ./lexeme ./lexer ./recognizer ./pp
+	rm -f $(PP_OBJS) ./types ./lexeme ./lexer ./recognizer ./pp ./test1.pp.1 ./test1.pp.2 ./test2.pp.1 ./test2.pp.2 ./test3.pp.1 ./test3.pp.2
 
 test1 : pp
 	@echo Original file:

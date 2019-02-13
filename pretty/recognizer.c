@@ -264,16 +264,14 @@ ifRule()
 {
     LEXEME *e;
     LEXEME *bl;
-    LEXEME *ir;
 
     match(IF);
     match(OPEN_BRACKET);
     e = expression();
     match(CLOSE_BRACKET);
     bl = block();
-    ir = cons(IF, e, bl);
 
-    return cons(ELSE, ir, elses());
+    return cons(IF, e, cons(IFJOIN, bl, elses()));
 }
 
 LEXEME *
@@ -331,7 +329,7 @@ statements()
         sts = statements();
     }
 
-    return cons(getType(st), st, sts);
+    return cons(STATEMENTS, st, sts);
 }
 
 LEXEME *
@@ -369,7 +367,7 @@ argList()
     if (check(BAR))
     {
         match(BAR);
-        return cons(getType(e), e, argList());
+        return cons(ARGLIST, e, argList());
     }
     else
     {
@@ -401,7 +399,7 @@ paramList()
         if (check(BAR))
         {
             match(BAR);
-            return cons(getType(v), NULL , paramList());
+            return cons(PARAMLIST, v, paramList());
         }
         else
         {
@@ -436,7 +434,7 @@ funcDef()
     match(FUNC);
     id = match(VARIABLE);
     match(OPEN_BRACKET);
-    f = cons(FUNC, id, optParamList());
+    f = cons(FUNCDEF, id, optParamList());
     match(CLOSE_BRACKET);
 
     return cons(FUNC, f, block());
@@ -476,19 +474,19 @@ program()
         d = def();
         if (!check(ENDofINPUT))
         { 
-            return cons(getType(d), d, program());
+            return cons(MOREPROGRAM, d, program());
         }
         else
         {
             match(ENDofINPUT);
-            return cons(getType(d), NULL, d);
+            return cons(ENDofINPUT, d, NULL);
         }
     }
     else
     {
         st = statement();
         match(ENDofINPUT);
-        return st;
+        return cons(ENDofINPUT, st, NULL);
     }
 }
 
@@ -506,11 +504,16 @@ advance()
 
 LEXEME * 
 match(char *type) 
-{ 
+{
+    LEXEME *matchLex;
+
     matchNoAdvance(type); 
+
+    matchLex = CurrentLexeme;
+
     advance(); 
 
-    LEXEME *matchLex = newLexeme(type, NULL);
+    // LEXEME *matchLex = newLexeme(type, NULL);
     return matchLex;
 }
 

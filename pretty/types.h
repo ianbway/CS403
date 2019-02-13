@@ -43,3 +43,9 @@ extern char *ENDofINPUT;
 
 extern char *UMINUS;
 extern char *UNOT;
+extern char *MOREPROGRAM;
+extern char *FUNCDEF; 
+extern char *ARGLIST;
+extern char *STATEMENTS;
+extern char *IFJOIN;
+extern char *PARAMLIST;
