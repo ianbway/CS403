@@ -7,7 +7,7 @@ func nestLoop[]
         var loopConditionOne = 10 
         var loopConditionTwo = 5
 
-        print["This is test 2 for the recognizer portion of CS403."] 
+        print["This is test 2 for the pretty printer portion of CS403."] 
         print["This test has a while loop nested inside of another while loop."] 
 
         while [loopConditionOne > 0]

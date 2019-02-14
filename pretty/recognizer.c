@@ -145,10 +145,10 @@ operator()
     {
         LEXEME *tree;
 
-        match(NOT);
-        tree = match(EQUAL);
+        tree = match(NOT);
+        match(EQUAL);
 
-        return cons(NOT, NULL, tree);
+        return tree;
     }
     else if (check(GREATER_THAN))
     {

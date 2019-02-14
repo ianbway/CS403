@@ -10,7 +10,7 @@ func math[param1| param2]
         var varDifference = param1 - param2 
         var varQuotient = param1 / param2 
 
-        print["This is test 1 for the recognizer portion of CS403."] 
+        print["This is test 1 for the pretty printer portion of CS403."] 
         print[varSum] 
         print[varProduct] 
         print[varDifference] 

@@ -61,7 +61,8 @@ prettyPrint(LEXEME *tree)
     }
     else if (getType(tree) == NOT)
     {
-        printf("!");
+        prettyPrint(getLeft(tree));
+        printf(" != ");
         prettyPrint(getRight(tree));
     }
     else if (getType(tree) == PLUS)

@@ -27,7 +27,6 @@ func processReal[param]
         print[500.0000000000]
         print[234.4323]
 
-        # This should cause problems for the recognizer. There is a close block not a close bracket #
         if [4 > 3]
         :
             print["4 is greater than 3."]
@@ -41,7 +40,7 @@ func processReal[param]
 func apiFunctionOne[param1| param2| param3]
     :
         print["This program is similar to an API."]
-        print["This is test 3 for the recognizer portion of CS403."] 
+        print["This is test 3 for the pretty printer portion of CS403."] 
 
         processString[param1]
         processInteger[param2]
