@@ -39,12 +39,12 @@ test1 : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test1.e > test1.pp.1
+	@./pp test1.e > test1.pp.1
 	@cat test1.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test1.pp.1 > test1.pp.2
+	@./pp test1.pp.1 > test1.pp.2
 	@cat test1.pp.2
 	diff -s -q test1.pp.1 test1.pp.2
 
@@ -55,12 +55,12 @@ test2 : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test2.e > test2.pp.1
+	@./pp test2.e > test2.pp.1
 	@cat test2.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test2.pp.1 > test2.pp.2
+	@./pp test2.pp.1 > test2.pp.2
 	@cat test2.pp.2
 	diff -s -q test2.pp.1 test2.pp.2
 
@@ -71,12 +71,12 @@ test3 : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test3.e > test3.pp.1
+	@./pp test3.e > test3.pp.1
 	@cat test3.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test3.pp.1 > test3.pp.2
+	@./pp test3.pp.1 > test3.pp.2
 	@cat test3.pp.2
 	diff -s -q test3.pp.1 test3.pp.2
 
@@ -88,12 +88,12 @@ run : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test1.e > test1.pp.1
+	@./pp test1.e > test1.pp.1
 	@cat test1.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test1.pp.1 > test1.pp.2
+	@./pp test1.pp.1 > test1.pp.2
 	@cat test1.pp.2
 	diff -s -q test1.pp.1 test1.pp.2
 	@echo ""
@@ -103,12 +103,12 @@ run : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test2.e > test2.pp.1
+	@./pp test2.e > test2.pp.1
 	@cat test2.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test2.pp.1 > test2.pp.2
+	@./pp test2.pp.1 > test2.pp.2
 	@cat test2.pp.2
 	diff -s -q test2.pp.1 test2.pp.2
 	@echo ""
@@ -118,12 +118,12 @@ run : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test3.e > test3.pp.1
+	@./pp test3.e > test3.pp.1
 	@cat test3.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test3.pp.1 > test3.pp.2
+	@./pp test3.pp.1 > test3.pp.2
 	@cat test3.pp.2
 	diff -s -q test3.pp.1 test3.pp.2
 
@@ -135,12 +135,12 @@ test : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test1.e > test1.pp.1
+	@./pp test1.e > test1.pp.1
 	@cat test1.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test1.pp.1 > test1.pp.2
+	@./pp test1.pp.1 > test1.pp.2
 	@cat test1.pp.2
 	diff -s -q test1.pp.1 test1.pp.2
 	@echo ""
@@ -150,12 +150,12 @@ test : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test2.e > test2.pp.1
+	@./pp test2.e > test2.pp.1
 	@cat test2.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test2.pp.1 > test2.pp.2
+	@./pp test2.pp.1 > test2.pp.2
 	@cat test2.pp.2
 	diff -s -q test2.pp.1 test2.pp.2
 	@echo ""
@@ -165,11 +165,11 @@ test : pp
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the original:
-	@pp test3.e > test3.pp.1
+	@./pp test3.e > test3.pp.1
 	@cat test3.pp.1
 	@echo ""
 	@echo ""
 	@echo Pretty Printed version of the pretty printed version:
-	@pp test3.pp.1 > test3.pp.2
+	@./pp test3.pp.1 > test3.pp.2
 	@cat test3.pp.2
 	diff -s -q test3.pp.1 test3.pp.2
