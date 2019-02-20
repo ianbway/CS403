@@ -45,19 +45,15 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == OPEN_BLOCK)
     {
-        printf("\t:\n");
-        eval(getRight(tree), env);
-        printf("\t;\n");
+        return evalBlock(tree, env);
     }
     else if (getType(tree) == UMINUS)
     {
-        printf("-");
-        eval(getRight(tree), env);
+        return evalUMinus(tree, env);
     }
     else if (getType(tree) == UNOT)
     {
-        printf("!");
-        eval(getRight(tree), env);
+        return evalUNot(tree, env);
     }
     else if (getType(tree) == NOT)
     {
@@ -152,15 +148,12 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == RETURN)
     {
-        printf("return ");
-        eval(getRight(tree), env);
-        printf("\n");
+        return evalReturn(tree, env);
     }
 
     else if (getType(tree) == MOREPROGRAM)
     {
-        eval(getLeft(tree), env);
-        eval(getRight(tree), env);
+        return evalMoreProgram(tree, env);
     }
     else if (getType(tree) == VAR)
     {
@@ -184,20 +177,15 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == ARGLIST)
     {
-        eval(getLeft(tree), env);
-        printf("| ");
-        eval(getRight(tree), env);
+        return evalArgs(tree, env);
     }
     else if (getType(tree) == PARAMLIST)
     {
-        eval(getLeft(tree), env);
-        printf("| ");
-        eval(getRight(tree), env);
+        return evalParams(tree, env);
     }
     else if (getType(tree) == STATEMENTS)
     {
-        eval(getLeft(tree), env);
-        eval(getRight(tree), env);
+        return evalStatements(tree, env);
     }
     else if (getType(tree) == IFJOIN)
     {
@@ -206,8 +194,7 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == ENDofINPUT)
     {
-        eval(getLeft(tree), env);
-        printf("\n");
+        return evalEnd(tree, env);
     }
     else if (getType(tree) == NULL)
     {
@@ -217,6 +204,56 @@ eval(LEXEME *tree, LEXEME *env)
     {
         printf("bad expression!\n"); 
     }  
+}
+
+LEXEME *
+evalUNot(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *right = eval(getRight(tree), env);
+    char buffer[20];
+
+    if (getType(right) == INTEGER)
+    {
+        return newLexeme(INTEGER, itoa((getIntegerToken(right) + 1), buffer, 10));
+    }
+    else if (getType(right) == REAL)
+    {
+        return newLexeme(REAL, itoa((getRealToken(right) + 1), buffer, 10));
+    }
+    else if (getType(right) == STRING)
+    {
+        return newLexeme(STRING, strcat(getStringToken(right), "UNOT"));
+    }
+    else
+    {
+        printf("EVALUATOR: incompatible UNOT operation.\n");
+        exit(1);
+    }
+}
+
+LEXEME *
+evalUMinus(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *right = eval(getRight(tree), env);
+    char buffer[20];
+
+    if (getType(right) == INTEGER)
+    {
+        return newLexeme(INTEGER, itoa(- getIntegerToken(right), buffer, 10));
+    }
+    else if (getType(right) == REAL)
+    {
+        return newLexeme(REAL, itoa(- getRealToken(right), buffer, 10));
+    }
+    else if (getType(right) == STRING)
+    {
+        return newLexeme(STRING, strrev(getStringToken(right)));
+    }
+    else
+    {
+        printf("EVALUATOR: incompatible UMINUS operation.\n");
+        exit(1);
+    }
 }
 
 LEXEME *
@@ -1024,4 +1061,105 @@ evalAssign(LEXEME *tree, LEXEME *env)
     return value;
 }
 
+LEXEME *
+evalBlock(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *result;
+    while (tree = != NULL)
+    {
+        result = eval(getRight(tree), env);
+        tree = getRight(getRight(tree));
+    }
 
+    return result;
+}
+
+LEXEME *
+evalFuncDef(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *closure = cons(CLOSURE, env, tree);
+    insert(getLeft(tree), closure, env);
+    return closure;
+}
+
+LEXEME *
+evalFuncCall(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *closure = eval(getLeft(tree), env);
+    LEXEME *args = getRight(tree);
+    var params = getClosureParams(closure);
+    var body = getClosureBody(closure);
+    var senv = getClosureEnvironment(closure);
+    LEXEME *eargs = evalArgs(args, env);
+    LEXEME *xenv = extend(params, eargs, senv);
+    
+    return eval(body,xenv);
+}
+
+LEXEME *
+evalArgs(LEXEME *tree, LEXEME *env)
+{
+    if (tree == NULL)
+    {
+        return NULL;
+    }
+
+    else
+    {
+        return cons(GLUE, eval(getLeft(tree), env), evalArgs(getRight(tree), env));
+    }
+}
+
+LEXEME *
+evalParams(LEXEME *tree, LEXEME *env)
+{
+    if (tree == NULL)
+    {
+        return NULL;
+    }
+
+    else
+    {
+        return cons(GLUE, eval(getLeft(tree), env), evalParams(getRight(tree), env));
+    }
+}
+
+LEXEME *
+evalStatements(LEXEME *tree, LEXEME *env)
+{
+    if (tree == NULL)
+    {
+        return NULL;
+    }
+
+    else
+    {
+        return cons(GLUE, eval(getLeft(tree), env), evalStatements(getRight(tree), env));
+    }
+}
+
+LEXEME *
+evalReturn(LEXEME *tree, LEXEME *env)
+{
+    return eval(getRight(tree), env);
+}
+
+LEXEME *
+evalMoreProgram(LEXEME *tree, LEXEME *env)
+{
+    if (tree == NULL)
+    {
+        return NULL;
+    }
+
+    else
+    {
+        return cons(GLUE, eval(getLeft(tree), env), evalMoreProgram(getRight(tree), env));
+    }
+}
+
+LEXEME *
+evalEnd(LEXEME *tree, LEXEME *env)
+{
+    return eval(getLeft(tree), env);
+}

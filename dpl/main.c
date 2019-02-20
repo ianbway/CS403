@@ -17,7 +17,7 @@ main(int argc,char *argv[])
 {
     if (argc != 2)
     {
-        fprintf(stderr,"pretty printer takes file as argument\n"); 
+        fprintf(stderr,"Needs file as argument\n"); 
         exit(1);
     }
 

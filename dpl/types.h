@@ -50,3 +50,6 @@ extern char *STATEMENTS;
 extern char *IFJOIN;
 extern char *PARAMLIST;
 extern char *VARIABLE_EXPR;
+
+extern char *CLOSURE;
+extern char *GLUE;
