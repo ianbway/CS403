@@ -110,6 +110,24 @@ getRealToken(LEXEME *lex)
     }
 }
 
+void
+setStringToken(LEXEME *lex, char *setToThis)
+{
+    lex->string = setToThis;
+}
+
+void
+setIntegerToken(LEXEME *lex, int setToThis)
+{
+    lex->integer = setToThis;
+}
+
+void
+setRealToken(LEXEME *lex, double setToThis)
+{
+    lex->real = setToThis;
+}
+
 LEXEME *
 getLeft(LEXEME *lex)
 {

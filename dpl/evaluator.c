@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 #include "lexer.h"
 #include "lexeme.h"
 #include "types.h"
@@ -210,19 +211,17 @@ LEXEME *
 evalUNot(LEXEME *tree, LEXEME *env)
 {
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
 
     if (getType(right) == INTEGER)
     {
-        return newLexeme(INTEGER, itoa((getIntegerToken(right) + 1), buffer, 10));
-    }
-    else if (getType(right) == REAL)
-    {
-        return newLexeme(REAL, itoa((getRealToken(right) + 1), buffer, 10));
-    }
-    else if (getType(right) == STRING)
-    {
-        return newLexeme(STRING, strcat(getStringToken(right), "UNOT"));
+        if (getIntegerToken(right) == 0)
+        {
+            return newLexeme(INTEGER, "1");
+        }
+        else
+        {
+            return newLexeme(INTEGER, "0");
+        }
     }
     else
     {
@@ -235,19 +234,25 @@ LEXEME *
 evalUMinus(LEXEME *tree, LEXEME *env)
 {
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
+    LEXEME *returnLex;
 
     if (getType(right) == INTEGER)
     {
-        return newLexeme(INTEGER, itoa(- getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, - getIntegerToken(right));
+        return returnLex;
     }
     else if (getType(right) == REAL)
     {
-        return newLexeme(REAL, itoa(- getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, - getRealToken(right));
+        return returnLex;
     }
     else if (getType(right) == STRING)
     {
-        return newLexeme(STRING, strrev(getStringToken(right)));
+        returnLex = newLexeme(STRING, NULL);
+        setStringToken(returnLex, strrev(getStringToken(right)));
+        return returnLex;
     }
     else
     {
@@ -262,51 +267,61 @@ evalPlus(LEXEME *tree, LEXEME *env)
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
     char buffer[20];
+    LEXEME *returnLex;
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(INTEGER, itoa(getIntegerToken(left) + getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, getIntegerToken(left) + getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == INTEGER) && (getType(right) == REAL))
     {
-
-        return newLexeme(REAL, itoa(getIntegerToken(left) + getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getIntegerToken(left) + getRealToken(right));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(REAL, itoa(getRealToken(left) + getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getRealToken(left) + getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == REAL))
     {
-
-        return newLexeme(REAL, itoa(getRealToken(left) + getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getRealToken(left) + getRealToken(right));
+        return returnLex;
     }
     else if ((getType(left) == INTEGER) && (getType(right) == STRING))
     {
-
-        return newLexeme(STRING, strcat(itoa(getIntegerToken(left), buffer, 10), getStringToken(right)));
+        returnLex = newLexeme(STRING, NULL);
+        setStringToken(returnLex, strcat(itoa(getIntegerToken(left), buffer, 10), getStringToken(right)));
+        return returnLex;
     }
     else if ((getType(left) == STRING) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(STRING, strcat(getStringToken(left), itoa(getIntegerToken(right), buffer, 10)));
+        returnLex = newLexeme(STRING, NULL);
+        setStringToken(returnLex, strcat(getStringToken(left), itoa(getIntegerToken(right), buffer, 10)));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == STRING))
     {
-
-        return newLexeme(STRING, strcat(itoa(getRealToken(left), buffer, 10), getStringToken(right)));
+        returnLex = newLexeme(STRING, NULL);
+        setStringToken(returnLex, strcat(itoa(getRealToken(left), buffer, 10), getStringToken(right)));
+        return returnLex;
     }
     else if ((getType(left) == STRING) && (getType(right) == REAL))
     {
-
-        return newLexeme(STRING, strcat(getStringToken(left), itoa(getRealToken(right), buffer, 10)));
+        returnLex = newLexeme(STRING, NULL);
+        setStringToken(returnLex, strcat(getStringToken(left), itoa(getRealToken(right), buffer, 10)));
+        return returnLex;
     }
     else if ((getType(left) == STRING) && (getType(right) == STRING))
     {
-
-        return newLexeme(STRING, strcat(getStringToken(left), getStringToken(right)));
+        returnLex = newLexeme(STRING, NULL);
+        setStringToken(returnLex, strcat(getStringToken(left), getStringToken(right)));
+        return returnLex;
     }
     else
     {
@@ -321,27 +336,31 @@ evalMinus(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
+    LEXEME *returnLex;
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(INTEGER, itoa(getIntegerToken(left) - getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, getIntegerToken(left) - getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == INTEGER) && (getType(right) == REAL))
     {
-
-        return newLexeme(REAL, itoa(getIntegerToken(left) - getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getIntegerToken(left) - getRealToken(right));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(REAL, itoa(getRealToken(left) - getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getRealToken(left) - getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == REAL))
     {
-
-        return newLexeme(REAL, itoa(getRealToken(left) - getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getRealToken(left) - getRealToken(right));
+        return returnLex;
     }
     else
     {
@@ -355,27 +374,31 @@ evalMultiply(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
+    LEXEME *returnLex;
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(INTEGER, itoa(getIntegerToken(left) * getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, getIntegerToken(left) * getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == INTEGER) && (getType(right) == REAL))
     {
-
-        return newLexeme(REAL, itoa(getIntegerToken(left) * getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getIntegerToken(left) * getRealToken(right));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(REAL, itoa(getRealToken(left) * getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getRealToken(left) * getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == REAL))
     {
-
-        return newLexeme(REAL, itoa(getRealToken(left) * getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getRealToken(left) * getRealToken(right));
+        return returnLex;
     }
     else
     {
@@ -389,27 +412,31 @@ evalDivide(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
+    LEXEME *returnLex;
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(INTEGER, itoa(getIntegerToken(left) / getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, getIntegerToken(left) / getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == INTEGER) && (getType(right) == REAL))
     {
-
-        return newLexeme(REAL, itoa(getIntegerToken(left) / getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getIntegerToken(left) / getRealToken(right));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == INTEGER))
     {
-
-        return newLexeme(REAL, itoa(getRealToken(left) / getIntegerToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getRealToken(left) / getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == REAL))
     {
-
-        return newLexeme(REAL, itoa(getRealToken(left) / getRealToken(right), buffer, 10));
+        returnLex = newLexeme(REAL, NULL);
+        setRealToken(returnLex, getRealToken(left) / getRealToken(right));
+        return returnLex;
     }
     else
     {
@@ -423,7 +450,6 @@ evalNot(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
@@ -545,7 +571,6 @@ evalCe(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
@@ -667,7 +692,6 @@ evalLt(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
@@ -729,7 +753,6 @@ evalLte(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
@@ -791,7 +814,6 @@ evalGt(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
@@ -853,7 +875,6 @@ evalGte(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    char buffer[20];
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
@@ -915,28 +936,31 @@ evalMod(LEXEME *tree, LEXEME *env)
 {
     LEXEME *left = eval(getLeft(tree), env);
     LEXEME *right = eval(getRight(tree), env);
-    LEXEME *modRes;
-    char buffer[20];
+    LEXEME *returnLex;
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
-        modRes = getIntegerToken(left) % getIntegerToken(right);
-        return newLexeme(INTEGER, itoa(modRes));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, getIntegerToken(left) % getIntegerToken(right));
+        return returnLex;
     }
     else if ((getType(left) == INTEGER) && (getType(right) == REAL))
     {
-        modRes = getIntegerToken(left) % getRealToken(right);
-        return newLexeme(INTEGER, itoa(modRes));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, fmod(getIntegerToken(left), getRealToken(right)));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == INTEGER))
     {
-        modRes = getRealToken(left) % getIntegerToken(right);
-        return newLexeme(INTEGER, itoa(modRes));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, fmod(getRealToken(left), getIntegerToken(right)));
+        return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == REAL))
     {
-        modRes = getRealToken(left) % getRealToken(right);
-        return newLexeme(INTEGER, itoa(modRes));
+        returnLex = newLexeme(INTEGER, NULL);
+        setIntegerToken(returnLex, fmod(getRealToken(left), getRealToken(right)));
+        return returnLex;
     }
     else
     {
@@ -948,6 +972,9 @@ evalMod(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalAnd(LEXEME *tree, LEXEME *env)
 {
+    LEXEME *left = eval(getLeft(tree), env);
+    LEXEME *right = eval(getRight(tree), env);
+
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
         if ((getIntegerToken(left) != 0) && (getIntegerToken(right) != 0))
@@ -1002,6 +1029,9 @@ evalAnd(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalOr(LEXEME *tree, LEXEME *env)
 {
+    LEXEME *left = eval(getLeft(tree), env);
+    LEXEME *right = eval(getRight(tree), env);
+
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
         if ((getIntegerToken(left) != 0) || (getIntegerToken(right) != 0))
