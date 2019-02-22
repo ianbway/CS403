@@ -53,3 +53,6 @@ extern char *VARIABLE_EXPR;
 
 extern char *CLOSURE;
 extern char *GLUE;
+extern char *NEW_ARRAY;
+extern char *GET_ARRAY;
+extern char *SET_ARRAY;

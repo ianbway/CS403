@@ -15,7 +15,7 @@ struct LEXEME
     char *string;
     int integer;
     double real;
-
+    LEXEME **aval;
     LEXEME *left;
     LEXEME *right;
 };

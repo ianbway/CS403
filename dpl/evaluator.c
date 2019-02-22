@@ -14,6 +14,41 @@
 #include "environment.h"
 #include "evaluator.h"
 
+static LEXEME *eval(LEXEME *, LEXEME *);
+static LEXEME *evalUNot(LEXEME *, LEXEME *);
+static LEXEME *evalUMinus(LEXEME *, LEXEME *);
+static LEXEME *evalPlus(LEXEME *, LEXEME *);
+static LEXEME *evalMinus(LEXEME *, LEXEME *);
+static LEXEME *evalMultiply(LEXEME *, LEXEME *);
+static LEXEME *evalDivide(LEXEME *, LEXEME *);
+static LEXEME *evalNot(LEXEME *, LEXEME *);
+static LEXEME *evalCe(LEXEME *, LEXEME *);
+static LEXEME *evalLt(LEXEME *, LEXEME *);
+static LEXEME *evalLte(LEXEME *, LEXEME *);
+static LEXEME *evalGt(LEXEME *, LEXEME *);
+static LEXEME *evalGte(LEXEME *, LEXEME *);
+static LEXEME *evalMod(LEXEME *, LEXEME *);
+static LEXEME *evalAnd(LEXEME *, LEXEME *);
+static LEXEME *evalOr(LEXEME *, LEXEME *);
+static LEXEME *evalAssign(LEXEME *, LEXEME *);
+static LEXEME *evalBlock(LEXEME *, LEXEME *);
+static LEXEME *evalVarDef(LEXEME *, LEXEME *);
+static LEXEME *evalFuncDef(LEXEME *, LEXEME *);
+static LEXEME *getClosureParams(LEXEME *);
+static LEXEME *getClosureBody(LEXEME *);
+static LEXEME *getClosureEnvironment(LEXEME *);
+static LEXEME *evalPrint(LEXEME *, LEXEME *);
+static LEXEME *evalFuncCall(LEXEME *, LEXEME *);
+static LEXEME *evalArgs(LEXEME *, LEXEME *);
+static LEXEME *evalParams(LEXEME *, LEXEME *);
+static LEXEME *evalStatements(LEXEME *, LEXEME *);
+static LEXEME *evalWhile(LEXEME *, LEXEME *);
+static LEXEME *evalIf(LEXEME *, LEXEME *);
+static LEXEME *evalElse(LEXEME *, LEXEME *);
+static LEXEME *evalReturn(LEXEME *, LEXEME *);
+static LEXEME *evalMoreProgram(LEXEME *, LEXEME *);
+static LEXEME *evalEnd(LEXEME *, LEXEME *);
+
 LEXEME *
 eval(LEXEME *tree, LEXEME *env)
 {
@@ -31,10 +66,7 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == VARIABLE_EXPR)
     {
-        eval(getLeft(tree), env);
-        printf("[");
-        eval(getRight(tree), env);
-        printf("]\n");
+        return evalFuncCall(tree, env);
     }
     else if (getType(tree) == STRING)
     { 
@@ -121,60 +153,35 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == PRINT)
     {
-        printf("print");
-        printf("[");
-        eval(getRight(tree), env);
-        printf("]\n");
+        return evalPrint(getRight(tree), env);
     }
     else if (getType(tree) == IF)
     {
-        printf("if ");
-        printf("[");
-        eval(getLeft(tree), env);
-        printf("]\n");
-        eval(getRight(tree), env);
+        return evalIf(tree, env);
     }
     else if (getType(tree) == ELSE)
     {
-        printf("else \n");
-        eval(getRight(tree), env);
+        return evalElse(tree, env);
     }
     else if (getType(tree) == WHILE)
     {
-        printf("while ");
-        printf("[");
-        eval(getLeft(tree), env);
-        printf("]\n");
-        eval(getRight(tree), env);
+        return evalWhile(tree, env);
     }
     else if (getType(tree) == RETURN)
     {
         return evalReturn(tree, env);
     }
-
     else if (getType(tree) == MOREPROGRAM)
     {
         return evalMoreProgram(tree, env);
     }
     else if (getType(tree) == VAR)
     {
-        printf("var ");
-        eval(getLeft(tree), env);
-        eval(getRight(tree), env);
-        printf("\n");
+        return evalVarDef(tree, env);
     }
     else if (getType(tree) == FUNC)
     {
-        eval(getLeft(tree), env);
-        eval(getRight(tree), env);
-    }
-    else if (getType(tree) == FUNCDEF)
-    {
-        printf("func ");
-        eval(getLeft(tree), env);
-        printf("[");
-        eval(getRight(tree), env);
-        printf("]\n");
+        return evalFuncDef(tree, env);
     }
     else if (getType(tree) == ARGLIST)
     {
@@ -187,11 +194,6 @@ eval(LEXEME *tree, LEXEME *env)
     else if (getType(tree) == STATEMENTS)
     {
         return evalStatements(tree, env);
-    }
-    else if (getType(tree) == IFJOIN)
-    {
-        eval(getLeft(tree), env);
-        eval(getRight(tree), env);
     }
     else if (getType(tree) == ENDofINPUT)
     {
@@ -1105,7 +1107,7 @@ evalBlock(LEXEME *tree, LEXEME *env)
 }
 
 LEXEME *
-evalFuncDef(LEXEME *tree, LEXEME *env)
+evalVarDef(LEXEME *tree, LEXEME *env)
 {
     LEXEME *closure = cons(CLOSURE, env, tree);
     insert(getLeft(tree), closure, env);
@@ -1113,16 +1115,78 @@ evalFuncDef(LEXEME *tree, LEXEME *env)
 }
 
 LEXEME *
+evalFuncDef(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *closure = cons(CLOSURE, env, tree);
+    insert(getLeft(getLeft(tree)), closure, env);
+    return closure;
+}
+
+LEXEME *
+getClosureParams(LEXEME *closure)
+{
+    if (closure == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        return getRight(getLeft(getRight(closure)));
+    }
+}
+
+LEXEME *
+getClosureBody(LEXEME *closure)
+{
+    if (closure == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        return getRight(getRight(closure));
+    }
+}
+
+LEXEME *
+getClosureEnvironment(LEXEME *closure)
+{
+    if (closure == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        return getLeft(closure);
+    }
+}
+
+LEXEME *
+evalPrint(LEXEME *argList, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(argList);
+
+    while (evaluatedArgList != 0)
+    {
+        display(getLeft(evaluatedArgList));
+        evaluatedArgList = getRight(evaluatedArgList);
+    }
+
+    return evaluatedArgList;
+}
+
+LEXEME *
 evalFuncCall(LEXEME *tree, LEXEME *env)
 {
-    LEXEME *closure = eval(getLeft(tree), env);
+    LEXEME *name = lookup(getLeft(tree), env);
     LEXEME *args = getRight(tree);
-    var params = getClosureParams(closure);
-    var body = getClosureBody(closure);
-    var senv = getClosureEnvironment(closure);
-    LEXEME *eargs = evalArgs(args, env);
+    LEXEME *eargs = evalArgs(args, env);    
+    LEXEME *closure = eval(name, env);
+    LEXEME *params = getClosureParams(closure);
+    LEXEME *body = getClosureBody(closure);
+    LEXEME *senv = getClosureEnvironment(closure);
     LEXEME *xenv = extend(params, eargs, senv);
-    
+
     return eval(body,xenv);
 }
 
@@ -1166,6 +1230,43 @@ evalStatements(LEXEME *tree, LEXEME *env)
     {
         return cons(GLUE, eval(getLeft(tree), env), evalStatements(getRight(tree), env));
     }
+}
+
+LEXEME *
+evalWhile(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *whileExpr = getLeft(tree);
+    LEXEME *block = getRight(tree); 
+
+    while(getIntegerToken(eval(whileExpr, env)) == 1)
+    {
+        block = evalBlock(block);
+    }
+
+    return block;
+}
+
+
+LEXEME *
+evalIf(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *expr = eval(getLeft(tree), env);
+    if (getIntegerToken(expr) == 1)
+    {
+        LEXEME *block = evalBlock(getLeft(getRight(tree)), env);
+        return block;
+    }
+    else
+    {
+        LEXEME *elses = evalElse(tree, env);
+        return elses;
+    }
+}
+
+LEXEME *
+evalElse(LEXEME *tree, LEXEME *env)
+{
+    return eval(getRight(tree), env);
 }
 
 LEXEME *

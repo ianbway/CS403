@@ -2,8 +2,8 @@
 # makefile for pretty printer
 
 DPL_OBJS = types.o lexeme.o lexer.o recognizer.o evaluator.o main.o
-OPTS = -Wall -Wextra -std=c99 -g -c
-LOPTS = -Wall -Wextra -std=c99 -g
+OPTS = -Wall -Wextra -std=c99 -g -lm -c
+LOPTS = -Wall -Wextra -std=c99 -g -lm
 CC = gcc
 
 all : dpl

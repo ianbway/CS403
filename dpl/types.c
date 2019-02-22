@@ -54,3 +54,6 @@ char *VARIABLE_EXPR = "VARIABLE_EXPR";
 
 char *CLOSURE = "CLOSURE";
 char *GLUE = "GLUE";
+char *NEW_ARRAY = "NEW_ARRAY";
+char *GET_ARRAY = "GET_ARRAY";
+char *SET_ARRAY = "SET_ARRAY";
