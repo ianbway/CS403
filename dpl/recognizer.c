@@ -111,6 +111,21 @@ unary()
         match(CLOSE_BRACKET);
         return cons(SET_ARRAY, cons(GLUE, tree, value), index);
     }
+    else if (check(GET_ARGC))
+    {
+        tree = match(GET_ARGC):
+        match(OPEN_BRACKET);
+        match(CLOSE_BRACKET);
+        return tree;
+    }
+    else if (check(GET_ARG))
+    {
+        match(GET_ARG);
+        match(OPEN_BRACKET);
+        tree = unary();
+        match(CLOSE_BRACKET);
+        return cons(GET_ARG, NULL, tree);
+    }
     else if (check(PRINT))
     {
         match(PRINT);

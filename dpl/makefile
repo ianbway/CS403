@@ -32,7 +32,7 @@ main.o : main.c
 clean : 
 	rm -f $(DPL_OBJS) ./types ./lexeme ./lexer ./recognizer ./evaluator
 
-test1 : pp
+test1 : dpl
 	@echo ""
 	@echo Original file:
 	@cat test1.e
@@ -48,7 +48,7 @@ test1 : pp
 	@cat test1.pp.2
 	diff -s -q test1.pp.1 test1.pp.2
 
-test2 : pp
+test2 : dpl
 	@echo ""
 	@echo Original file:
 	@cat test2.e
@@ -64,7 +64,7 @@ test2 : pp
 	@cat test2.pp.2
 	diff -s -q test2.pp.1 test2.pp.2
 
-test3 : pp
+test3 : dpl
 	@echo ""
 	@echo Original file:
 	@cat test3.e
@@ -80,7 +80,7 @@ test3 : pp
 	@cat test3.pp.2
 	diff -s -q test3.pp.1 test3.pp.2
 
-run : pp
+run : dpl
 	@echo ""
 	@echo "TEST 1: "
 	@echo Original file:
@@ -127,7 +127,7 @@ run : pp
 	@cat test3.pp.2
 	diff -s -q test3.pp.1 test3.pp.2
 
-test : pp
+test : dpl
 	@echo ""
 	@echo "TEST 1: "
 	@echo Original file:

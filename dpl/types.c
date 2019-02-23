@@ -58,3 +58,5 @@ char *NEW_ARRAY = "NEW_ARRAY";
 char *GET_ARRAY = "GET_ARRAY";
 char *SET_ARRAY = "SET_ARRAY";
 char *LAMBDA = "LAMBDA";
+char *GET_ARGC = "GET_ARGC";
+char *GET_ARG = "GET_ARG";

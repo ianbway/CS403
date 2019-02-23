@@ -57,3 +57,5 @@ extern char *NEW_ARRAY;
 extern char *GET_ARRAY;
 extern char *SET_ARRAY;
 extern char *LAMBDA;
+extern char *GET_ARGC;
+extern char *GET_ARG;

@@ -12,9 +12,15 @@
 #include "environment.h"
 #include "evaluator.h"
 
+int countCL;
+char **argsCL;
+
 int 
 main(int argc,char *argv[]) 
 {
+    countCL = argc;
+    argsCL = argv;
+
     if (argc != 2)
     {
         fprintf(stderr,"Needs file as argument\n"); 

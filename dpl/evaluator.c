@@ -41,6 +41,10 @@ static LEXEME *getClosureEnvironment(LEXEME *);
 static LEXEME *evalAt(LEXEME *, LEXEME *);
 static LEXEME *evalGa(LEXEME *, LEXEME *);
 static LEXEME *evalSa(LEXEME *, LEXEME *);
+static LEXEME *evalGetArgCountWrapper(LEXEME *, LEXEME *);
+static LEXEME *evalGetArgCount(LEXEME *);
+static LEXEME *evalGetArgWrapper(LEXEME *, LEXEME *);
+static LEXEME *evalGetArg(LEXEME *);
 static LEXEME *evalPrint(LEXEME *, LEXEME *);
 static LEXEME *evalFuncCall(LEXEME *, LEXEME *);
 static LEXEME *evalArgs(LEXEME *, LEXEME *);
@@ -163,6 +167,14 @@ eval(LEXEME *tree, LEXEME *env)
     {
         return evalSa(tree, env);
     }
+    else if (getType(tree) == GET_ARGC)
+    {
+        return evalGetArgCountWrapper(tree, env);
+    }
+    else if (getType(tree) == GET_ARG)
+    {
+        return evalGetArgWrapper(tree, env);
+    }
     else if (getType(tree) == PRINT)
     {
         return evalPrint(getRight(tree), env);
@@ -198,7 +210,7 @@ eval(LEXEME *tree, LEXEME *env)
     else if (getType(tree) == LAMBDA)
     {
         return evalLambda(tree, env);
-    
+    }
     else if (getType(tree) == ARGLIST)
     {
         return evalArgs(tree, env);
@@ -1383,4 +1395,35 @@ evalSetArray(LEXEME *evaluatedArgList)
     int index = getIntegerToken(i);
     aval[index] = v;
     return v;                      //could also return the previous value
+}
+
+LEXEME *
+evalGetArgCountWrapper(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalGetArgCount(evaluatedArgList);
+}
+
+LEXEME *
+evalGetArgCount(LEXEME *evaluatedArgList)
+{
+    LEXEME *count = newLexeme(INTEGER, NULL);
+    setIntegerToken(count, countCL);
+    return count;
+}
+
+LEXEME *
+evalGetArgWrapper(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalGetArg(evaluatedArgList);
+}
+
+LEXEME *
+evalGetArg(LEXEME *evaluatedArgList)
+{
+    LEXEME *index = cdr(evaluatedArgList);
+    LEXEME *argV = newLexeme(STRING, NULL);
+    setStringToken(argV, argsCL[getIntegerToken(index)]);
+    return argV;
 }
