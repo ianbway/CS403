@@ -119,6 +119,15 @@ unary()
         match(CLOSE_BRACKET);
         return cons(PRINT, NULL, tree);
     }
+    else if (check(LAMBDA))
+    {
+        match(LAMBDA);
+        match(OPEN_BRACKET);
+        tree = optParamList();
+        match(CLOSE_BRACKET);
+        LEXEME *bl = block();
+        return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
+    }
     else
     { 
         match(OPEN_BRACKET); 

@@ -56,3 +56,4 @@ extern char *GLUE;
 extern char *NEW_ARRAY;
 extern char *GET_ARRAY;
 extern char *SET_ARRAY;
+extern char *LAMBDA;

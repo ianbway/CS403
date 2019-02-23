@@ -34,6 +34,7 @@ static LEXEME *evalAssign(LEXEME *, LEXEME *);
 static LEXEME *evalBlock(LEXEME *, LEXEME *);
 static LEXEME *evalVarDef(LEXEME *, LEXEME *);
 static LEXEME *evalFuncDef(LEXEME *, LEXEME *);
+static LEXEME *evalLambda(LEXEME *, LEXEME *);
 static LEXEME *getClosureParams(LEXEME *);
 static LEXEME *getClosureBody(LEXEME *);
 static LEXEME *getClosureEnvironment(LEXEME *);
@@ -194,6 +195,10 @@ eval(LEXEME *tree, LEXEME *env)
     {
         return evalFuncDef(tree, env);
     }
+    else if (getType(tree) == LAMBDA)
+    {
+        return evalLambda(tree, env);
+    
     else if (getType(tree) == ARGLIST)
     {
         return evalArgs(tree, env);
@@ -1134,6 +1139,12 @@ evalFuncDef(LEXEME *tree, LEXEME *env)
 }
 
 LEXEME *
+evalLambda(LEXEME *tree, LEXEME *env)
+{
+    return cons(CLOSURE, env, tree);
+}
+
+LEXEME *
 getClosureParams(LEXEME *closure)
 {
     if (closure == NULL)
@@ -1338,7 +1349,11 @@ evalGetArray(LEXEME *evaluatedArgList)
     assert(cdr(cdr(evaluatedArgList)) == NULL);
     LEXEME *a = car(evaluatedArgList);
     LEXEME *i = car(cdr(evaluatedArgList));
+    
     //check for valid types here
+    assert(getType(a) == AT);
+    assert(getType(i) == INTEGER);
+
     LEXEME **aval = getAvalToken(a);
     int index = getIntegerToken(i);
     return aval[index];
@@ -1358,7 +1373,12 @@ evalSetArray(LEXEME *evaluatedArgList)
     LEXEME *a = car(evaluatedArgList);
     LEXEME *i = car(cdr(evaluatedArgList));
     LEXEME *v = car(cdr(cdr(evaluatedArgList)));
+    
     //check for valid types here
+    assert(getType(a) == AT);
+    assert(getType(i) == INTEGER);
+    assert(getType(v) != NULL);
+
     LEXEME **aval = getAvalToken(a);
     int index = getIntegerToken(i);
     aval[index] = v;

@@ -112,6 +112,8 @@ lexVariableOrKeyword(LEXER *lex)
         return newLexeme(VAR, NULL);
     else if (strcmp(token,"func") == 0) 
         return newLexeme(FUNC, NULL);
+    else if (strcmp(token,"lambda") == 0) 
+        return newLexeme(LAMBDA, NULL);
     else if (strcmp(token,"return") == 0) 
         return newLexeme(RETURN, NULL);
     else if (strcmp(token,"print") == 0) 
