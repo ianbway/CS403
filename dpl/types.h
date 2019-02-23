@@ -59,3 +59,8 @@ extern char *SET_ARRAY;
 extern char *LAMBDA;
 extern char *GET_ARGC;
 extern char *GET_ARG;
+extern char *FILE_POINTER;
+extern char *OPEN_FILE_FOR_READING;
+extern char *READ_INTEGER;
+extern char *AT_FILE_END;
+extern char *CLOSE_FILE;

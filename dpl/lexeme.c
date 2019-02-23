@@ -18,6 +18,7 @@ struct LEXEME
     LEXEME **aval;
     LEXEME *left;
     LEXEME *right;
+    FILE *fp;
 };
 
 LEXEME *
@@ -124,6 +125,20 @@ getAvalToken(LEXEME *lex)
     }
 }
 
+FILE *
+getFileToken(LEXEME *lex)
+{
+    if ((lex != NULL)) 
+    {
+        return lex->fp;
+    }
+
+    else
+    {
+        return NULL;
+    }
+}
+
 void
 setStringToken(LEXEME *lex, char *setToThis)
 {
@@ -146,6 +161,12 @@ void
 setAvalToken(LEXEME *lex, int slots)
 {
     lex->aval = malloc(sizeof(struct LEXEME *) * slots);
+}
+
+void
+setFileToken(LEXEME *lex, FILE *file)
+{
+    lex->fp = file;
 }
 
 LEXEME *

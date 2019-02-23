@@ -59,6 +59,14 @@ static LEXEME *evalEnd(LEXEME *, LEXEME *);
 static LEXEME *evalNewArray(LEXEME *);
 static LEXEME *evalGetArray(LEXEME *);
 static LEXEME *evalSetArray(LEXEME *);
+static LEXEME *evalOpenFileForReadingWrapper(LEXEME *, LEXEME *);
+static LEXEME *evalOpenFileForReading(LEXEME *);
+static LEXEME *evalReadIntegerWrapper(LEXEME *, LEXEME *);
+static LEXEME *evalReadInteger(LEXEME *);
+static LEXEME *evalAtFileEndWrapper(LEXEME *, LEXEME *);
+static LEXEME *evalAtFileEnd(LEXEME *);
+static LEXEME *evalCloseFileWrapper(LEXEME *, LEXEME *);
+static LEXEME *evalCloseFile(LEXEME *);
 
 LEXEME *
 eval(LEXEME *tree, LEXEME *env)
@@ -1426,4 +1434,78 @@ evalGetArg(LEXEME *evaluatedArgList)
     LEXEME *argV = newLexeme(STRING, NULL);
     setStringToken(argV, argsCL[getIntegerToken(index)]);
     return argV;
+}
+
+LEXEME *
+evalOpenFileForReadingWrapper(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalOpenFileForReading(evaluatedArgList);
+}
+
+LEXEME *
+evalOpenFileForReading(LEXEME *evaluatedArgList)
+{
+    LEXEME *fileName = cdr(evaluatedArgList);
+    assert(getType(fileName) == STRING);
+    LEXEME *fp = newLexeme(FILE_POINTER, NULL);
+    setFileToken(fp, fopen(getStringToken(fileName), "r"));
+    assert(getFileToken(fp) != NULL);
+    return fp;
+}
+
+LEXEME *
+evalReadIntegerWrapper(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalReadInteger(evaluatedArgList);
+}
+
+LEXEME *
+evalReadInteger(LEXEME *evaluatedArgList)
+{
+    FILE *filePointer = getFileToken(cdr(evaluatedArgList));
+    assert(filePointer != NULL);
+    int x = fscanf(filePointer, "%d"); 
+    LEXEME *returnLex = newLexeme(INTEGER, NULL);
+    setIntegerToken(returnLex, x);
+    return returnLex;
+}
+
+LEXEME *
+evalAtFileEndWrapper(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalAtFileEnd(evaluatedArgList);
+}
+
+LEXEME *
+evalAtFileEnd(LEXEME *evaluatedArgList)
+{
+    FILE *filePointer = getFileToken(cdr(evaluatedArgList));
+    assert(filePointer != NULL);
+    if (feof(filePointer))
+    {
+        return newLexeme(INTEGER, "1");
+    }
+    else
+    {
+        return newLexeme(INTEGER, "0");
+    }
+}
+
+LEXEME *
+evalCloseFileWrapper(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalOpenFileForReading(evaluatedArgList);
+}
+
+LEXEME *
+evalCloseFile(LEXEME *evaluatedArgList)
+{
+    FILE *filePointer = getFileToken(cdr(evaluatedArgList));
+    assert(filePointer != NULL);
+    fclose(filePointer);
+    return newLexeme(INTEGER, "1");
 }

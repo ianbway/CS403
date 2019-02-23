@@ -143,6 +143,38 @@ unary()
         LEXEME *bl = block();
         return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
     }
+    else if (check(OPEN_FILE_FOR_READING))
+    {
+        match(OPEN_FILE_FOR_READING);
+        match(OPEN_BRACKET);
+        tree = argList();
+        match(CLOSE_BRACKET);
+        return cons(OPEN_FILE_FOR_READING, NULL, tree);
+    }
+    else if (check(READ_INTEGER))
+    {
+        match(READ_INTEGER);
+        match(OPEN_BRACKET);
+        tree = argList();
+        match(CLOSE_BRACKET);
+        return cons(READ_INTEGER, NULL, tree);
+    }
+    else if (check(AT_FILE_END))
+    {
+        match(AT_FILE_END);
+        match(OPEN_BRACKET);
+        tree = argList();
+        match(CLOSE_BRACKET);
+        return cons(AT_FILE_END, NULL, tree);
+    }
+    else if (check(CLOSE_FILE)
+    {
+        match(CLOSE_FILE);
+        match(OPEN_BRACKET);
+        tree = argList();
+        match(CLOSE_BRACKET);
+        return cons(CLOSE_BRACKET, NULL, tree);
+    }
     else
     { 
         match(OPEN_BRACKET); 
