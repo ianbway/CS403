@@ -37,21 +37,18 @@ newLexeme(char *type, char *token)
     if (lexeme->type == INTEGER)
     {
         lexeme->integer = atoi(token);
-        lexeme->aval = malloc(sizeof(struct LEXEME *) * sizeof(int));
     }
 
     //real, convert string to float
     else if (lexeme->type == REAL)
     {
         lexeme->real = atof(token);
-        lexeme->aval = malloc(sizeof(struct LEXEME *) * sizeof(double));
     }
 
     //string or variable, or anything else
     else
     {
         lexeme->string = token;
-        lexeme->aval = malloc(sizeof(struct LEXEME *) * sizeof(char *));
     }
 
     return lexeme;
@@ -113,6 +110,20 @@ getRealToken(LEXEME *lex)
     }
 }
 
+LEXEME **
+getAvalToken(LEXEME *lex)
+{
+    if ((lex != NULL)) 
+    {
+        return lex->aval;
+    }
+
+    else
+    {
+        return NULL;
+    }
+}
+
 void
 setStringToken(LEXEME *lex, char *setToThis)
 {
@@ -129,6 +140,12 @@ void
 setRealToken(LEXEME *lex, double setToThis)
 {
     lex->real = setToThis;
+}
+
+void
+setAvalToken(LEXEME *lex, int slots)
+{
+    lex->aval = malloc(sizeof(struct LEXEME *) * slots);
 }
 
 LEXEME *

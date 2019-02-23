@@ -1320,8 +1320,8 @@ evalNewArray(LEXEME *evaluatedArgList)
     LEXEME *size = car(evaluatedArgList);
     assert(getType(size) == INTEGER);          //ensure an integer argument
     LEXEME *a = newLexeme(AT, NULL);
-    a.aval = newLexeme[size.ival];        //allocate the array
-    assert(a.aval != NULL);                //ensure a good allocation
+    setAvalToken(a, getIntegerToken(size));  //allocate the array     
+    assert(getAvalToken(a) != NULL);                //ensure a good allocation
     return a;
 }
 
@@ -1339,7 +1339,9 @@ evalGetArray(LEXEME *evaluatedArgList)
     LEXEME *a = car(evaluatedArgList);
     LEXEME *i = car(cdr(evaluatedArgList));
     //check for valid types here
-    return a.aval[i.ival];
+    LEXEME **aval = getAvalToken(a);
+    int index = getIntegerToken(i);
+    return aval[index];
 }
 
 LEXEME *
@@ -1357,6 +1359,8 @@ evalSetArray(LEXEME *evaluatedArgList)
     LEXEME *i = car(cdr(evaluatedArgList));
     LEXEME *v = car(cdr(cdr(evaluatedArgList)));
     //check for valid types here
-    a.aval[i.ival] = v;
+    LEXEME **aval = getAvalToken(a);
+    int index = getIntegerToken(i);
+    aval[index] = v;
     return v;                      //could also return the previous value
 }
