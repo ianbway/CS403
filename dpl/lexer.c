@@ -120,6 +120,12 @@ lexVariableOrKeyword(LEXER *lex)
         return newLexeme(OR, NULL);
     else if (strcmp(token,"and") == 0) 
         return newLexeme(AND, NULL);
+    else if (strcmp(token,"newArray") == 0) 
+        return newLexeme(AT, NULL);
+    else if (strcmp(token,"getArray") == 0) 
+        return newLexeme(GET_ARRAY, NULL);
+    else if (strcmp(token,"setArray") == 0) 
+        return newLexeme(SET_ARRAY, NULL);
         //more keyword testing here
     else //must be a variable!
         return newLexeme(VARIABLE,token);

@@ -37,6 +37,9 @@ static LEXEME *evalFuncDef(LEXEME *, LEXEME *);
 static LEXEME *getClosureParams(LEXEME *);
 static LEXEME *getClosureBody(LEXEME *);
 static LEXEME *getClosureEnvironment(LEXEME *);
+static LEXEME *evalAt(LEXEME *, LEXEME *);
+static LEXEME *evalGa(LEXEME *, LEXEME *);
+static LEXEME *evalSa(LEXEME *, LEXEME *);
 static LEXEME *evalPrint(LEXEME *, LEXEME *);
 static LEXEME *evalFuncCall(LEXEME *, LEXEME *);
 static LEXEME *evalArgs(LEXEME *, LEXEME *);
@@ -48,6 +51,9 @@ static LEXEME *evalElse(LEXEME *, LEXEME *);
 static LEXEME *evalReturn(LEXEME *, LEXEME *);
 static LEXEME *evalMoreProgram(LEXEME *, LEXEME *);
 static LEXEME *evalEnd(LEXEME *, LEXEME *);
+static LEXEME *evalNewArray(LEXEME *);
+static LEXEME *evalGetArray(LEXEME *);
+static LEXEME *evalSetArray(LEXEME *);
 
 LEXEME *
 eval(LEXEME *tree, LEXEME *env)
@@ -146,10 +152,15 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == AT)
     {
-        printf("@");
-        printf("[");
-        eval(getRight(tree), env);
-        printf("]\n");
+        return evalAt(getRight(tree), env);
+    }
+    else if (getType(tree) == GET_ARRAY)
+    {
+        return evalGa(tree, env);
+    }
+    else if (getType(tree) == SET_ARRAY)
+    {
+        return evalSa(tree, env);
     }
     else if (getType(tree) == PRINT)
     {
@@ -1293,4 +1304,59 @@ LEXEME *
 evalEnd(LEXEME *tree, LEXEME *env)
 {
     return eval(getLeft(tree), env);
+}
+
+LEXEME *
+evalAt(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalNewArray(evaluatedArgList);
+}
+
+LEXEME *
+evalNewArray(LEXEME *evaluatedArgList)
+{
+    assert(cdr(evaluatedArgList) == NULL)  //ensure only one argument
+    LEXEME *size = car(evaluatedArgList);
+    assert(getType(size) == INTEGER);          //ensure an integer argument
+    LEXEME *a = newLexeme(AT, NULL);
+    a.aval = newLexeme[size.ival];        //allocate the array
+    assert(a.aval != NULL);                //ensure a good allocation
+    return a;
+}
+
+LEXEME *
+evalGa(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalGetArray(evaluatedArgList);
+}
+
+LEXEME *
+evalGetArray(LEXEME *evaluatedArgList)
+{
+    assert(cdr(cdr(evaluatedArgList)) == NULL);
+    LEXEME *a = car(evaluatedArgList);
+    LEXEME *i = car(cdr(evaluatedArgList));
+    //check for valid types here
+    return a.aval[i.ival];
+}
+
+LEXEME *
+evalSa(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *evaluatedArgList = evalArgs(tree, env);
+    return evalSetArray(evaluatedArgList);
+}
+
+LEXEME *
+evalSetArray(LEXEME *evaluatedArgList)
+{
+    assert(cdr(cdr(cdr(evaluatedArgList))) == NULL);
+    LEXEME *a = car(evaluatedArgList);
+    LEXEME *i = car(cdr(evaluatedArgList));
+    LEXEME *v = car(cdr(cdr(evaluatedArgList)));
+    //check for valid types here
+    a.aval[i.ival] = v;
+    return v;                      //could also return the previous value
 }

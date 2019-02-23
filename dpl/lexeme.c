@@ -37,18 +37,21 @@ newLexeme(char *type, char *token)
     if (lexeme->type == INTEGER)
     {
         lexeme->integer = atoi(token);
+        lexeme->aval = malloc(sizeof(struct LEXEME *) * sizeof(int));
     }
 
     //real, convert string to float
     else if (lexeme->type == REAL)
     {
         lexeme->real = atof(token);
+        lexeme->aval = malloc(sizeof(struct LEXEME *) * sizeof(double));
     }
 
     //string or variable, or anything else
     else
     {
         lexeme->string = token;
+        lexeme->aval = malloc(sizeof(struct LEXEME *) * sizeof(char *));
     }
 
     return lexeme;

@@ -89,6 +89,28 @@ unary()
         match(CLOSE_BRACKET);
         return cons(AT, NULL, tree);
     }
+    else if (check(GET_ARRAY))
+    {
+        match(GET_ARRAY);
+        match(OPEN_BRACKET);
+        tree = match(VARIABLE);
+        match(BAR);
+        LEXEME *index = unary();
+        match(CLOSE_BRACKET);
+        return cons(GET_ARRAY, tree, index);
+    }
+    else if (check(SET_ARRAY))
+    {
+        match(SET_ARRAY);
+        match(OPEN_BRACKET);
+        tree = match(VARIABLE);
+        match(BAR);
+        LEXEME *index = unary();
+        match(BAR);
+        LEXEME *value = unary();
+        match(CLOSE_BRACKET);
+        return cons(SET_ARRAY, cons(GLUE, tree, value), index);
+    }
     else if (check(PRINT))
     {
         match(PRINT);
