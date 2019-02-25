@@ -33,7 +33,7 @@ main.o : main.c
 	$(CC) $(OPTS) main.c
 
 clean : 
-	rm -f $(DPL_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment ./evaluator
+	rm -f $(DPL_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment ./evaluator ./dpl
 
 problem : 
 	@echo ""

@@ -21,7 +21,8 @@ operator : PLUS |
            GREATER_THAN_EQUAL |
            MODULO |
            OR |
-           AND
+           AND |
+           DOT
 
 unary : INTEGER |
         REAL |

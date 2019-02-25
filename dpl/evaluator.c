@@ -1211,6 +1211,7 @@ evalFuncDef(LEXEME *tree, LEXEME *env)
 {
     LEXEME *closure = cons(CLOSURE, env, tree);
     insert(getLeft(getLeft(tree)), closure, env);
+    printf("inserted: %s\n", getStringToken(getLeft(getLeft(tree))));
     return closure;
 }
 
@@ -1277,6 +1278,7 @@ LEXEME *
 evalFuncCall(LEXEME *tree, LEXEME *env)
 {
     LEXEME *name = lookup(getLeft(tree), env);
+    printf("lookup passed\n");
     LEXEME *args = getRight(tree);
     LEXEME *eargs = evalArgs(args, env);    
     LEXEME *closure = eval(name, env);
