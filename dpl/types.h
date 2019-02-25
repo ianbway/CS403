@@ -64,3 +64,4 @@ extern char *OPEN_FILE_FOR_READING;
 extern char *READ_INTEGER;
 extern char *AT_FILE_END;
 extern char *CLOSE_FILE;
+extern char *DOT;

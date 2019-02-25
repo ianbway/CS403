@@ -31,6 +31,7 @@ static LEXEME *evalMod(LEXEME *, LEXEME *);
 static LEXEME *evalAnd(LEXEME *, LEXEME *);
 static LEXEME *evalOr(LEXEME *, LEXEME *);
 static LEXEME *evalAssign(LEXEME *, LEXEME *);
+static LEXEME *evalDot(LEXEME *, LEXEME*);
 static LEXEME *evalBlock(LEXEME *, LEXEME *);
 static LEXEME *evalVarDef(LEXEME *, LEXEME *);
 static LEXEME *evalFuncDef(LEXEME *, LEXEME *);
@@ -157,6 +158,10 @@ eval(LEXEME *tree, LEXEME *env)
     else if (getType(tree) == EQUAL)
     {
         return evalAssign(tree, env);
+    }
+    else if (getType(tree) == DOT)
+    {
+        return evalDot(tree, env);
     }
     else if (getType(tree) == COMPARE_EQUAL)
     {
@@ -1153,8 +1158,31 @@ LEXEME *
 evalAssign(LEXEME *tree, LEXEME *env)
 {
     LEXEME *value = eval(getRight(tree), env);
-    update(getLeft(tree), value, env);
+    if (getType(getLeft(tree)) == VARIABLE)
+    {
+        update(getLeft(tree), value, env);
+    }
+
+    else if (getType(getLeft(tree)) == DOT)
+    {
+        LEXEME *object = eval(getLeft(getLeft(tree)), env);
+        update(getLeft(getRight(tree)), value, object);
+    }
+
+    else
+    {
+        printf("bad assignment!\n");
+        exit(1);
+    }
+
     return value;
+}
+
+LEXEME *
+evalDot(LEXEME *tree, LEXEME *env)
+{
+    LEXEME *object = eval(getLeft(tree), env);
+    return eval(getRight(tree), object); // objects == environments!
 }
 
 LEXEME *

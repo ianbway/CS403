@@ -39,80 +39,96 @@ problem :
 	@echo ""
 	@cat testSum.e
 	@echo ""
+	@echo ""
 
 problemx : dpl
 	@echo ""
 	@./dpl testSum.e
+	@echo ""
 	@echo ""
 
 arrays : 
 	@echo ""
 	@cat arrays.e
 	@echo ""
+	@echo ""
 
 arraysx : dpl
 	@echo ""
 	@./dpl arrays.e
+	@echo ""
 	@echo ""
 
 conditionals :
 	@echo ""
 	@cat conditionals.e
 	@echo ""
+	@echo ""
 
 conditionalsx : dpl
 	@echo ""
 	@./dpl conditionals.e
+	@echo ""
 	@echo ""
 
 recursion :
 	@echo ""
 	@cat recursion.e
 	@echo ""
+	@echo ""
 
 recursionx : dpl
 	@echo ""
 	@./dpl recursion.e
+	@echo ""
 	@echo ""
 
 iteration :
 	@echo ""
 	@cat iteration.e
 	@echo ""
+	@echo ""
 
 iterationx : dpl
 	@echo ""
 	@./dpl iteration.e
+	@echo ""
 	@echo ""
 
 functions :
 	@echo ""
 	@cat functions.e
 	@echo ""
+	@echo ""
 
 functionsx: dpl
 	@echo ""
 	@./dpl functions.e
+	@echo ""
 	@echo ""
 
 lambda :
 	@echo ""
 	@cat lambda.e
 	@echo ""
+	@echo ""
 
 lambdax : dpl
 	@echo ""
 	@./dpl lambda.e
+	@echo ""
 	@echo ""
 
 objects :
 	@echo ""
 	@cat objects.e
 	@echo ""
+	@echo ""
 
 objectsx : dpl
 	@echo ""
 	@./dpl objects.e
+	@echo ""
 	@echo ""
 
 run : dpl

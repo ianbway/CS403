@@ -215,6 +215,10 @@ operator()
     {
         return match(EQUAL);
     }
+    else if (check(DOT))
+    {
+        return match(DOT);
+    }
     else if (check(COMPARE_EQUAL))
     {
         return match(COMPARE_EQUAL);
@@ -389,6 +393,15 @@ statement()
     else if (check(VAR))
     {
         return varDef();
+    }
+    else if (check(LAMBDA))
+    {
+        match(LAMBDA);
+        match(OPEN_BRACKET);
+        LEXEME *tree = optParamList();
+        match(CLOSE_BRACKET);
+        LEXEME *bl = block();
+        return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
     }
     else
     {
