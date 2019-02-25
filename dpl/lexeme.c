@@ -69,6 +69,15 @@ getType(LEXEME *lex)
     }
 }
 
+LEXEME *
+cons(char *type, LEXEME *left, LEXEME *right)
+{
+    LEXEME *consLex = newLexeme(type, NULL);
+    setLeft(consLex, left);
+    setRight(consLex, right);
+    return consLex;
+}
+
 char *
 getStringToken(LEXEME *lex)
 {

@@ -68,6 +68,17 @@ static LEXEME *evalAtFileEnd(LEXEME *);
 static LEXEME *evalCloseFileWrapper(LEXEME *, LEXEME *);
 static LEXEME *evalCloseFile(LEXEME *);
 
+int countCL;
+char **argsCL;
+
+LEXEME *
+evaluate(LEXEME *tree, LEXEME *env, int cCL, char **aCL)
+{
+    countCL = cCL;
+    argsCL = aCL;
+    return eval(tree, env);
+}
+
 LEXEME *
 eval(LEXEME *tree, LEXEME *env)
 {
@@ -183,6 +194,22 @@ eval(LEXEME *tree, LEXEME *env)
     {
         return evalGetArgWrapper(tree, env);
     }
+    else if (getType(tree) == OPEN_FILE_FOR_READING)
+    {
+        return evalOpenFileForReadingWrapper(tree, env);
+    }
+    else if (getType(tree) == READ_INTEGER)
+    {
+        return evalReadIntegerWrapper(tree, env);
+    }
+    else if (getType(tree) == AT_FILE_END)
+    {
+        return evalAtFileEndWrapper(tree, env);
+    }
+    else if (getType(tree) == CLOSE_FILE)
+    {
+        return evalCloseFileWrapper(tree, env);
+    }
     else if (getType(tree) == PRINT)
     {
         return evalPrint(getRight(tree), env);
@@ -237,11 +264,12 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == NULL)
     {
-        
+        return tree;
     }
     else 
     {
         printf("bad expression!\n"); 
+        return tree;
     }  
 }
 
@@ -266,6 +294,22 @@ evalUNot(LEXEME *tree, LEXEME *env)
         printf("EVALUATOR: incompatible UNOT operation.\n");
         exit(1);
     }
+}
+
+char *
+strrev(char *str)
+{
+      char *p1, *p2;
+
+      if (! str || ! *str)
+            return str;
+      for (p1 = str, p2 = str + strlen(str) - 1; p2 > p1; ++p1, --p2)
+      {
+            *p1 ^= *p2;
+            *p2 ^= *p1;
+            *p1 ^= *p2;
+      }
+      return str;
 }
 
 LEXEME *
@@ -297,6 +341,50 @@ evalUMinus(LEXEME *tree, LEXEME *env)
         printf("EVALUATOR: incompatible UMINUS operation.\n");
         exit(1);
     }
+}
+
+/**
+ * Ansi C "itoa" based on Kernighan & Ritchie's "Ansi C":
+ */
+    
+void 
+strreverse(char* begin, char* end) 
+{
+    char aux;
+    
+    while(end>begin)
+        aux=*end, *end--=*begin, *begin++=aux;
+}
+    
+void 
+itoa(int value, char* str, int base) 
+{
+    
+    static char num[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+    
+    char* wstr=str;
+    
+    int sign;
+    
+    // Validate base
+    
+    if (base<2 || base>35){ *wstr='\0'; return; }
+    
+    // Take care of sign
+    
+    if ((sign=value) < 0) value = -value;
+    
+    // Conversion. Number is reversed.
+    
+    do *wstr++ = num[value%base]; while(value/=base);
+    
+    if(sign<0) *wstr++='-';
+    
+    *wstr='\0';
+    
+    // Reverse string
+
+    strreverse(str,wstr-1);
 }
 
 LEXEME *
@@ -334,25 +422,29 @@ evalPlus(LEXEME *tree, LEXEME *env)
     else if ((getType(left) == INTEGER) && (getType(right) == STRING))
     {
         returnLex = newLexeme(STRING, NULL);
-        setStringToken(returnLex, strcat(itoa(getIntegerToken(left), buffer, 10), getStringToken(right)));
+        itoa(getIntegerToken(left), buffer, 10);
+        setStringToken(returnLex, strcat(buffer, getStringToken(right)));
         return returnLex;
     }
     else if ((getType(left) == STRING) && (getType(right) == INTEGER))
     {
         returnLex = newLexeme(STRING, NULL);
-        setStringToken(returnLex, strcat(getStringToken(left), itoa(getIntegerToken(right), buffer, 10)));
+        itoa(getIntegerToken(right), buffer, 10);
+        setStringToken(returnLex, strcat(getStringToken(left), buffer));
         return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == STRING))
     {
         returnLex = newLexeme(STRING, NULL);
-        setStringToken(returnLex, strcat(itoa(getRealToken(left), buffer, 10), getStringToken(right)));
+        itoa(getRealToken(left), buffer, 10);
+        setStringToken(returnLex, strcat(buffer, getStringToken(right)));
         return returnLex;
     }
     else if ((getType(left) == STRING) && (getType(right) == REAL))
     {
         returnLex = newLexeme(STRING, NULL);
-        setStringToken(returnLex, strcat(getStringToken(left), itoa(getRealToken(right), buffer, 10)));
+        itoa(getRealToken(right), buffer, 10);
+        setStringToken(returnLex, strcat(getStringToken(left), buffer));
         return returnLex;
     }
     else if ((getType(left) == STRING) && (getType(right) == STRING))
@@ -539,51 +631,19 @@ evalNot(LEXEME *tree, LEXEME *env)
     }
     else if ((getType(left) == INTEGER) && (getType(right) == STRING))
     {
-        if (getIntegerToken(left) != getStringToken(right))
-        {
-            return newLexeme(INTEGER, "1");
-        }
-
-        else
-        {
-            return newLexeme(INTEGER, "0");
-        }
+        return newLexeme(INTEGER, "1");
     }
     else if ((getType(left) == STRING) && (getType(right) == INTEGER))
     {
-        if (getStringToken(left) != getIntegerToken(right))
-        {
-            return newLexeme(INTEGER, "1");
-        }
-
-        else
-        {
-            return newLexeme(INTEGER, "0");
-        }
+        return newLexeme(INTEGER, "1");
     }
     else if ((getType(left) == REAL) && (getType(right) == STRING))
     {
-        if (getRealToken(left) != getStringToken(right))
-        {
-            return newLexeme(INTEGER, "1");
-        }
-
-        else
-        {
-            return newLexeme(INTEGER, "0");
-        }
+        return newLexeme(INTEGER, "1");
     }
     else if ((getType(left) == STRING) && (getType(right) == REAL))
     {
-        if (getStringToken(left) != getRealToken(right))
-        {
-            return newLexeme(INTEGER, "1");
-        }
-
-        else
-        {
-            return newLexeme(INTEGER, "0");
-        }
+        return newLexeme(INTEGER, "1");
     }
     else if ((getType(left) == STRING) && (getType(right) == STRING))
     {
@@ -660,51 +720,19 @@ evalCe(LEXEME *tree, LEXEME *env)
     }
     else if ((getType(left) == INTEGER) && (getType(right) == STRING))
     {
-        if (getIntegerToken(left) == getStringToken(right))
-        {
-            return newLexeme(INTEGER, "1");
-        }
-
-        else
-        {
-            return newLexeme(INTEGER, "0");
-        }
+        return newLexeme(INTEGER, "0");
     }
     else if ((getType(left) == STRING) && (getType(right) == INTEGER))
     {
-        if (getStringToken(left) == getIntegerToken(right))
-        {
-            return newLexeme(INTEGER, "1");
-        }
-
-        else
-        {
-            return newLexeme(INTEGER, "0");
-        }
+        return newLexeme(INTEGER, "0");
     }
     else if ((getType(left) == REAL) && (getType(right) == STRING))
     {
-        if (getRealToken(left) == getStringToken(right))
-        {
-            return newLexeme(INTEGER, "1");
-        }
-
-        else
-        {
-            return newLexeme(INTEGER, "0");
-        }
+        return newLexeme(INTEGER, "0");
     }
     else if ((getType(left) == STRING) && (getType(right) == REAL))
     {
-        if (getStringToken(left) == getRealToken(right))
-        {
-            return newLexeme(INTEGER, "1");
-        }
-
-        else
-        {
-            return newLexeme(INTEGER, "0");
-        }
+        return newLexeme(INTEGER, "0");
     }
     else if ((getType(left) == STRING) && (getType(right) == STRING))
     {
@@ -1133,7 +1161,7 @@ LEXEME *
 evalBlock(LEXEME *tree, LEXEME *env)
 {
     LEXEME *result;
-    while (tree = != NULL)
+    while (tree != NULL)
     {
         result = eval(getRight(tree), env);
         tree = getRight(getRight(tree));
@@ -1206,7 +1234,7 @@ getClosureEnvironment(LEXEME *closure)
 LEXEME *
 evalPrint(LEXEME *argList, LEXEME *env)
 {
-    LEXEME *evaluatedArgList = evalArgs(argList);
+    LEXEME *evaluatedArgList = evalArgs(argList, env);
 
     while (evaluatedArgList != 0)
     {
@@ -1228,6 +1256,9 @@ evalFuncCall(LEXEME *tree, LEXEME *env)
     LEXEME *body = getClosureBody(closure);
     LEXEME *senv = getClosureEnvironment(closure);
     LEXEME *xenv = extend(params, eargs, senv);
+
+    //insert a variable that points to xenv
+    insert(xenv, newLexeme(VARIABLE,"this"), xenv);
 
     return eval(body,xenv);
 }
@@ -1282,7 +1313,7 @@ evalWhile(LEXEME *tree, LEXEME *env)
 
     while(getIntegerToken(eval(whileExpr, env)) == 1)
     {
-        block = evalBlock(block);
+        block = evalBlock(block, env);
     }
 
     return block;
@@ -1347,7 +1378,7 @@ evalAt(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalNewArray(LEXEME *evaluatedArgList)
 {
-    assert(cdr(evaluatedArgList) == NULL)  //ensure only one argument
+    assert(cdr(evaluatedArgList) == NULL);  //ensure only one argument
     LEXEME *size = car(evaluatedArgList);
     assert(getType(size) == INTEGER);          //ensure an integer argument
     LEXEME *a = newLexeme(AT, NULL);
@@ -1466,7 +1497,8 @@ evalReadInteger(LEXEME *evaluatedArgList)
 {
     FILE *filePointer = getFileToken(cdr(evaluatedArgList));
     assert(filePointer != NULL);
-    int x = fscanf(filePointer, "%d"); 
+    int buf;
+    int x = fscanf(filePointer, "%d", &buf); 
     LEXEME *returnLex = newLexeme(INTEGER, NULL);
     setIntegerToken(returnLex, x);
     return returnLex;
@@ -1498,7 +1530,7 @@ LEXEME *
 evalCloseFileWrapper(LEXEME *tree, LEXEME *env)
 {
     LEXEME *evaluatedArgList = evalArgs(tree, env);
-    return evalOpenFileForReading(evaluatedArgList);
+    return evalCloseFile(evaluatedArgList);
 }
 
 LEXEME *

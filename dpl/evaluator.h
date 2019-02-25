@@ -11,4 +11,4 @@
 #include "recognizer.h"
 #include "environment.h"
 
-extern LEXEME *eval(LEXEME *, LEXEME *);
+extern LEXEME *evaluate(LEXEME *, LEXEME *, int cCL, char **aCL);

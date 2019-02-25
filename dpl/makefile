@@ -1,15 +1,15 @@
 # Ian Braudaway
-# makefile for pretty printer
+# makefile for dpl
 
-DPL_OBJS = types.o lexeme.o lexer.o recognizer.o evaluator.o main.o
-OPTS = -Wall -Wextra -std=c99 -g -lm -c
-LOPTS = -Wall -Wextra -std=c99 -g -lm
+DPL_OBJS = types.o lexeme.o lexer.o recognizer.o environment.o evaluator.o main.o
+OPTS = -Wall -Wextra -std=c99 -g -c
+LOPTS = -Wall -Wextra -std=c99 -g
 CC = gcc
 
 all : dpl
 
 dpl : $(DPL_OBJS)
-	$(CC) $(LOPTS) $(DPL_OBJS) -o dpl
+	$(CC) $(LOPTS) $(DPL_OBJS) -o dpl -lm
 
 types.o : types.c types.h
 	$(CC) $(OPTS) types.c
@@ -23,6 +23,9 @@ lexer.o : lexer.c lexer.h
 recognizer.o : recognizer.c recognizer.h
 	$(CC) $(OPTS) recognizer.c
 
+environment.o : environment.c environment.h
+	$(CC) $(OPTS) environment.c
+
 evaluator.o : evaluator.c evaluator.h
 	$(CC) $(OPTS) evaluator.c
 
@@ -30,146 +33,102 @@ main.o : main.c
 	$(CC) $(OPTS) main.c
 
 clean : 
-	rm -f $(DPL_OBJS) ./types ./lexeme ./lexer ./recognizer ./evaluator
+	rm -f $(DPL_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment ./evaluator
 
-test1 : dpl
+problem : 
 	@echo ""
-	@echo Original file:
-	@cat test1.e
+	@cat testSum.e
 	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test1.e > test1.pp.1
-	@cat test1.pp.1
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test1.pp.1 > test1.pp.2
-	@cat test1.pp.2
-	diff -s -q test1.pp.1 test1.pp.2
 
-test2 : dpl
+problemx : dpl
 	@echo ""
-	@echo Original file:
-	@cat test2.e
+	@./dpl testSum.e
 	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test2.e > test2.pp.1
-	@cat test2.pp.1
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test2.pp.1 > test2.pp.2
-	@cat test2.pp.2
-	diff -s -q test2.pp.1 test2.pp.2
 
-test3 : dpl
+arrays : 
 	@echo ""
-	@echo Original file:
-	@cat test3.e
+	@cat arrays.e
 	@echo ""
+
+arraysx : dpl
 	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test3.e > test3.pp.1
-	@cat test3.pp.1
+	@./dpl arrays.e
 	@echo ""
+
+conditionals :
 	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test3.pp.1 > test3.pp.2
-	@cat test3.pp.2
-	diff -s -q test3.pp.1 test3.pp.2
+	@cat conditionals.e
+	@echo ""
+
+conditionalsx : dpl
+	@echo ""
+	@./dpl conditionals.e
+	@echo ""
+
+recursion :
+	@echo ""
+	@cat recursion.e
+	@echo ""
+
+recursionx : dpl
+	@echo ""
+	@./dpl recursion.e
+	@echo ""
+
+iteration :
+	@echo ""
+	@cat iteration.e
+	@echo ""
+
+iterationx : dpl
+	@echo ""
+	@./dpl iteration.e
+	@echo ""
+
+functions :
+	@echo ""
+	@cat functions.e
+	@echo ""
+
+functionsx: dpl
+	@echo ""
+	@./dpl functions.e
+	@echo ""
+
+lambda :
+	@echo ""
+	@cat lambda.e
+	@echo ""
+
+lambdax : dpl
+	@echo ""
+	@./dpl lambda.e
+	@echo ""
+
+objects :
+	@echo ""
+	@cat objects.e
+	@echo ""
+
+objectsx : dpl
+	@echo ""
+	@./dpl objects.e
+	@echo ""
 
 run : dpl
 	@echo ""
-	@echo "TEST 1: "
 	@echo Original file:
-	@cat test1.e
+	@cat testSum.e
 	@echo ""
 	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test1.e > test1.pp.1
-	@cat test1.pp.1
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test1.pp.1 > test1.pp.2
-	@cat test1.pp.2
-	diff -s -q test1.pp.1 test1.pp.2
-	@echo ""
-	@echo "TEST 2: "
-	@echo Original file:
-	@cat test2.e
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test2.e > test2.pp.1
-	@cat test2.pp.1
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test2.pp.1 > test2.pp.2
-	@cat test2.pp.2
-	diff -s -q test2.pp.1 test2.pp.2
-	@echo ""
-	@echo "TEST 3: "
-	@echo Original file:
-	@cat test3.e
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test3.e > test3.pp.1
-	@cat test3.pp.1
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test3.pp.1 > test3.pp.2
-	@cat test3.pp.2
-	diff -s -q test3.pp.1 test3.pp.2
+	@echo DPL:
+	@./dpl testSum.e
 
 test : dpl
 	@echo ""
-	@echo "TEST 1: "
 	@echo Original file:
-	@cat test1.e
+	@cat testSum.e
 	@echo ""
 	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test1.e > test1.pp.1
-	@cat test1.pp.1
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test1.pp.1 > test1.pp.2
-	@cat test1.pp.2
-	diff -s -q test1.pp.1 test1.pp.2
-	@echo ""
-	@echo "TEST 2: "
-	@echo Original file:
-	@cat test2.e
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test2.e > test2.pp.1
-	@cat test2.pp.1
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test2.pp.1 > test2.pp.2
-	@cat test2.pp.2
-	diff -s -q test2.pp.1 test2.pp.2
-	@echo ""
-	@echo "TEST 3: "
-	@echo Original file:
-	@cat test3.e
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the original:
-	@./pp test3.e > test3.pp.1
-	@cat test3.pp.1
-	@echo ""
-	@echo ""
-	@echo Pretty Printed version of the pretty printed version:
-	@./pp test3.pp.1 > test3.pp.2
-	@cat test3.pp.2
-	diff -s -q test3.pp.1 test3.pp.2
+	@echo DPL:
+	@./dpl testSum.e

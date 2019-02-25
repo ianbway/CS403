@@ -39,14 +39,14 @@ static void advance();
 static LEXEME *match(char *);
 static void matchNoAdvance(char *);
 
-LEXEME *
-cons(char *type, LEXEME *left, LEXEME *right)
-{
-    LEXEME *consLex = newLexeme(type, NULL);
-    setLeft(consLex, left);
-    setRight(consLex, right);
-    return consLex;
-}
+// LEXEME *
+// cons(char *type, LEXEME *left, LEXEME *right)
+// {
+//     LEXEME *consLex = newLexeme(type, NULL);
+//     setLeft(consLex, left);
+//     setRight(consLex, right);
+//     return consLex;
+// }
 
 LEXEME *
 unary() 
@@ -113,7 +113,7 @@ unary()
     }
     else if (check(GET_ARGC))
     {
-        tree = match(GET_ARGC):
+        tree = match(GET_ARGC);
         match(OPEN_BRACKET);
         match(CLOSE_BRACKET);
         return tree;
@@ -167,7 +167,7 @@ unary()
         match(CLOSE_BRACKET);
         return cons(AT_FILE_END, NULL, tree);
     }
-    else if (check(CLOSE_FILE)
+    else if (check(CLOSE_FILE))
     {
         match(CLOSE_FILE);
         match(OPEN_BRACKET);

@@ -9,7 +9,7 @@
 #include "lexeme.h"
 #include "types.h"
 
-extern LEXEME *cons(char *, LEXEME *, LEXEME *);
+// extern LEXEME *cons(char *, LEXEME *, LEXEME *);
 extern LEXEME *car(LEXEME *);
 extern LEXEME *cdr(LEXEME *);
 extern void setCar(LEXEME *, LEXEME *);

@@ -12,14 +12,14 @@
 
 static LEXEME *treeWalkerHelper(LEXEME *, LEXEME *);
 
-LEXEME *
-cons(char *type, LEXEME *left, LEXEME *right)
-{
-    LEXEME *consLex = newLexeme(type, NULL);
-    setLeft(consLex, left);
-    setRight(consLex, right);
-    return consLex;
-}
+// LEXEME *
+// cons(char *type, LEXEME *left, LEXEME *right)
+// {
+//     LEXEME *consLex = newLexeme(type, NULL);
+//     setLeft(consLex, left);
+//     setRight(consLex, right);
+//     return consLex;
+// }
 
 LEXEME *
 car(LEXEME *lex)

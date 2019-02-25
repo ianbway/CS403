@@ -12,14 +12,11 @@
 #include "environment.h"
 #include "evaluator.h"
 
-int countCL;
-char **argsCL;
-
 int 
 main(int argc,char *argv[]) 
 {
-    countCL = argc;
-    argsCL = argv;
+    int countCL = argc;
+    char **argsCL = argv;
 
     if (argc != 2)
     {
@@ -33,7 +30,10 @@ main(int argc,char *argv[])
 
     LEXEME *tree = recognize(fileName);
     LEXEME *env = create();
-    LEXEME *evaluated = eval(tree, env);
+    LEXEME *evaluated = evaluate(tree, env, countCL, argsCL);
+
+    display(evaluated);
+    displayEnvironment(env, false);
 
     fclose(fileName);
 
