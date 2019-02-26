@@ -1,15 +1,15 @@
 # Ian Braudaway
-# makefile for dpl
+# makefile for emblem
 
-DPL_OBJS = types.o lexeme.o lexer.o recognizer.o environment.o evaluator.o main.o
+EMBLEM_OBJS = types.o lexeme.o lexer.o recognizer.o environment.o evaluator.o main.o
 OPTS = -Wall -Wextra -std=c99 -g -c
 LOPTS = -Wall -Wextra -std=c99 -g
 CC = gcc
 
-all : dpl
+all : emblem
 
-dpl : $(DPL_OBJS)
-	$(CC) $(LOPTS) $(DPL_OBJS) -o dpl -lm
+emblem : $(EMBLEM_OBJS)
+	$(CC) $(LOPTS) $(EMBLEM_OBJS) -o emblem -lm
 
 types.o : types.c types.h
 	$(CC) $(OPTS) types.c
@@ -33,7 +33,67 @@ main.o : main.c
 	$(CC) $(OPTS) main.c
 
 clean : 
-	rm -f $(DPL_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment ./evaluator ./dpl
+	rm -f $(EMBLEM_OBJS) ./types ./lexeme ./lexer ./recognizer ./environment ./evaluator ./emblem
+
+error1 : 
+	@echo ""
+	@cat error1.e
+	@echo ""
+	@echo ""
+
+error1x : emblem
+	@echo ""
+	@./emblem error1.e
+	@echo ""
+	@echo ""
+
+error2 : 
+	@echo ""
+	@cat error2.e
+	@echo ""
+	@echo ""
+
+error2x : emblem
+	@echo ""
+	@./emblem error2.e
+	@echo ""
+	@echo ""
+
+error3 : 
+	@echo ""
+	@cat error3.e
+	@echo ""
+	@echo ""
+
+error3x : emblem
+	@echo ""
+	@./emblem error3.e
+	@echo ""
+	@echo ""
+
+error4 : 
+	@echo ""
+	@cat error4.e
+	@echo ""
+	@echo ""
+
+error4x : emblem
+	@echo ""
+	@./emblem error4.e
+	@echo ""
+	@echo ""
+
+error5 : 
+	@echo ""
+	@cat error5.e
+	@echo ""
+	@echo ""
+
+error5x : emblem
+	@echo ""
+	@./emblem error5.e
+	@echo ""
+	@echo ""
 
 problem : 
 	@echo ""
@@ -41,9 +101,9 @@ problem :
 	@echo ""
 	@echo ""
 
-problemx : dpl
+problemx : emblem
 	@echo ""
-	@./dpl testSum.e
+	@./emblem testSum.e
 	@echo ""
 	@echo ""
 
@@ -53,9 +113,9 @@ arrays :
 	@echo ""
 	@echo ""
 
-arraysx : dpl
+arraysx : emblem
 	@echo ""
-	@./dpl arrays.e
+	@./emblem arrays.e
 	@echo ""
 	@echo ""
 
@@ -65,9 +125,9 @@ conditionals :
 	@echo ""
 	@echo ""
 
-conditionalsx : dpl
+conditionalsx : emblem
 	@echo ""
-	@./dpl conditionals.e
+	@./emblem conditionals.e
 	@echo ""
 	@echo ""
 
@@ -77,9 +137,9 @@ recursion :
 	@echo ""
 	@echo ""
 
-recursionx : dpl
+recursionx : emblem
 	@echo ""
-	@./dpl recursion.e
+	@./emblem recursion.e
 	@echo ""
 	@echo ""
 
@@ -89,9 +149,9 @@ iteration :
 	@echo ""
 	@echo ""
 
-iterationx : dpl
+iterationx : emblem
 	@echo ""
-	@./dpl iteration.e
+	@./emblem iteration.e
 	@echo ""
 	@echo ""
 
@@ -101,9 +161,9 @@ functions :
 	@echo ""
 	@echo ""
 
-functionsx: dpl
+functionsx: emblem
 	@echo ""
-	@./dpl functions.e
+	@./emblem functions.e
 	@echo ""
 	@echo ""
 
@@ -113,9 +173,9 @@ lambda :
 	@echo ""
 	@echo ""
 
-lambdax : dpl
+lambdax : emblem
 	@echo ""
-	@./dpl lambda.e
+	@./emblem lambda.e
 	@echo ""
 	@echo ""
 
@@ -125,26 +185,26 @@ objects :
 	@echo ""
 	@echo ""
 
-objectsx : dpl
+objectsx : emblem
 	@echo ""
-	@./dpl objects.e
+	@./emblem objects.e
 	@echo ""
 	@echo ""
 
-run : dpl
+run : emblem
 	@echo ""
 	@echo Original file:
 	@cat testSum.e
 	@echo ""
 	@echo ""
-	@echo DPL:
-	@./dpl testSum.e
+	@echo emblem:
+	@./emblem testSum.e
 
-test : dpl
+test : emblem
 	@echo ""
 	@echo Original file:
 	@cat testSum.e
 	@echo ""
 	@echo ""
-	@echo DPL:
-	@./dpl testSum.e
+	@echo emblem:
+	@./emblem testSum.e
