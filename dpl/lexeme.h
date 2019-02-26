@@ -10,6 +10,9 @@
 typedef struct LEXEME LEXEME;
 
 extern LEXEME *newLexeme(char *, char *);
+extern LEXEME *newLexemeInt(int integer);
+extern LEXEME *newLexemeReal(double real);
+extern LEXEME *newLexemeString(char *string);
 extern LEXEME *cons(char *, LEXEME *, LEXEME *);
 extern char *getType(LEXEME *);
 extern char *getStringToken(LEXEME *);

@@ -55,6 +55,57 @@ newLexeme(char *type, char *token)
     return lexeme;
 }
 
+LEXEME *
+newLexemeInt(int integer)
+{
+    LEXEME *lexeme = malloc(sizeof(LEXEME));
+
+    if (lexeme == 0) 
+    { 
+        fprintf(stderr,"out of memory\n"); 
+        exit(1); 
+    }
+
+    lexeme->type = INTEGER;
+    lexeme->integer = integer;
+
+    return lexeme;
+}
+
+LEXEME *
+newLexemeReal(double real)
+{
+    LEXEME *lexeme = malloc(sizeof(LEXEME));
+
+    if (lexeme == 0) 
+    { 
+        fprintf(stderr,"out of memory\n"); 
+        exit(1); 
+    }
+
+    lexeme->type = REAL;
+    lexeme->real = real;
+
+    return lexeme;
+}
+
+LEXEME *
+newLexemeString(char *string)
+{
+    LEXEME *lexeme = malloc(sizeof(LEXEME));
+
+    if (lexeme == 0) 
+    { 
+        fprintf(stderr,"out of memory\n"); 
+        exit(1); 
+    }
+
+    lexeme->type = STRING;
+    lexeme->string = string;
+
+    return lexeme;
+}
+
 char *
 getType(LEXEME *lex)
 {
@@ -257,23 +308,28 @@ display(LEXEME *lex)
 void
 displayLexemeValue(LEXEME *lex)
 {
-
-    //int
-    if (lex->type == INTEGER)
+    if (lex != NULL)
     {
-        fprintf(stdout, "%d\n", lex->integer);
-    }
+        //int
+        if (lex->type == INTEGER)
+        {
+            fprintf(stdout, "%d\n", lex->integer);
+        }
 
-    //real
-    else if (lex->type == REAL)
-    {
-        fprintf(stdout, "%f\n", lex->real);
-    }
+        //real
+        else if (lex->type == REAL)
+        {
+            fprintf(stdout, "%f\n", lex->real);
+        }
 
-    //string
+        //string
+        else
+        {
+            fprintf(stdout, "%s\n", lex->string);
+        }
+    }
     else
     {
-        fprintf(stdout, "%s\n", lex->string);
+        fprintf(stdout, "\n");
     }
-
 }
