@@ -97,13 +97,13 @@ error5x : emblem
 
 problem : 
 	@echo ""
-	@cat testSum.e
+	@cat problem.e
 	@echo ""
 	@echo ""
 
 problemx : emblem
 	@echo ""
-	@./emblem testSum.e
+	@./emblem ./problem.e ./integers
 	@echo ""
 	@echo ""
 
@@ -233,11 +233,11 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@cat testSum.e
+	@cat problem.e
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem testSum.e
+	@./emblem problem.e integers
 	@echo ""
 	@echo ""
 	@echo ""
@@ -339,11 +339,11 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@cat testSum.e
+	@cat problem.e
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem testSum.e
+	@./emblem problem.e integers
 	@echo ""
 	@echo ""
 	@echo ""

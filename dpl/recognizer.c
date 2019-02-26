@@ -173,7 +173,7 @@ unary()
         match(OPEN_BRACKET);
         tree = argList();
         match(CLOSE_BRACKET);
-        return cons(CLOSE_BRACKET, NULL, tree);
+        return cons(CLOSE_FILE, NULL, tree);
     }
     else
     { 

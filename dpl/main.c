@@ -18,7 +18,7 @@ main(int argc,char *argv[])
     int countCL = argc;
     char **argsCL = argv;
 
-    if (argc != 2)
+    if (argc < 2)
     {
         fprintf(stderr,"Needs file as argument\n"); 
         exit(1);
