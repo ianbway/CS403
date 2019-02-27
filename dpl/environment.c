@@ -48,7 +48,8 @@ setCdr(LEXEME *lex, LEXEME *newRight)
 LEXEME *
 create()
 {
-    return cons(ENV, NULL, cons(VALUES, NULL, NULL));
+    //return cons(ENV, NULL, cons(VALUES, NULL, NULL));
+    return extend(NULL, NULL, NULL);
 }
 
 LEXEME *
@@ -99,7 +100,9 @@ insert(LEXEME *variable, LEXEME *value, LEXEME *env)
 LEXEME *
 extend(LEXEME *variables, LEXEME *values, LEXEME *env)
 {
-    return cons(ENV, variables, cons(ENV, values, env));
+    LEXEME *result = cons(ENV, variables, cons(ENV, values, env));
+    setStringToken(result, ENV); 
+    return result;
 }
 
 void
@@ -127,6 +130,18 @@ displayEnvironment(LEXEME *env, bool lt)
         {
             printf(" %s : ", getStringToken(car(vars)));
             displayLexemeValue(car(vals));
+            if (getType(car(vals)) == CLOSURE)
+            {
+                LEXEME *params = cdr(car(cdr(car(vals))));
+                if (params == NULL)
+                {
+                    printf("NULL Parameters!\n");
+                }
+                else
+                {
+                    printf("First Param is: %s\n", getStringToken(car(params)));
+                }
+            }
             vars = cdr(vars);
             vals = cdr(vals);
         }

@@ -488,23 +488,17 @@ paramList()
 {
     LEXEME *v;
 
-    if (check(VARIABLE))
+    v = match(VARIABLE);
+    if (check(BAR))
     {
-        v = match(VARIABLE);
-        if (check(BAR))
-        {
-            match(BAR);
-            return cons(PARAMLIST, v, paramList());
-        }
-        else
-        {
-            return v;
-        }
+        match(BAR);
+        return cons(PARAMLIST, v, paramList());
     }
     else
     {
-        return NULL;
+        return cons(PARAMLIST, v, NULL);
     }
+
 }
 
 LEXEME *
