@@ -1131,8 +1131,8 @@ evalBlock(LEXEME *tree, LEXEME *env)
     LEXEME *result;
     while (tree != NULL)
     {
-        result = eval(getRight(tree), env);
-        tree = getRight(getRight(tree));
+        result = eval(getLeft(tree), env);
+        tree = getRight(tree);
     }
 
     return result;
@@ -1144,6 +1144,7 @@ evalVarDef(LEXEME *tree, LEXEME *env)
     LEXEME *closure = cons(CLOSURE, env, tree);
     //insert(getLeft(tree), closure, env);
     insert(getLeft(tree), eval(getRight(getRight(tree)), env), env);
+    displayEnvironment(env, false);
     //displayLexemeValue(getRight(getRight(tree)));
     return closure;
 }
@@ -1152,6 +1153,7 @@ LEXEME *
 evalFuncDef(LEXEME *tree, LEXEME *env)
 {
     LEXEME *closure = cons(CLOSURE, env, tree);
+    setStringToken(closure, "closure");
     insert(getLeft(getLeft(tree)), closure, env);
     printf("inserted: %s\n", getStringToken(getLeft(getLeft(tree))));
     displayEnvironment(env, false);
@@ -1215,7 +1217,7 @@ evalPrint(LEXEME *evaluatedArgList)
         // }
         // else
         // {
-            displayLexemeValue(getLeft(evaluatedArgList));
+        displayLexemeValue(getLeft(evaluatedArgList));
         //}
         evaluatedArgList = getRight(evaluatedArgList);
     }
@@ -1352,7 +1354,7 @@ evalIf(LEXEME *tree, LEXEME *env)
     }
     else
     {
-        LEXEME *elses = evalElse(tree, env);
+        LEXEME *elses = evalElse(getRight(getRight(tree)), env);
         return elses;
     }
 }

@@ -29,9 +29,5 @@ func listDeclare[]
         var exampleList = @[1.0| 1.5| 2.0| 456.9| 7000000000.888]
     ;
 
-# Semantic error #
+# Semantic error, badFunction undefined #
 badFunction[]
-    :
-        print["This function does not begin with the func keyword."]
-        print["It is being misinterpreted as a statement and breaking the program."]
-    ;

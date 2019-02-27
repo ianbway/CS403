@@ -9,4 +9,5 @@ func errorFunction[]
 	# This is a semantic error. #
 	# While legal to multiply two variables, one has a string value and the other an integer value. #
 	val3 = val1 * val2
+	print[val3]
 ;
