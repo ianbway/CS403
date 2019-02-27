@@ -47,7 +47,6 @@ static LEXEME *evalGetArg(LEXEME *);
 static LEXEME *evalPrint(LEXEME *);
 static LEXEME *evalFuncCall(LEXEME *, LEXEME *);
 static LEXEME *evalArgs(LEXEME *, LEXEME *);
-static LEXEME *evalParams(LEXEME *, LEXEME *);
 static LEXEME *evalStatements(LEXEME *, LEXEME *);
 static LEXEME *evalWhile(LEXEME *, LEXEME *);
 static LEXEME *evalIf(LEXEME *, LEXEME *);
@@ -66,8 +65,6 @@ static LEXEME *evalCloseFile(LEXEME *);
 LEXEME *
 eval(LEXEME *tree, LEXEME *env)
 {
-    //printf("Evaluating: %s\n", getType(tree));
-
     if (getType(tree) == INTEGER)
     {
         return tree;
@@ -194,7 +191,6 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == FUNC)
     {
-        //printf("gotta function def\n");
         return evalFuncDef(tree, env);
     }
     else if (getType(tree) == LAMBDA)
@@ -204,10 +200,6 @@ eval(LEXEME *tree, LEXEME *env)
     else if (getType(tree) == ARGLIST)
     {
         return evalArgs(tree, env);
-    }
-    else if (getType(tree) == PARAMLIST)
-    {
-        return evalParams(tree, env);
     }
     else if (getType(tree) == STATEMENTS)
     {
@@ -223,7 +215,6 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else 
     {
-
         printf("EVALUATOR: bad EVAL type: %s\n", getType(tree)); 
         return tree;
     }  
@@ -344,22 +335,14 @@ itoa(int value, char* str, int base)
 LEXEME *
 evalPlus(LEXEME *tree, LEXEME *env)
 {
-    //printf("in evalplus\n");
-
     LEXEME *left = eval(getLeft(tree), env);
-    //displayLexemeValue(left);
     LEXEME *right = eval(getRight(tree), env);
-    //displayLexemeValue(right);
     char buffer[20];
     LEXEME *returnLex;
 
     if ((getType(left) == INTEGER) && (getType(right) == INTEGER))
     {
-        //printf("adding two integers\n");
         returnLex = newLexemeInt(getIntegerToken(left) + getIntegerToken(right));
-        //printf("lexeme made\n");
-        // setIntegerToken(returnLex, getIntegerToken(left) + getIntegerToken(right));
-        //printf("resulting value: %d\n", getIntegerToken(returnLex));
         return returnLex;
     }
     else if ((getType(left) == INTEGER) && (getType(right) == REAL))
@@ -370,13 +353,11 @@ evalPlus(LEXEME *tree, LEXEME *env)
     else if ((getType(left) == REAL) && (getType(right) == INTEGER))
     {
         returnLex = newLexemeReal(getRealToken(left) + getIntegerToken(right));
-        //setRealToken(returnLex, getRealToken(left) + getIntegerToken(right));
         return returnLex;
     }
     else if ((getType(left) == REAL) && (getType(right) == REAL))
     {
         returnLex = newLexemeReal(getRealToken(left) + getRealToken(right));
-        //setRealToken(returnLex, getRealToken(left) + getRealToken(right));
         return returnLex;
     }
     else if ((getType(left) == INTEGER) && (getType(right) == STRING))
@@ -1097,7 +1078,7 @@ LEXEME *
 evalAssign(LEXEME *tree, LEXEME *env)
 {
     LEXEME *result = eval(getRight(tree), env);
-    displayLexemeValue(result);
+    
     if (getType(getLeft(tree)) == VARIABLE)
     {
         update(getLeft(tree), result, env);
@@ -1141,71 +1122,16 @@ evalBlock(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalVarDef(LEXEME *tree, LEXEME *env)
 {
-    LEXEME *closure = cons(CLOSURE, env, tree);
-    //insert(getLeft(tree), closure, env);
     insert(getLeft(tree), eval(getRight(getRight(tree)), env), env);
-    //displayEnvironment(env, false);
-    //displayLexemeValue(getRight(getRight(tree)));
-    return closure;
+    return getLeft(tree);
 }
 
 LEXEME *
 evalFuncDef(LEXEME *tree, LEXEME *env)
 {
-    printf("Defining: %s\n", getStringToken(car(car(tree))));
-    printf("Environment before insert EVALFUNCDEF\n");
-    displayEnvironment(env, false);
-    if (cdr(car(tree)) == NULL)
-        {
-            printf("NULL Parameters!\n");
-        }
-        else
-        {
-            printf("First Param is: %s\n", getStringToken(car(cdr(car(tree)))));
-        }
     LEXEME *closure = cons(CLOSURE, env, tree);
-    printf("CLOSURE CREATED\n");
-    if (getClosureParams(closure) == NULL)
-        {
-            printf("NULL Parameters!\n");
-        }
-        else
-        {
-            printf("First Param is: %s\n", getStringToken(car(getClosureParams(closure))));
-        }
     setStringToken(closure, "closure");
-    printf("CLOSURE CREATED\n");
-    if (cdr(car(cdr(closure))) == NULL)
-        {
-            printf("NULL Parameters!\n");
-        }
-        else
-        {
-            printf("First Param is: %s\n", getStringToken(cdr(car(cdr(closure)))));
-        }
     insert(getLeft(getLeft(tree)), closure, env);
-    printf("CLOSURE INSERTED\n");
-    if (cdr(car(cdr(closure))) == NULL)
-        {
-            printf("NULL Parameters!\n");
-        }
-        else
-        {
-            printf("First Param is: %s\n", getStringToken(cdr(car(cdr(closure)))));
-        }
-    printf("inserted: %s\n", getStringToken(getLeft(getLeft(tree))));
-    
-    printf("CLOSURE CREATED\n");
-    if (cdr(car(cdr(closure))) == NULL)
-        {
-            printf("NULL Parameters!\n");
-        }
-        else
-        {
-            printf("First Param is: %s\n", getStringToken(cdr(car(cdr(closure)))));
-        }
-    displayEnvironment(env, false);
-
     return closure;
 }
 
@@ -1224,43 +1150,21 @@ getClosureParams(LEXEME *closure)
 LEXEME *
 getClosureBody(LEXEME *closure)
 {
-    if (closure == NULL)
-    {
-        return NULL;
-    }
-    else
-    {
-        return getRight(getRight(closure));
-    }
+    return getRight(getRight(closure));
 }
 
 LEXEME *
 getClosureEnvironment(LEXEME *closure)
 {
-    if (closure == NULL)
-    {
-        return NULL;
-    }
-    else
-    {
-        return getLeft(closure);
-    }
+    return getLeft(closure);
 }
 
 LEXEME *
 evalPrint(LEXEME *evaluatedArgList)
 {
-
     while (evaluatedArgList != NULL)
     {
-        // if (getLeft(evaluatedArgList) == NULL && getRight(evaluatedArgList) == NULL)
-        // {
-        //     displayLexemeValue(evaluatedArgList);
-        // }
-        // else
-        // {
         displayLexemeValue(getLeft(evaluatedArgList));
-        //}
         evaluatedArgList = getRight(evaluatedArgList);
     }
 
@@ -1270,10 +1174,7 @@ evalPrint(LEXEME *evaluatedArgList)
 LEXEME *
 evalFuncCall(LEXEME *tree, LEXEME *env)
 {
-    printf("Calling environment, top of function\n");
-    displayEnvironment(env, false);
     LEXEME *name = getLeft(tree);
-    //printf("lookup passed\n");
     LEXEME *args = getRight(tree);
     LEXEME *eargs = evalArgs(args, env);
     if (strcmp(getStringToken(name), "print") == 0)
@@ -1314,26 +1215,14 @@ evalFuncCall(LEXEME *tree, LEXEME *env)
     }
     else
     {
-        printf("calling functions: %s\n", getStringToken(name));
-        // printf("Displaying Environment FuncCall\n");
-        // displayEnvironment(env, false);
         LEXEME *closure = eval(name, env);
         LEXEME *params = getClosureParams(closure);
-        if (params == NULL)
-        {
-            printf("NULL Parameters!\n");
-        }
-        else
-        {
-            printf("First Param is: %s\n", getStringToken(car(params)));
-        }
         LEXEME *body = getClosureBody(closure);
         LEXEME *senv = getClosureEnvironment(closure);
         LEXEME *xenv = extend(params, eargs, senv);
 
         //insert a variable that points to xenv
         insert(newLexeme(VARIABLE,"this"), xenv, xenv);
-        printf("About to eval the body\n");
 
         return eval(body,xenv);
     }
@@ -1348,25 +1237,7 @@ evalArgs(LEXEME *tree, LEXEME *env)
     }
     else
     {
-        //printf("Type: %s\n",getType(getLeft(tree)));
         return cons(GLUE, eval(getLeft(tree), env), evalArgs(getRight(tree), env));
-    }
-}
-
-LEXEME *
-evalParams(LEXEME *tree, LEXEME *env)
-{
-    printf("BAD\n");
-    exit(1);
-    if (tree == NULL)
-    {
-
-        return NULL;
-    }
-
-    else
-    {
-        return cons(GLUE, eval(getLeft(tree), env), evalParams(getRight(tree), env));
     }
 }
 
@@ -1440,7 +1311,6 @@ evalMoreProgram(LEXEME *tree, LEXEME *env)
 
     else
     {
-        //printf("Left: %s\n", getType(getLeft(tree)));
         eval(getLeft(tree), env);
         return evalMoreProgram(getRight(tree), env);
     }

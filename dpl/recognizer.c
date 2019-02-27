@@ -263,7 +263,6 @@ varExpression()
     v = match(VARIABLE); 
     if (check(OPEN_BRACKET)) 
     {
-        //printf("unary function call\n"); 
         match(OPEN_BRACKET); 
         tree = optArgList();
         match(CLOSE_BRACKET);
@@ -458,7 +457,7 @@ argList()
     LEXEME *e;
 
     e = expression();
-    //printf("done with expression \n");
+
     if (check(BAR))
     {
         match(BAR);

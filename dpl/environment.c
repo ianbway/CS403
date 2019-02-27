@@ -130,18 +130,6 @@ displayEnvironment(LEXEME *env, bool lt)
         {
             printf(" %s : ", getStringToken(car(vars)));
             displayLexemeValue(car(vals));
-            if (getType(car(vals)) == CLOSURE)
-            {
-                LEXEME *params = cdr(car(cdr(car(vals))));
-                if (params == NULL)
-                {
-                    printf("NULL Parameters!\n");
-                }
-                else
-                {
-                    printf("First Param is: %s\n", getStringToken(car(params)));
-                }
-            }
             vars = cdr(vars);
             vals = cdr(vals);
         }
@@ -154,3 +142,16 @@ displayEnvironment(LEXEME *env, bool lt)
     }
     fprintf(stdout, "\n");
 }
+
+            // if (getType(car(vals)) == CLOSURE)
+            // {
+            //     LEXEME *params = cdr(car(cdr(car(vals))));
+            //     if (params == NULL)
+            //     {
+            //         printf("NULL Parameters!\n");
+            //     }
+            //     else
+            //     {
+            //         printf("First Param is: %s\n", getStringToken(car(params)));
+            //     }
+            // }
