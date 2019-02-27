@@ -1096,16 +1096,17 @@ evalOr(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalAssign(LEXEME *tree, LEXEME *env)
 {
-    LEXEME *value = eval(getRight(tree), env);
+    LEXEME *result = eval(getRight(tree), env);
+    displayLexemeValue(result);
     if (getType(getLeft(tree)) == VARIABLE)
     {
-        update(getLeft(tree), value, env);
+        update(getLeft(tree), result, env);
     }
 
     else if (getType(getLeft(tree)) == DOT)
     {
         LEXEME *object = eval(getLeft(getLeft(tree)), env);
-        update(getLeft(getRight(tree)), value, object);
+        update(getLeft(getRight(tree)), result, object);
     }
 
     else
@@ -1114,7 +1115,7 @@ evalAssign(LEXEME *tree, LEXEME *env)
         exit(1);
     }
 
-    return value;
+    return result;
 }
 
 LEXEME *
@@ -1141,7 +1142,9 @@ LEXEME *
 evalVarDef(LEXEME *tree, LEXEME *env)
 {
     LEXEME *closure = cons(CLOSURE, env, tree);
-    insert(getLeft(tree), closure, env);
+    //insert(getLeft(tree), closure, env);
+    insert(getLeft(tree), eval(getRight(getRight(tree)), env), env);
+    //displayLexemeValue(getRight(getRight(tree)));
     return closure;
 }
 

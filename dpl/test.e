@@ -17,7 +17,9 @@
 func main[]
 :
 	print["hello world!"]
-	main[]
+	#main[]#
 ;
 
 main[]
+
+#var e = 12#
