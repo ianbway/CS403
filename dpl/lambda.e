@@ -3,11 +3,12 @@
 
 func main[p]
 :
-	lambda [p]
+	lambda [x]
 	:
-		p = p + 10
+		var y = x + 10
+		print["inside lambda"]
 	;
-	print[p]
+
 ;
 
 # Should be 11 #

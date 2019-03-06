@@ -3,7 +3,7 @@
 
 func errorFunction[]
 :
-	# This language does not use parentheses. #
-	# Print should use brackets instead. This should throw a syntax error. #
-	print("hello world.")
+	# Syntax Error #
+	# Compare Equal rather than Assign Equal #
+	var seven == 4 + 3
 ;

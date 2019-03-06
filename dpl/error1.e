@@ -26,6 +26,7 @@ func processReal[param]
         print[500.0000000000]
         print[234.4323]
 
+        # Syntax Error #
         # This should cause problems for the recognizer. There is a close block not a close bracket #
         if [4 > 3;
         :

@@ -14,8 +14,8 @@ func mainFunction[pFunction]
 		return 1
 	;
 
-	return subFunction[] + pFunction
+	print[subFunction[] + pFunction]
 ;
 
 # 1 + 1 = 2 #
-mainFunction[paramFunction]
+mainFunction[paramFunction[]]
