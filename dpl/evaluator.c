@@ -1261,10 +1261,10 @@ evalWhile(LEXEME *tree, LEXEME *env)
     LEXEME *result = eval(getLeft(tree), env);
     LEXEME *block = getRight(tree); 
 
-    while(getIntegerToken(result) == 1)
+    if (getIntegerToken(result) == 1)
     {
         block = evalBlock(block, env);
-        result = eval(getLeft(tree), env);
+        evalWhile(tree, env);
     }
 
     return block;
