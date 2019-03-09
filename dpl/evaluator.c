@@ -1258,15 +1258,13 @@ evalStatements(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalWhile(LEXEME *tree, LEXEME *env)
 {
-    LEXEME *whileExpr = getLeft(tree);
+    LEXEME *result = eval(getLeft(tree), env);
     LEXEME *block = getRight(tree); 
-
-    LEXEME *result = eval(whileExpr, env);
 
     while(getIntegerToken(result) == 1)
     {
         block = evalBlock(block, env);
-        result = eval(whileExpr, env);
+        result = eval(getLeft(tree), env);
     }
 
     return block;

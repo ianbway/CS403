@@ -1,33 +1,11 @@
 # Ian Braudaway #
 # make error 4 #
 
-func conditionTester[]
+func badAssign[]
     :
-        print["This test will use conditions."] 
-
-        if [1.0 > 0.5]
-        :
-            var oneIsGreater = "1 is indeed larger than 0.5"
-            print[oneIsGreater]
-        ;
-
-        else if ["same" == "same"]
-        :
-            print["The string same is equal to same."]
-        ;
-
-        else
-        :
-            print["Else condition."]
-        ;
+        # Semantic Error. Attempting to assign literal to literal rather than variable. #    
+        1 = 1
+        print[1]
     ;
 
-func listDeclare[]
-    :
-        print["We will declare a list."] 
-
-        var exampleList = @[1.0| 1.5| 2.0| 456.9| 7000000000.888]
-    ;
-
-# Semantic error, badFunction undefined #
-badFunction[]
+badAssign[]

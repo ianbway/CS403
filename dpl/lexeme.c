@@ -153,7 +153,7 @@ getIntegerToken(LEXEME *lex)
 
     else
     {
-        return 1;
+        return 0;
     }
 }
 
@@ -167,7 +167,7 @@ getRealToken(LEXEME *lex)
 
     else
     {
-        return 1.0;
+        return 0;
     }
 }
 
