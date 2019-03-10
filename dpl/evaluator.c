@@ -75,6 +75,7 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == VARIABLE)
     { 
+        printf("looking up a variable\n");
         return lookup(tree, env);
     }
     else if (getType(tree) == VARIABLE_EXPR)
@@ -139,6 +140,7 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == EQUAL)
     {
+        printf("assign\n");
         return evalAssign(tree, env);
     }
     else if (getType(tree) == DOT)
@@ -208,6 +210,10 @@ eval(LEXEME *tree, LEXEME *env)
     else if (getType(tree) == ENDofINPUT)
     {
         return evalEnd(tree, env);
+    }
+    else if (getType(tree) == GLUE)
+    {
+        return tree;
     }
     else if (getType(tree) == NULL)
     {
@@ -1081,11 +1087,13 @@ evalAssign(LEXEME *tree, LEXEME *env)
     
     if (getType(getLeft(tree)) == VARIABLE)
     {
+        printf("inside var assign\n");
         update(getLeft(tree), result, env);
     }
 
     else if (getType(getLeft(tree)) == DOT)
     {
+        printf("inside dot assign\n");
         LEXEME *object = eval(getLeft(getLeft(tree)), env);
         update(getLeft(getRight(tree)), result, object);
     }
@@ -1188,6 +1196,10 @@ evalFuncCall(LEXEME *tree, LEXEME *env)
     else if (strcmp(getStringToken(name), "getArgCount") == 0)
     {
         return evalGetArgCount();
+    }
+    else if (strcmp(getStringToken(name), "newArray") == 0)
+    {
+        return evalNewArray(eargs);
     }
     else if (strcmp(getStringToken(name), "getArray") == 0)
     {
@@ -1406,8 +1418,10 @@ LEXEME *
 evalGetArg(LEXEME *evaluatedArgList)
 {
     LEXEME *index = cdr(evaluatedArgList);
+    printf("%d\n", getIntegerToken(index));
     LEXEME *argV = newLexeme(STRING, NULL);
     setStringToken(argV, argsCL[getIntegerToken(index)]);
+    printf("%s\n", getStringToken(argV));
     return argV;
 }
 

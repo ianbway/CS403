@@ -13,6 +13,8 @@ func getValue[obj]
 
 func setValue[obj| val]
 :
+	print["setter"]
+	print[val]
 	obj.value = val
 ;
 

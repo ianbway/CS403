@@ -17,8 +17,10 @@ func interpreter[file]
 
 func main[]
 :
-        var fp = openFileForReading[getArg[1]]
+        var fp = openFileForReading[getArg[2]]
         interpreter[fp]
         closeFile[fp]
         return 0
 ;
+
+main[]
