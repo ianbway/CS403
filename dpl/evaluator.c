@@ -75,7 +75,7 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == VARIABLE)
     { 
-        printf("looking up a variable\n");
+        //printf("looking up a variable\n");
         return lookup(tree, env);
     }
     else if (getType(tree) == VARIABLE_EXPR)
@@ -140,7 +140,7 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == EQUAL)
     {
-        printf("assign\n");
+        //printf("assign\n");
         return evalAssign(tree, env);
     }
     else if (getType(tree) == DOT)
@@ -213,10 +213,15 @@ eval(LEXEME *tree, LEXEME *env)
     }
     else if (getType(tree) == GLUE)
     {
+        //printf("GLUE in eval()\n");
+        //return tree;
+        //eval(getLeft(tree), env);
+        //eval(getRight(tree), env);
         return tree;
     }
     else if (getType(tree) == NULL)
     {
+        //printf("NULL\n");
         return tree;
     }
     else 
@@ -1087,13 +1092,13 @@ evalAssign(LEXEME *tree, LEXEME *env)
     
     if (getType(getLeft(tree)) == VARIABLE)
     {
-        printf("inside var assign\n");
+        //printf("inside var assign\n");
         update(getLeft(tree), result, env);
     }
 
     else if (getType(getLeft(tree)) == DOT)
     {
-        printf("inside dot assign\n");
+        //printf("inside dot assign\n");
         LEXEME *object = eval(getLeft(getLeft(tree)), env);
         update(getLeft(getRight(tree)), result, object);
     }
@@ -1146,7 +1151,9 @@ evalFuncDef(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalLambda(LEXEME *tree, LEXEME *env)
 {
-    return cons(CLOSURE, env, tree);
+    LEXEME *closure = cons(CLOSURE, env, tree);
+    setStringToken(closure, "closure");
+    return closure;
 }
 
 LEXEME *
@@ -1417,11 +1424,11 @@ evalGetArgWrapper(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalGetArg(LEXEME *evaluatedArgList)
 {
-    LEXEME *index = cdr(evaluatedArgList);
-    printf("%d\n", getIntegerToken(index));
+    LEXEME *index = car(evaluatedArgList);
+    // printf("%d\n", getIntegerToken(index));
     LEXEME *argV = newLexeme(STRING, NULL);
     setStringToken(argV, argsCL[getIntegerToken(index)]);
-    printf("%s\n", getStringToken(argV));
+    // printf("%s\n", getStringToken(argV));
     return argV;
 }
 
@@ -1435,7 +1442,7 @@ evalOpenFileForReadingWrapper(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalOpenFileForReading(LEXEME *evaluatedArgList)
 {
-    LEXEME *fileName = cdr(evaluatedArgList);
+    LEXEME *fileName = car(evaluatedArgList);
     assert(getType(fileName) == STRING);
     LEXEME *fp = newLexeme(FILE_POINTER, NULL);
     setFileToken(fp, fopen(getStringToken(fileName), "r"));
@@ -1453,11 +1460,11 @@ evalReadIntegerWrapper(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalReadInteger(LEXEME *evaluatedArgList)
 {
-    FILE *filePointer = getFileToken(cdr(evaluatedArgList));
+    FILE *filePointer = getFileToken(car(evaluatedArgList));
     assert(filePointer != NULL);
     int buf;
-    int x = fscanf(filePointer, "%d", &buf); 
-    LEXEME *returnLex = newLexemeInt(x);
+    fscanf(filePointer, "%d", &buf); 
+    LEXEME *returnLex = newLexemeInt(buf);
     return returnLex;
 }
 
@@ -1471,7 +1478,7 @@ evalAtFileEndWrapper(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalAtFileEnd(LEXEME *evaluatedArgList)
 {
-    FILE *filePointer = getFileToken(cdr(evaluatedArgList));
+    FILE *filePointer = getFileToken(car(evaluatedArgList));
     assert(filePointer != NULL);
     if (feof(filePointer))
     {
@@ -1493,7 +1500,7 @@ evalCloseFileWrapper(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalCloseFile(LEXEME *evaluatedArgList)
 {
-    FILE *filePointer = getFileToken(cdr(evaluatedArgList));
+    FILE *filePointer = getFileToken(car(evaluatedArgList));
     assert(filePointer != NULL);
     fclose(filePointer);
     return newLexeme(INTEGER, "1");
