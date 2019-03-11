@@ -1088,6 +1088,9 @@ evalOr(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalAssign(LEXEME *tree, LEXEME *env)
 {
+    printf("ENVIRONMENT:\n");
+    displayEnvironment(env, false);
+    printf("String token: %s\n", getStringToken(getRight(tree)));
     LEXEME *result = eval(getRight(tree), env);
     
     if (getType(getLeft(tree)) == VARIABLE)
@@ -1256,7 +1259,9 @@ evalArgs(LEXEME *tree, LEXEME *env)
     }
     else
     {
-        return cons(GLUE, eval(getLeft(tree), env), evalArgs(getRight(tree), env));
+        LEXEME *glue = cons(GLUE, eval(getLeft(tree), env), evalArgs(getRight(tree), env));
+        setStringToken(glue, "glue");
+        return glue;
     }
 }
 
@@ -1270,7 +1275,9 @@ evalStatements(LEXEME *tree, LEXEME *env)
 
     else
     {
-        return cons(GLUE, eval(getLeft(tree), env), evalStatements(getRight(tree), env));
+        LEXEME *glue = cons(GLUE, eval(getLeft(tree), env), evalStatements(getRight(tree), env));
+        setStringToken(glue, "glue");
+        return glue;
     }
 }
 

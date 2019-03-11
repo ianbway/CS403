@@ -16,9 +16,10 @@
 
 func main[p]
 :
-	print[p]
+	var v = p
+	print[v]
 ;
 
-main["hello"]
+main[5]
 
 #var e = 12#
