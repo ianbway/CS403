@@ -237,7 +237,7 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem problem.e integers
+	@-./emblem problem.e integers
 	@echo ""
 	@echo ""
 	@echo ""
@@ -245,7 +245,7 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem arrays.e
+	@-./emblem arrays.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -253,7 +253,7 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem conditionals.e
+	@-./emblem conditionals.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -261,7 +261,7 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem recursion.e
+	@-./emblem recursion.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -269,7 +269,7 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem iteration.e
+	@-./emblem iteration.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -277,7 +277,7 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem functions.e
+	@-./emblem functions.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -285,7 +285,7 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem lambda.e
+	@-./emblem lambda.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -293,7 +293,7 @@ run : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem objects.e
+	@-./emblem objects.e
 	@echo ""
 	@echo ""
 
@@ -343,7 +343,7 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem problem.e integers
+	@-./emblem problem.e integers
 	@echo ""
 	@echo ""
 	@echo ""
@@ -351,7 +351,7 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem arrays.e
+	@-./emblem arrays.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -359,7 +359,7 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem conditionals.e
+	@-./emblem conditionals.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -367,7 +367,7 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem recursion.e
+	@-./emblem recursion.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -375,7 +375,7 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem iteration.e
+	@-./emblem iteration.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -383,7 +383,7 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem functions.e
+	@-./emblem functions.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -391,7 +391,7 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem lambda.e
+	@-./emblem lambda.e
 	@echo ""
 	@echo ""
 	@echo ""
@@ -399,6 +399,6 @@ test : emblem
 	@echo ""
 	@echo ""
 	@echo ""
-	@./emblem objects.e
+	@-./emblem objects.e
 	@echo ""
 	@echo ""

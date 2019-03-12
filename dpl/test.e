@@ -14,10 +14,19 @@
 
 #print[1+2]#
 
+func obj[value| next]
+:
+	this
+;
+
 func main[p]
 :
-	var v = p
-	print[v]
+	var n = obj[5| 0]
+	print[n.value]
+	print[n.next]
+	var j = p
+	print[j]
+	n.next = j
 ;
 
 main[5]

@@ -127,7 +127,7 @@ func compare[]
 
         if [2 != 3]
         :
-            print["if 2 is not equal to 3."]
+            print["2 is not equal to 3"]
         ;
 
         if [1 and 1 == 1]

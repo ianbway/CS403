@@ -3,7 +3,8 @@
 
 func object[value| next]
 :
-	this
+	this.value = value
+	this.next = next
 ;
 
 func getValue[obj]
@@ -13,8 +14,6 @@ func getValue[obj]
 
 func setValue[obj| val]
 :
-	print["setter"]
-	print[val]
 	obj.value = val
 ;
 
