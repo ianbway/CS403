@@ -1088,9 +1088,9 @@ evalOr(LEXEME *tree, LEXEME *env)
 LEXEME *
 evalAssign(LEXEME *tree, LEXEME *env)
 {
-    printf("ENVIRONMENT:\n");
-    displayEnvironment(env, false);
-    printf("String token: %s\n", getStringToken(getRight(tree)));
+    // printf("ENVIRONMENT:\n");
+    // displayEnvironment(env, false);
+    // printf("String token: %s\n", getStringToken(getRight(tree)));
     LEXEME *result = eval(getRight(tree), env);
     
     if (getType(getLeft(tree)) == VARIABLE)

@@ -9,6 +9,12 @@ FUNCTIONS
 The keyword to functions is "func". This should be followed by a function name, an open bracket, parameters delimited by bars, and a close bracket.
 The body of a function is a block.
 
+OBJECTS
+To use object orientation features, define a function that will be the constructor. The parameters to the function will be the
+fields accessible within the object. Inside of the constructor body block type the 'this' keyword.
+Instantiate the object by setting the constructor method return to a variable declaration. The fields can be get and set
+by using the dot operator on that variable declaration.
+
 VARIABLES
 The keyword to variables is "var". This should be followed by a variable name, an equal sign, and an expression.
 
