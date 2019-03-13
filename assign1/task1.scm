@@ -1,38 +1,19 @@
 ; Ian Braudaway
 ; CS403 Assign 1, Task 1
 
-(define (toHexZero number)
-	(cond
-		((== number 0) "000")
-		((== number 1) "001")
-		((== number 2) "002")
-		((== number 3) "003")
-		((== number 4) "004")
-		((== number 5) "005")
-		((== number 6) "006")
-		((== number 7) "007")
-		((== number 8) "008")
-		((== number 9) "009")
-		(else (toHex number))
-		)
+(define (toHex number)
+	(string+ "" (hexLetters (/ number 16)) (hexLetters (% number 16)))
 	)
 
-(define (toHex number)
+(define (hexLetters number)
 	(cond
-		((== (int number) 0) " ")
-		((== (% (int number) 16) 10) 
-			(string+ (string (toHex (/ (int number) 16))) "A"))
-		((== (% (int number) 16) 11) 
-			(string+ (string (toHex (/ (int number) 16))) "B"))
-		((== (% (int number) 16) 12) 
-			(string+ (string (toHex (/ (int number) 16))) "C"))
-		((== (% (int number) 16) 13) 
-			(string+ (string (toHex (/ (int number) 16))) "D"))
-		((== (% (int number) 16) 14) 
-			(string+ (string (toHex (/ (int number) 16))) "E"))
-		((== (% (int number) 16) 15) 
-			(string+ (string (toHex (/ (int number) 16))) "F"))
-		(else (string+ (string (toHex (/ (int number) 16))) (string (% (int number) 16))))
+		((< number 10) number)
+		((== number 10) "A")
+		((== number 11) "B")
+		((== number 12) "C")
+		((== number 13) "D")
+		((== number 14) "E")
+		((== number 15) "F")
 		)
 	)
 
@@ -52,9 +33,9 @@
 
 (define (cym value)
 	(string+ "#"
-			 (cdr (toHexZero (cyan value))) 
-			 (cdr (toHexZero (yellow value))) 
-			 (cdr (toHexZero (magenta value))))
+			 (toHex (cyan value)) 
+			 (toHex (yellow value)) 
+			 (toHex (magenta value)))
 	)
 
 (define (main)
