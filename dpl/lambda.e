@@ -3,9 +3,9 @@
 
 func f[x]
 :
-    lambda [y] 
+    return lambda [y] 
     : 
-        return [x + y] 
+        return x + y 
     ;
 ;
 

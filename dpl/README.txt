@@ -9,6 +9,9 @@ FUNCTIONS
 The keyword to functions is "func". This should be followed by a function name, an open bracket, parameters delimited by bars, and a close bracket.
 The body of a function is a block.
 
+LAMBDA
+The keyword to anonymous functions is "lambda". These functions need to be returned.
+
 OBJECTS
 To use object orientation features, define a function that will be the constructor. The parameters to the function will be the
 fields accessible within the object. Inside of the constructor body block type the 'this' keyword.

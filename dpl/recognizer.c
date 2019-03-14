@@ -39,15 +39,6 @@ static void advance();
 static LEXEME *match(char *);
 static void matchNoAdvance(char *);
 
-// LEXEME *
-// cons(char *type, LEXEME *left, LEXEME *right)
-// {
-//     LEXEME *consLex = newLexeme(type, NULL);
-//     setLeft(consLex, left);
-//     setRight(consLex, right);
-//     return consLex;
-// }
-
 LEXEME *
 unary() 
 { 
@@ -141,7 +132,8 @@ unary()
         tree = optParamList();
         match(CLOSE_BRACKET);
         LEXEME *bl = block();
-        return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
+        //return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
+        return cons(LAMBDA, cons(GLUE, NULL, tree), bl);
     }
     else if (check(OPEN_FILE_FOR_READING))
     {
@@ -394,15 +386,15 @@ statement()
     {
         return varDef();
     }
-    else if (check(LAMBDA))
-    {
-        match(LAMBDA);
-        match(OPEN_BRACKET);
-        LEXEME *tree = optParamList();
-        match(CLOSE_BRACKET);
-        LEXEME *bl = block();
-        return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
-    }
+    // else if (check(LAMBDA))
+    // {
+    //     match(LAMBDA);
+    //     match(OPEN_BRACKET);
+    //     LEXEME *tree = optParamList();
+    //     match(CLOSE_BRACKET);
+    //     LEXEME *bl = block();
+    //     return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
+    // }
     else
     {
         match(RETURN);

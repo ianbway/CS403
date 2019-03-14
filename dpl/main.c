@@ -35,10 +35,6 @@ main(int argc,char *argv[])
     LEXEME *env = create();
     eval(tree, env);
 
-    printf("\n");
-    printf("ENVIRONMENT DISPLAY IN MAIN\n");
-    displayEnvironment(env, false);
-
     fclose(fileName);
 
     return 0; 
