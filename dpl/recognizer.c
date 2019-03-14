@@ -72,51 +72,6 @@ unary()
     {
         return match(STRING);
     }
-    else if (check(AT))
-    {
-        match(AT);
-        match(OPEN_BRACKET);
-        tree = optArgList();
-        match(CLOSE_BRACKET);
-        return cons(AT, NULL, tree);
-    }
-    else if (check(GET_ARRAY))
-    {
-        match(GET_ARRAY);
-        match(OPEN_BRACKET);
-        tree = match(VARIABLE);
-        match(BAR);
-        LEXEME *index = unary();
-        match(CLOSE_BRACKET);
-        return cons(GET_ARRAY, tree, index);
-    }
-    else if (check(SET_ARRAY))
-    {
-        match(SET_ARRAY);
-        match(OPEN_BRACKET);
-        tree = match(VARIABLE);
-        match(BAR);
-        LEXEME *index = unary();
-        match(BAR);
-        LEXEME *value = unary();
-        match(CLOSE_BRACKET);
-        return cons(SET_ARRAY, cons(GLUE, tree, value), index);
-    }
-    else if (check(GET_ARGC))
-    {
-        tree = match(GET_ARGC);
-        match(OPEN_BRACKET);
-        match(CLOSE_BRACKET);
-        return tree;
-    }
-    else if (check(GET_ARG))
-    {
-        match(GET_ARG);
-        match(OPEN_BRACKET);
-        tree = unary();
-        match(CLOSE_BRACKET);
-        return cons(GET_ARG, NULL, tree);
-    }
     else if (check(PRINT))
     {
         match(PRINT);
@@ -134,38 +89,6 @@ unary()
         LEXEME *bl = block();
         //return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
         return cons(LAMBDA, cons(GLUE, NULL, tree), bl);
-    }
-    else if (check(OPEN_FILE_FOR_READING))
-    {
-        match(OPEN_FILE_FOR_READING);
-        match(OPEN_BRACKET);
-        tree = argList();
-        match(CLOSE_BRACKET);
-        return cons(OPEN_FILE_FOR_READING, NULL, tree);
-    }
-    else if (check(READ_INTEGER))
-    {
-        match(READ_INTEGER);
-        match(OPEN_BRACKET);
-        tree = argList();
-        match(CLOSE_BRACKET);
-        return cons(READ_INTEGER, NULL, tree);
-    }
-    else if (check(AT_FILE_END))
-    {
-        match(AT_FILE_END);
-        match(OPEN_BRACKET);
-        tree = argList();
-        match(CLOSE_BRACKET);
-        return cons(AT_FILE_END, NULL, tree);
-    }
-    else if (check(CLOSE_FILE))
-    {
-        match(CLOSE_FILE);
-        match(OPEN_BRACKET);
-        tree = argList();
-        match(CLOSE_BRACKET);
-        return cons(CLOSE_FILE, NULL, tree);
     }
     else
     { 
@@ -386,15 +309,6 @@ statement()
     {
         return varDef();
     }
-    // else if (check(LAMBDA))
-    // {
-    //     match(LAMBDA);
-    //     match(OPEN_BRACKET);
-    //     LEXEME *tree = optParamList();
-    //     match(CLOSE_BRACKET);
-    //     LEXEME *bl = block();
-    //     return cons(LAMBDA, NULL, cons(GLUE, tree, bl));
-    // }
     else
     {
         match(RETURN);
@@ -593,7 +507,6 @@ match(char *type)
 
     advance(); 
 
-    // LEXEME *matchLex = newLexeme(type, NULL);
     return matchLex;
 }
 
@@ -616,7 +529,7 @@ recognize(FILE *fileName)
     CurrentLexeme = lex(GlobalLexer); 
     LEXEME *tree = program(); 
 
-    //printf(" legal\n");
+    // legal
 
     return tree;
 }

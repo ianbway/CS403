@@ -120,24 +120,6 @@ lexVariableOrKeyword(LEXER *lex)
         return newLexeme(OR, NULL);
     else if (strcmp(token,"and") == 0) 
         return newLexeme(AND, NULL);
-    // else if (strcmp(token,"newArray") == 0) 
-    //     return newLexeme(AT, NULL);
-    // else if (strcmp(token,"getArray") == 0) 
-    //     return newLexeme(GET_ARRAY, NULL);
-    // else if (strcmp(token,"setArray") == 0) 
-    //     return newLexeme(SET_ARRAY, NULL);
-    // else if (strcmp(token,"getArgCount") == 0) 
-    //     return newLexeme(GET_ARGC, NULL);
-    // else if (strcmp(token,"getArg") == 0) 
-    //     return newLexeme(GET_ARG, NULL);
-    // else if (strcmp(token,"openFileForReading") == 0) 
-    //     return newLexeme(OPEN_FILE_FOR_READING, NULL);
-    // else if (strcmp(token,"readInteger") == 0) 
-    //     return newLexeme(READ_INTEGER, NULL);
-    // else if (strcmp(token,"atFileEnd") == 0) 
-    //     return newLexeme(AT_FILE_END, NULL);
-    // else if (strcmp(token,"closeFile") == 0) 
-    //     return newLexeme(CLOSE_FILE, NULL);
         //more keyword testing here
     else //must be a variable!
         return newLexeme(VARIABLE,token);
