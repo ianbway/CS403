@@ -3,7 +3,17 @@
 
 func object[value| next]
 :
-	this
+	func getValue[]
+	:
+		return value
+	;
+
+	func setValue[v]
+	:
+		value = v
+	;
+
+	return this
 ;
 
 func main[]
@@ -11,16 +21,20 @@ func main[]
 	var n = object[5| 78]
 
 	# Get Value. Should be 5. #
-	print["'value' field is:"]
-	print[n.value]
+	print["getValue: 'value' field is:"]
+	var value = n.getValue
+	print[value[]]
 	print[""]
 
 	# Set Value. Should be 963. #
-	n.value = 963
+	print["setValue: 'value' field set to 963."]
+	n.setValue[963]
+	print[""]
 
 	# Get Value. Should be 963. #
-	print["'value' field is:"]
-	print[n.value]
+	print["getValue: 'value' field is:"]
+	var value = n.getValue
+	print[value[]]
 ;
 
 main[]

@@ -193,7 +193,8 @@ operatorPending()
     return check(PLUS) || check(MINUS) || check(MULTIPLY) || check(DIVIDE) || 
            check(LESS_THAN) || check(LESS_THAN_EQUAL) || check(EQUAL) || 
            check(NOT) || check(GREATER_THAN) || check(GREATER_THAN_EQUAL) ||
-           check(MODULO) || check(OR) || check(AND) || check(COMPARE_EQUAL) || check(DOT);
+           check(MODULO) || check(OR) || check(AND) || check(COMPARE_EQUAL)
+           || check(DOT);
 }
 
 bool

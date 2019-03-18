@@ -3,19 +3,19 @@
 
 (define (crazyTriangle left right)
 	(define (trianglePrint levels)
-		(cond ((== levels 1) (println left))
-			  (())
+		(cond ((== left 0) left)
+			  ((== left right) right)
+			  (else ((+ crazyTriangle (left - 1, right - 1) crazyTriangle(left - 1, right))))
 			)
 
 	)
 		)
 
-
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
-	(define argOne (readExpr))
-	(define argTwo (readExpr))
-	(define argThree (readExpr))
-	((crazyTriangle argOne argTwo) argThree)
+	(define left (readExpr))
+	(define right (readExpr))
+	(define levels (readExpr))
+	(print ((crazyTriangle left right) levels) )
 	)
 

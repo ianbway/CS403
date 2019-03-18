@@ -14,9 +14,10 @@ The keyword to anonymous functions is "lambda". These functions need to be retur
 
 OBJECTS
 To use object orientation features, define a function that will be the constructor. The parameters to the function will be the
-fields accessible within the object. Inside of the constructor body block type the 'this' keyword.
+fields accessible within the object. Internal methods are defined functions nested inside of the constructor. 
+Inside of the constructor body block type 'return this' at the end of the constructor.
 Instantiate the object by setting the constructor method return to a variable declaration. The fields can be get and set
-by using the dot operator on that variable declaration.
+by using the dot operator on that variable declaration. Declare the getVariable[] method to a variable, then call the variable to 'get'. To 'set' call setVariable[var] from the object you instantiated, ex: obj.setVariable[var].
 
 VARIABLES
 The keyword to variables is "var". This should be followed by a variable name, an equal sign, and an expression.

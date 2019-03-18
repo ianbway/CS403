@@ -1183,6 +1183,7 @@ evalFuncCall(LEXEME *tree, LEXEME *env)
     LEXEME *name = getLeft(tree);
     LEXEME *args = getRight(tree);
     LEXEME *eargs = evalArgs(args, env);
+
     if (strcmp(getStringToken(name), "print") == 0)
     {
         return evalPrint(eargs);
