@@ -14,6 +14,7 @@ func mainFunction[pFunction]
 		return 1
 	;
 
+	print["Printing result of nested function call added to parameter function. Should be 2."]
 	print[subFunction[] + pFunction]
 ;
 
