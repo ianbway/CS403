@@ -12,15 +12,6 @@
 
 static LEXEME *treeWalkerHelper(LEXEME *, LEXEME *);
 
-// LEXEME *
-// cons(char *type, LEXEME *left, LEXEME *right)
-// {
-//     LEXEME *consLex = newLexeme(type, NULL);
-//     setLeft(consLex, left);
-//     setRight(consLex, right);
-//     return consLex;
-// }
-
 LEXEME *
 car(LEXEME *lex)
 {
@@ -142,16 +133,3 @@ displayEnvironment(LEXEME *env, bool lt)
     }
     fprintf(stdout, "\n");
 }
-
-            // if (getType(car(vals)) == CLOSURE)
-            // {
-            //     LEXEME *params = cdr(car(cdr(car(vals))));
-            //     if (params == NULL)
-            //     {
-            //         printf("NULL Parameters!\n");
-            //     }
-            //     else
-            //     {
-            //         printf("First Param is: %s\n", getStringToken(car(params)));
-            //     }
-            // }
