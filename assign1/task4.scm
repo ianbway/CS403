@@ -1,18 +1,21 @@
 ; Ian Braudaway
 ; CS403 Assign 1, Task 4
 
+(define (crazyTriangle left right)
+	(define (trianglePrint levels)
+		(cond ((== levels 1) (println left))
+			  (())
+			)
+
+	)
+		)
+
+
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
-	;(define arg (readExpr))
-	((crazyTriangle readInt readInt) readInt)
-	)
-
-
-
-(define (crazyTriangle left right)
-
-	( left right)
-
-
+	(define argOne (readExpr))
+	(define argTwo (readExpr))
+	(define argThree (readExpr))
+	((crazyTriangle argOne argTwo) argThree)
 	)
 
