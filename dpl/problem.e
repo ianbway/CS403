@@ -14,6 +14,8 @@ func summation[file]
 	;
 
 	sum = sum + int
+
+	# Sum of integers in my 'integers' file is 394. #
 	print["Sum is: "]
 	print[sum]
 ;
