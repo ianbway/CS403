@@ -5,15 +5,13 @@
 func summation[file]
 :
 	var int = readInteger[file]
-	var sum = 0
+	var sum = int
 
 	while[atFileEnd[file] != 1]
 	:
-		sum = sum + int
 		int = readInteger[file]
+		sum = sum + int
 	;
-
-	sum = sum + int
 
 	# Sum of integers in my 'integers' file is 394. #
 	print["Sum is: "]
