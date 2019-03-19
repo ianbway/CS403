@@ -20,22 +20,18 @@
 (define (root-iter guess x nthRoot)
 	(if (good-enough? guess x)
 		guess
-		(root-iter (improve guess x nthRoot)
-			x))
+		(root-iter (improve guess x nthRoot) x nthRoot))
 	)
 
 (define (root-n nthRoot)
-	(define (root-iter 1.0 rootOf nthRoot)
-		(if (good-enough? guess x)
-		guess
-		(root-iter (improve guess x nthRoot)
-			x))
+	(define (root-helper rootOf)
+		(root-iter 1.0 rootOf nthRoot)
 		)
 	)
 
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
-	(define argOne (readExpr))
-	(define argTwo (readExpr))
-	(println "((root-n " argOne ")" argTwo ") is " (fmt "%.15f" ((root-n argOne) argTwo)))
+	(define nthRoot (readExpr))
+	(define rootOf (readExpr))
+	(println "((root-n " nthRoot ") " rootOf ") is " (fmt "%.15f" ((root-n nthRoot) rootOf)))
 	)
