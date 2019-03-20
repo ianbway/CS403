@@ -1,12 +1,12 @@
 ; Ian Braudaway
 ; CS403 Assign 1, Task 3
 
-(define (square x)
-	(* x x)
+(define (unRoot x nthRoot)
+	(expt x nthRoot)
 	)
 
-(define (good-enough? guess x)
-	(< (abs (- (square guess) x)) 0.0000000000000001)
+(define (good-enough? guess x nthRoot)
+	(< (abs (- (unRoot guess nthRoot) x)) 0.0000000000000001)
 	)
 
 (define (average x y nthRoot) 
@@ -14,11 +14,11 @@
 	)
 
 (define (improve guess x nthRoot)
-	(average guess (/ x (^ guess (- nthRoot 1))) nthRoot)
+	(average guess (/ x (expt guess (- nthRoot 1))) nthRoot)
 	)
 
 (define (root-iter guess x nthRoot)
-	(if (good-enough? guess x)
+	(if (good-enough? guess x nthRoot)
 		guess
 		(root-iter (improve guess x nthRoot) x nthRoot))
 	)

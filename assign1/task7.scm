@@ -3,11 +3,7 @@
 
 (define (div2 value)
 	(cond
-		((== (cdr value) 0) #t)
-		((== (cdr value) 2) #t)
-		((== (cdr value) 4) #t)
-		((== (cdr value) 6) #t)
-		((== (cdr value) 8) #t)
+		((== (and value 1) 0) #t)
 		(else #f)
 		)
 	)
@@ -17,19 +13,33 @@
 	)
 
 (define (halve value)
+	
+	)
+
+(define (removeEvens array)
+
+
+
+	)
+
+(define (ethiop-iter a b)
+	(cond
+		((== b 1) (removeEvens b))
+
+		)
+
 
 	)
 
 (define (ethiop a b)
-
-	
+	(ethiop-iter a b)
 	)
 
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
 	(define a (readExpr))
 	(define b (readExpr))
-	(inspect (div2 a))
+	;(inspect (div2 a))
 	(inspect (double a))
 	(inspect (halve a))
 	(inspect (ethiop a b))
