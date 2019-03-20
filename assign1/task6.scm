@@ -13,8 +13,8 @@
 	(cond
 		((== iterator 0) (function iterator))
 		(else 
-			(/ (- (* (S f (- iterator 1)) (S f (+ iterator 1))) (^ (S f iterator) 2)) 
-				(+ (- (S f (+ iterator 1)) (* 2 (S f iterator))) (S f (- iterator 1)))
+			(/ (real (- (* (S function (- iterator 1)) (S function (+ iterator 1))) (^ (S function iterator) 2)))
+				(real (+ (- (S function (+ iterator 1)) (* 2 (S function iterator))) (S function (- iterator 1))))
 				)
 			)
 		)
