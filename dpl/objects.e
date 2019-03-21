@@ -28,7 +28,8 @@ func main[]
 
 	# Set Value. Should be 963. #
 	print["setValue: 'value' field set to 963."]
-	n.setValue[963]
+	var setter = n.setValue
+	setter[963]
 	print[""]
 
 	# Get Value. Should be 963. #
