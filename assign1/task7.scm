@@ -12,8 +12,19 @@
 	(+ value value)
 	)
 
+(define (halve-iter value countup)
+	(cond
+		((> countup value) )
+		((- value countup))
+		)
+
+
+	)
+
 (define (halve value)
-	
+	(cond
+		((== ))
+		)
 	)
 
 (define (removeEvens array)
