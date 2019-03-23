@@ -1,20 +1,34 @@
 ; Ian Braudaway
 ; CS403 Assign 1, Task 4
 
-(define (pascalElem left right)
+(define (pascal left right)
 	(cond ((== left 0) left)
 		  ((== left right) right)
-		  (else ((+ (pascalElem (- left 1) (- right 1)) 
-		  			(pascalElem (- left 1) right)))))
+		  (else ((+ (pascal (- left 1) (- right 1)) 
+		  			(pascal (- left 1) right)))))
+	)
+
+(define (printerHelperHelper start end left right)
+	(cond
+		((== start end) " ")
+		)
+	(print (pascal left right))
+	(printerHelperHelper (+ start 1) end left right)
+	)
+
+(define (printerHelper start end left right)
+	(cond
+		((== start end) " ")
+		)
+	(printerHelperHelper 0 start left right)
+	(printerHelper (+ start 1) end left right)
 	)
 
 (define (crazyTriangle left right)
 	(define (trianglePrint levels)
-		(cond
-			((== levels 0) return)
-			(else (println (pascalElem left right))
-				(trianglePrint (- levels 1)))
-			)
+
+
+		(printerHelper 0 levels left right)
 		)
 	)
 
