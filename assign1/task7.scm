@@ -20,24 +20,20 @@
 	(div2Helper value 1)
 	)
 
-;{
-(define (halve-iter value countup)
+(define (halve-iter value counter store ogVal)
 	(cond
-		((> (double countup) value) (- value countup))
-		(else (halve-iter value (double countup)))
+		((== value 1) store)
+		((== (double store) ogVal)
+		 store)
+		((> (double (double counter)) value)
+			(halve-iter (- value (double counter)) 1 (+ store counter) ogVal))
+		(else 
+			(halve-iter value (double counter) store ogVal))
 		)
 	)
-;}
 
 (define (halve value)
-	;{
-	(cond
-		((== (halve-iter value 1) ))
-		((== (halve-iter value 1) ))
-		(else ())
-		)
-	;}
-	(/ value 2)
+	(halve-iter value 1 0 value)
 	)
 
 (define (ethiop-iter a b c)
@@ -59,5 +55,5 @@
 	(println "(halve " a ") is " (halve a))
 	(println "(double " a ") is " (double a))
 	(println "(div2? " a ") is " (div2? a))
-	(println "(ethiop " a b ") is " (ethiop a b))
+	(println "(ethiop " a " " b ") is " (ethiop a b))
 	)
