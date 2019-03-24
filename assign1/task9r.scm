@@ -1,11 +1,11 @@
 ; Ian Braudaway
 ; CS403 Assign 1, Task 9
 
-(define (ramanujanr-helper depth acc)
+(define (ramanujanr-helper depth counter)
 	(cond
-		((== depth 0.0) (* 1 (sqrt (+ 6.0 acc))))
+		((== depth counter) (* (+ depth 1.0) (sqrt (+ depth 6.0))))
 		(else
-			(ramanujanr-helper (- depth 1.0) (* (+ depth 1.0) (sqrt (+ (+ depth 6.0) acc)))))
+			(* (+ counter 1.0) (sqrt (+ (+ counter 6.0) (ramanujanr-helper depth (+ counter 1.0))))))
 		)
 	)
 
