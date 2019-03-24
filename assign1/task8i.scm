@@ -1,11 +1,11 @@
 ; Ian Braudaway
 ; CS403 Assign 1, Task 8 Iterative
 
-(define (term index counter)
+(define (term index result)
 	(cond
-		((== counter index) (/ 1.0 (+ 1.0 (/ 1.0 (+ (* index 2.0) 1.0)))))
+		((== index 0.0) (+ 2.0 result))
 		(else
-			(/ 1.0 (+ 1.0 (/ 1.0 (+ (* counter 2.0) (/ 1.0 (+ 1.0 (term index (+ counter 1.0)))))))))
+			(term (- index 1.0) (/ 1.0 (+ 1.0 (/ 1.0 (+ (* index 2.0) (/ 1.0 (+ 1.0 result))))))))
 		)
 	)
 
@@ -13,7 +13,7 @@
 	(cond
 		((== index 0.0) 2.0)
 		(else
-			(+ 2.0 (term (real index) 1.0)))
+			(term (real index) 0.0))
 		)
 	)
 
