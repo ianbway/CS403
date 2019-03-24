@@ -11,7 +11,7 @@
 
 (define (ecfi index)
 	(cond
-		((== index 0.0) 2.0)
+		((== (real index) 0.0) 2.0)
 		(else
 			(term (real index) 0.0))
 		)

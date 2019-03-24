@@ -11,7 +11,7 @@
 
 (define (ecfr index)
 	(cond
-		((== index 0.0) 2.0)
+		((== (real index) 0.0) 2.0)
 		(else
 			(+ 2.0 (term (real index) 1.0)))
 		)
