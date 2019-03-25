@@ -22,3 +22,10 @@
 	(define index (readExpr))
 	(println "(ecfr " index ") is " (fmt "%.25f" (ecfr index)))
 	)
+
+;(inspect (fmt "%.25f" (ecfr 2)))
+;(inspect (fmt "%.25f" (ecfr 3)))
+;(inspect (fmt "%.25f" (ecfr 4)))
+;(inspect (fmt "%.25f" (ecfr 5)))
+;(inspect (fmt "%.25f" (ecfr 43)))
+;(inspect (fmt "%.25f" (ecfr 50)))

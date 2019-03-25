@@ -29,3 +29,16 @@
 	(define rootOf (readExpr))
 	(println "((root-n " nthRoot ") " rootOf ") is " (fmt "%.15f" ((root-n nthRoot) rootOf)))
 	)
+
+
+;(inspect (fmt "%.15f" ((root-n 2) 144)))
+;(inspect (fmt "%.15f" ((root-n 12) 2)))
+;(inspect (fmt "%.15f" ((root-n 3) 6.950000e-29)))
+;(inspect (fmt "%.15f" ((root-n 2) 2.210000e-29)))
+;(inspect (fmt "%.15f" ((root-n 3) 2.510000e-29)))
+;(inspect (fmt "%.15f" ((root-n 2) 776)))
+;(inspect (fmt "%.15f" ((root-n 4) 803)))
+;(inspect (fmt "%.15f" ((root-n 7) 324)))
+;(inspect (fmt "%.15f" ((root-n 9) 858)))
+;(inspect (fmt "%.15f" ((root-n 11) 883)))
+;(inspect (fmt "%.15f" ((root-n 5) 911)))
