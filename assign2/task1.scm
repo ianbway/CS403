@@ -3,7 +3,7 @@
 
 (define (range start end step)
 	(cond
-		((== start end) nil)
+		((>= start end) nil)
 		(else
 			(cons start (range (+ start step) end step)))
 		)
