@@ -16,13 +16,21 @@
 		)
 	)
 
+(define (accumulate-n op initial sequence)
+	(if (nil? (car sequence))
+		nil
+		(cons (accumulate op initial (map car sequence))
+			  (accumulate-n op initial (map cdr sequence)))
+		)
+	)
+
 (define (transpose mat)
-	(accumulate cons nil mat)
+	(accumulate-n cons nil mat)
 	)
 
 (define (matrix-*-matrix m n)
-    (map (lambda (row) (matrix-*-vector (transpose n) row)) m)
-    )
+    (let ((cols (transpose m)))
+    	(map (lambda (x) (matrix-*-vector cols x)) n)))
 
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
