@@ -1,17 +1,15 @@
 ; Ian Braudaway
 ; CS403 Assign 2, Task 2
 
-(define (curryHelp func counter)
-	(cond
-		((== counter (length (get 'parameters func))) )
-		(else
-			(curryHelp func (+ counter 1)))
+(define (curry @)
+	(inspect @)
+	(inspect (car @))
+	(inspect (cdr @))
+
+	(if (valid? @)
+		(lambda (@)
+			(apply (car @) (curry (car @))))
 		)
-
-	)
-
-(define (curry func)
-	(apply func (curryHelp func 1))
 	)
 
 (define (main)
