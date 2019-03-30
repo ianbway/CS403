@@ -48,4 +48,4 @@
 
 ;(println (powerSet '(u h g q a p t y l)))
 
-(println (powerSet '(s k o u p d q l z m b)))
+;(println (powerSet '(s k o u p d q l z m b)))
