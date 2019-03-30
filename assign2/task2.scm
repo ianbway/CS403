@@ -5,12 +5,11 @@
 	; (inspect @)
 	; (inspect (car @))
 	; (inspect (cdr @))
-	(inspect (length (get 'parameters (car @))))
+	;(inspect (length (get 'parameters (car @))))
 
 	(if (== 0 (length (get 'parameters (car @))))
 		(apply (car @) (cdr @))
-
-		(lambda (@) (curry @))
+		(lambda (@) (curry (cdr @)))
 		)
 	)
 
