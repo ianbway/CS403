@@ -2,13 +2,15 @@
 ; CS403 Assign 2, Task 2
 
 (define (curry @)
-	(inspect @)
-	(inspect (car @))
-	(inspect (cdr @))
+	; (inspect @)
+	; (inspect (car @))
+	; (inspect (cdr @))
+	(inspect (length (get 'parameters (car @))))
 
-	(if (valid? @)
-		(lambda (@)
-			(apply (car @) (curry (car @))))
+	(if (== 0 (length (get 'parameters (car @))))
+		(apply (car @) (cdr @))
+
+		(lambda (@) (curry @))
 		)
 	)
 

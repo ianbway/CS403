@@ -2,6 +2,10 @@
 ; CS403 Assign 2, Task 8
 
 (define (insertBST tree value)
+	(cond
+		(())
+
+		)
 	(newBST tree)
 	)
 
