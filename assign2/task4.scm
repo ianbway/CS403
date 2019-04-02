@@ -13,7 +13,7 @@
 
 	(cond
 		((== nil (cdr func)) func)
-		((== "let*" (car func)) )
+		((== "let*" (car (car func))) (lambda((car (car func))) string+ 'lambda (car(func))))
 		(else
 			(let*->lambdas (cdr func))
 			)

@@ -2,11 +2,15 @@
 ; CS403 Assign 2, Task 8
 
 (define (insertBST tree value)
-	(cond
-		(())
+	;(inspect (get 'value tree))
+	;(inspect (get 'value (car tree)))
 
-		)
-	(newBST tree)
+	(if (nil? tree) 
+		(newBST (node value nil nil))
+		(if (> value (inspect (tree'value))) 
+			(newBST (node tree (tree'left) (insertBST (tree'right) value))) 
+    		(newBST (node tree (insertBST (tree'left) value) (tree'right)))
+		))
 	)
 
 (define (node value left right)

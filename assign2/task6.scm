@@ -4,10 +4,11 @@
 (define (powerSet symbols)
 	(setNilDisplay 'nil)
 	(if (nil? symbols)
-       '(())
-        (merge (powerSet (cdr symbols)) 
-          	(map (lambda (x) (cons (car symbols) x)) 
-          		(powerSet (cdr symbols))))))
+    	'(())
+    	(let ((rest (powerSet (cdr symbols))))
+       		(merge rest 
+          		(map (lambda (x) (cons (car symbols) x)) 
+          			rest)))))
 
 (define (merge listOne listTwo)
 	(setNilDisplay 'nil)

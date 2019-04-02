@@ -2,7 +2,12 @@
 ; CS403 Assign 2, Task 2
 
 (define (curry @)
-	;(length (get 'parameters (car @)))
+	;(inspect (length (get 'parameters (car @))))
+	; (inspect @)
+	; (inspect (car @))
+	; (inspect (length (get 'parameters (car @))))
+	; (inspect (cdr @))
+	; (inspect (length (car @)))
 
 	(if (== 1 (length (car @)))
 		(apply (car @) '(cdr @))
