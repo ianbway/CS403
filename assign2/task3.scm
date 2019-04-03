@@ -1,9 +1,9 @@
 ; Ian Braudaway
 ; CS403 Assign 2, Task 3
 
-; (define (countSize s)
-; 	(+ s 1)
-; 	)
+(define (countSize s)
+	(+ s 1)
+	)
 
 (define (Stack)	
 	(cons nil nil)
