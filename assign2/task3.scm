@@ -1,29 +1,28 @@
 ; Ian Braudaway
 ; CS403 Assign 2, Task 3
 
-(define (countSize s)
-	(+ s 1)
+(define (countSize size op)
+	(op size 1)
 	)
 
 (define (Stack)	
-	(cons nil nil)
+	(cons (cons nil 0) nil)
 	)
 
 (define (push s v)
-	(cons v s)
+	(cons (cons v (countSize (cdr (car s)) +)) s)
 	)
 
 (define (pop s)
-	(car s)
+	(cdr s)
 	)
 
 (define (speek s)
-	(car s)
+	(car (car s))
 	)
 
 (define (ssize s)
-
-
+	(cdr (car s))
 	)
 
 (define (Queue)
@@ -95,9 +94,9 @@
 ; 	(iter (readExpr))
 ; 	)
 
-(println (speek (pop (pop (push (push (push (Stack) 3) 2) 1)))))
+;(println (speek (pop (pop (push (push (push (Stack) 3) 2) 1)))))
 
-;(println (qpeek (dequeue (dequeue (enqueue (enqueue (enqueue (Queue) 1) 2) 3)))))
+(println (qpeek (dequeue (dequeue (enqueue (enqueue (enqueue (Queue) 1) 2) 3)))))
 
 ;(println (speek (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (Stack) 81) 15) 16) 26) 87) 95) 46) 27) 44) 62) 20) 76) 62) 25) 49) 61) 50) 15) 20) 38) 87) 77) 12) 56) 22) 55) 98) 27) 99) 75) 86) 80) 81) 93) 97) 68) 88) 44) 85) 33) 96) 96) 99) 59) 22) 49) 20) 62) 55) 31) 91) 42) 98) 93) 88) 20) 49) 87) 38) 48) 62) 25) 29) 43) 18) 27) 12) 97) 61) 87) 31) 58)))
 
