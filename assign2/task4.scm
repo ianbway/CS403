@@ -2,7 +2,6 @@
 ; CS403 Assign 2, Task 4
 
 (define (lambdaize var val body)
-		;(list (cons 'lambda (cons (list var) body)) val)
 		(list (cons 'lambda (cons (list var) body)) val)
 	)
 
@@ -12,7 +11,7 @@
 			(lambdaize (car (car pairings)) (car (cdr (car pairings))) body)
 			)
 		(else
-			(lambdaize (car (car pairings)) (car (cdr (car pairings))) (lambdaFeeder (cdr pairings) body))
+			(lambdaize (car (car pairings)) (car (cdr (car pairings))) (list (lambdaFeeder (cdr pairings) body)))
 			)
 		)
 	)
@@ -26,25 +25,6 @@
 	)
 
 (define (let*->lambdas func)
-	; (inspect (car func))
-	; (inspect (cdr func))
-	; (inspect (car (cdr func)))
-	; (inspect (cdr (cdr func)))
-	; (inspect (car (cdr (cdr func))))
-	; (inspect (cdr (cdr (car (cdr (cdr func))))))
-	; (inspect (car (cdr (car (cdr (cdr func))))))
-	; (inspect (car (car (cdr (car (cdr (cdr func)))))))
-	; (inspect (car (car (car (cdr (car (cdr (cdr func))))))))
-	; (inspect (cdr (car (car (cdr (car (cdr (cdr func))))))))
-	; (inspect (car (cdr (car (car (cdr (car (cdr (cdr func)))))))))
-	; (inspect (cdr (car (cdr (car (cdr (cdr func)))))))
-	; (inspect (cdr (cdr (car (cdr (car (cdr (cdr func))))))))
-	; (inspect (car (car (cdr (cdr func)))))
-	; (inspect (cdr (cdr (cdr func))))
-	;(inspect func)
-
-	;(inspect (car (car (cdr (cdr func)))))
-
 	(if (!= (car (car (cdr (cdr func)))) 'let*)
 		func
 		(listReturn func)
