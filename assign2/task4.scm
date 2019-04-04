@@ -17,6 +17,14 @@
 		)
 	)
 
+(define (listReturn func) 
+	(define defineWord (car func))
+	(define arbitraryFuncName (car (cdr func)))
+	(define paramArgList (car (cdr (car (cdr (cdr func))))))
+	(define body (cdr (cdr (car (cdr (cdr func))))))
+	(list defineWord arbitraryFuncName (lambdaFeeder paramArgList body))
+	)
+
 (define (let*->lambdas func)
 	; (inspect (car func))
 	; (inspect (cdr func))
@@ -35,19 +43,12 @@
 	; (inspect (cdr (cdr (cdr func))))
 	;(inspect func)
 
+	;(inspect (car (car (cdr (cdr func)))))
 
-	(define defineWord (car func))
-	(define arbitraryFuncName (car (cdr func)))
-	(define paramArgList (car (cdr (car (cdr (cdr func))))))
-	(define body (cdr (cdr (car (cdr (cdr func))))))
-
-	(inspect defineWord)
-	(inspect arbitraryFuncName)
-	(inspect paramArgList)
-	(inspect body)
-
-	(list defineWord arbitraryFuncName (lambdaFeeder paramArgList body))
-
+	(if (!= (car (car (cdr (cdr func)))) 'let*)
+		func
+		(listReturn func)
+		)
 	)
 
 (define (main)
