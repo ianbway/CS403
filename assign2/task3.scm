@@ -26,77 +26,63 @@
 	)
 
 (define (Queue)
-	(cons nil nil)
+	(Stack)
 	)
 
 (define (enqueue q v)
-	(cons q (cons v nil))
+	(push q v)
+	)
+
+(define (dequeueNoRemove q tempStack)
+	(cond
+		((> (ssize q) 0)
+			(dequeueNoRemove (pop q) (push tempStack (speek q))))
+		(else
+			tempStack)
+		)
+	)
+
+(define (dequeueHelper q tempStack)
+	(cond
+		((> (ssize q) 0)
+			(dequeueHelper (pop q) (push tempStack (speek q))))
+		(else
+			(pop tempStack))
+		)
 	)
 
 (define (dequeue q)
-	(car q)
+	(dequeueNoRemove (dequeueHelper q (Stack)) (Stack))
+	)
+
+(define (qpeekHelper q tempStack)
+	(cond
+		((> (ssize q) 0)
+			(qpeekHelper (pop q) (push tempStack (speek q))))
+		(else
+			(speek tempStack))
+		)
 	)
 
 (define (qpeek q)
-	(car q)
+	(qpeekHelper q (Stack))
 	)
 
 (define (qsize q)
-
-
+	(ssize q)
 	)
 
-; ; read some ints and place them in both a stack and queue
-; (define (loop stack queue)
-; 	(define x (readInt))
-; 	(if (eof?)
-; 		(list stack queue)
-; 		(loop (push stack x) (enqueue queue x))
-; 		)
-; 	)
-
-; ; empty out a stack, printing the values as they come off
-; (define (popper s mode)
-; 	(cond
-; 		((!= (ssize s) 0)
-; 			(if (= mode 1) (inspect (speek s)))
-; 				(popper (pop s) mode)
-; 			)
-; 		)
-; 	)
-
-; ; empty out a queue, printing the values as they come off
-; (define (dequeuer q mode)
-; 	(cond
-; 		((!= (qsize q) 0)
-; 			(if (= mode 1) (inspect (qpeek q)))
-; 			(dequeuer (dequeue q) mode)
-; 			)
-; 		)
-; 	)
-
-; (define (main)
-; 	(define oldstream (setPort (open (get ScamArgs 1) 'read)))
-; 	(define mode (get ScamArgs 2))
-; 	(define data (loop (Stack) (Queue)))
-; 	(setPort oldStream)
-; 	(println "popping...")
-; 	(popper (car data) mode)
-; 	(println "dequeuing...")
-; 	(dequeuer (cadr data) mode)
-; 	)
-
-; (define (main)
-; 	(setPort (open (getElement ScamArgs 1) 'read))
-; 	(define env this)
-; 	(define (iter expr)
-; 		(if (not (eof?)) (begin (eval expr env) (iter (readExpr)))))
-; 	(iter (readExpr))
-; 	)
+(define (main)
+	(setPort (open (getElement ScamArgs 1) 'read))
+	(define env this)
+	(define (iter expr)
+		(if (not (eof?)) (begin (eval expr env) (iter (readExpr)))))
+	(iter (readExpr))
+	)
 
 ;(println (speek (pop (pop (push (push (push (Stack) 3) 2) 1)))))
 
-(println (qpeek (dequeue (dequeue (enqueue (enqueue (enqueue (Queue) 1) 2) 3)))))
+;(println (qpeek (dequeue (dequeue (enqueue (enqueue (enqueue (Queue) 1) 2) 3)))))
 
 ;(println (speek (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (push (Stack) 81) 15) 16) 26) 87) 95) 46) 27) 44) 62) 20) 76) 62) 25) 49) 61) 50) 15) 20) 38) 87) 77) 12) 56) 22) 55) 98) 27) 99) 75) 86) 80) 81) 93) 97) 68) 88) 44) 85) 33) 96) 96) 99) 59) 22) 49) 20) 62) 55) 31) 91) 42) 98) 93) 88) 20) 49) 87) 38) 48) 62) 25) 29) 43) 18) 27) 12) 97) 61) 87) 31) 58)))
 
