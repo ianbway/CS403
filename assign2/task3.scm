@@ -26,21 +26,18 @@
 	)
 
 (define (Queue)
-	(Stack)
+	(cons (Stack) (Stack))
 	)
 
 (define (enqueue q v)
-	(cond
-		((== (speek q) 'rev) 
-			(push (reverseQueue (pop q) (Stack)) v))
-		(else
-			(push q v)
-			)
-		)
+	(define inputStack (car q))
+	(define outputStack (cdr q))
+
+	(cons (push inputStack v) outputStack)
 	)
 
 (define (reverseQueue q tempStack)
-	(cond
+ 	(cond
 		((> (ssize q) 0)
 			(reverseQueue (pop q) (push tempStack (speek q))))
 		(else
@@ -48,38 +45,37 @@
 		)
 	)
 
-(define (dequeueHelper q tempStack)
-	(cond
-		((> (ssize q) 0)
-			(dequeueHelper (pop q) (push tempStack (speek q))))
-		(else
-			(push (pop tempStack) 'rev)
-			)
-		)
-	)
-
 (define (dequeue q)
+	(define inputStack (car q))
+	(define outputStack (cdr q))
+
 	(cond
-		((== (speek q) 'rev) 
-			(push (pop (pop q)) 'rev))
+		((== (ssize outputStack) 0)
+			(cons (Stack) (pop (reverseQueue inputStack outputStack))))
 		(else
-			(dequeueHelper q (Stack))
+			(cons inputStack (pop outputStack))
 			)
 		)
 	)
 
 (define (qpeek q)
+	(define inputStack (car q))
+	(define outputStack (cdr q))
+
 	(cond
-		((== (speek q) 'rev) 
-			(speek (pop q)))
+		((== (ssize outputStack) 0)
+			(speek (reverseQueue inputStack outputStack)))
 		(else
-			(speek (reverseQueue q (Stack)))
+			(speek outputStack)
 			)
 		)
 	)
 
 (define (qsize q)
-	(ssize q)
+	(define inputStack (car q))
+	(define outputStack (cdr q))
+	
+	(+ (ssize inputStack) (ssize outputStack))
 	)
 
 (define (main)
