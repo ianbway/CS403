@@ -1,1 +1,3 @@
+(println (scoping 'y ((define (zurp x) (define y (+ x 1)) this) 5)))
+(println (scoping '* ((define (zarp x) this) 5)))
 (println (scoping 'cs403sucks ((define (zirp x) this) 5)))

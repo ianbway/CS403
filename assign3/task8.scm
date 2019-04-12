@@ -1,10 +1,8 @@
 ; Ian Braudaway
 ; CS403 Assign 3, Task 8
 
-(define (ramanujan)
-
-
-	)
+(define ramanujan
+  )
 
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
