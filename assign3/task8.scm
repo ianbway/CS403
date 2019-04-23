@@ -1,8 +1,14 @@
 ; Ian Braudaway
 ; CS403 Assign 3, Task 8
 
-(define ramanujan
-  )
+(include "streams.scm")
+
+(define (cube x)
+	(* x x x)
+	)
+
+(define (weight i j)
+  (+ (cube i) (cube j)))
 
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))

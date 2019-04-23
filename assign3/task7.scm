@@ -1,6 +1,10 @@
 ; Ian Braudaway
 ; CS403 Assign 3, Task 7
 
+(include "streams.scm")
+
+(sdisplay 12 integers)
+
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
 	(define env this)

@@ -1,6 +1,8 @@
 ; Ian Braudaway
 ; CS403 Assign 3, Task 6
 
+(include "streams.scm")
+
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
 	(define env this)
