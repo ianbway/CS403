@@ -65,18 +65,22 @@
 	)
 
 (define (sdisplay upToIndex stream)
-	(cond
-		((stream-null? stream) 
-			(print "...)")
-			(newline))
-		((= upToIndex 0)
-			(print "...)")
-			(newline))
-		(else
-			(begin (print (stream-car stream) ",")
-				(sdisplay (- upToIndex 1) (stream-cdr stream)))
+	(print "(")
+	(define (iter index s)
+		(cond
+			((stream-null? s) 
+				(print "...)")
+				(newline))
+			((= index 0)
+				(print "...)")
+				(newline))
+			(else
+				(begin (print (stream-car s) ",")
+					(iter (- index 1) (stream-cdr s)))
+				)
 			)
 		)
+	(iter upToIndex stream)
 	)
 
 (define (force delayed-object)
