@@ -2,41 +2,50 @@
 ; CS403 Assign 3, Task 2
 
 (define (checkThisPair functionToLookIn replaceThis withThis)
-	(define body (get 'code functionToLookIn))
-
-
-	(inspect body)
-	(inspect (car body))
-	(inspect (cadr body))
-	; (cond
-
-	; 	)
-
-
+	(cond
+		((nil? functionToLookIn)
+			'done)
+		((integer? functionToLookIn)
+			'done)
+		((symbol? functionToLookIn)
+			(cond
+				((equal? functionToLookIn replaceThis) 
+					(set! functionToLookIn withThis))
+				(else
+					'done
+					)
+			))
+		((eq? 'quote functionToLookIn)
+			'done)
+		((eq? 'quote (car functionToLookIn))
+		 	'done)
+		((equal? (car functionToLookIn) replaceThis) 
+			(set-car! functionToLookIn withThis)
+			(checkThisPair (cdr functionToLookIn) replaceThis withThis))
+		((object? functionToLookIn)
+			(checkThisPair (get 'name functionToLookIn) replaceThis withThis)
+			(checkThisPair (get 'parameters functionToLookIn) replaceThis withThis)
+			(checkThisPair (get 'code functionToLookIn) replaceThis withThis))
+		((>= (length functionToLookIn) 1)
+			(cond
+				((equal? (car functionToLookIn) replaceThis) 
+					(set-car! functionToLookIn withThis)
+					(checkThisPair (cdr functionToLookIn) replaceThis withThis))
+				(else
+					(checkThisPair (car functionToLookIn) replaceThis withThis)
+					(checkThisPair (cdr functionToLookIn) replaceThis withThis)
+					)
+				))
+		(else
+			(checkThisPair (cdr functionToLookIn) replaceThis withThis)
+			)
+		)
 	)
 
 (define (replace functionToLookIn listOfReplacements)
-	;(inspect functionToLookIn)
-	;(inspect (car functionToLookIn))
-	;(inspect (cadr functionToLookIn))
 	(define name (get 'name functionToLookIn))
-	;(inspect name)
-	;(inspect listOfReplacements)
 	(define params (get 'parameters functionToLookIn))
 	(define body (get 'code functionToLookIn))
-
-	;(set 'code listOfReplacements name)
-	;(inspect params)
-	;(inspect (car params))
-	; (inspect body)
-	; (inspect (car body))
-	; (inspect (cdr body))
-	; (inspect (cadr body))
-
-	; (inspect listOfReplacements)
-	; (inspect (car listOfReplacements))
-	; (inspect (cadr listOfReplacements))
-	(println "test")
 
 	(cond 
 		((nil? listOfReplacements) functionToLookIn)
@@ -54,3 +63,59 @@
 		(if (not (eof?)) (begin (eval expr env) (iter (readExpr)))))
 	(iter (readExpr))
 	)
+
+; (define (abs n) (if (< n 0) (- n) n))
+; (replace abs (list '< < '- -))
+; (inspect (get 'code abs))
+; (newline)
+
+; (define (square x) (* x x))
+; (replace square (list '* +))
+; (inspect (square 5))
+; (newline)
+
+; (include "pretty.lib")
+; (define (square x) (* x x))
+; (replace square (list 'x 'y))
+; (pretty square)
+; (inspect (square 48))
+; (newline)
+
+; (include "pretty.lib")
+; (define (almost-square x) ((lambda (y) (* y y)) (+ x 1)))
+; (inspect (almost-square 8))
+; (replace almost-square (list '* * '+ +))
+; (pretty almost-square)
+; (inspect (almost-square 8))
+; (newline)
+
+; (include "pretty.lib")
+; (define (almost-square x) ((lambda (y) (* y y)) (+ x 1)))
+; (inspect (almost-square 15))
+; (replace almost-square (list '* + '+ *))
+; (pretty almost-square)
+; (inspect (almost-square 15))
+; (newline)
+
+; (include "pretty.lib")
+; (define (almost-square x)
+;     ((lambda (y)
+;         (inspect '(lambda (z) (+ (* x y) z)))
+;         (* y y)) (+ x 1)))
+; (inspect (almost-square 24))
+; (replace almost-square (list '* * '+ +))
+; (pretty almost-square)
+; (inspect (almost-square 24))
+; (newline)
+
+; (include "pretty.lib")
+; (define (f x)
+;     ((lambda (y)
+;         (define z ((lambda (q) (define w (- q q)) this) 5))
+;         (inspect (z'w))
+;         (* y y)) (+ x 1)))
+; (inspect (f 80))
+; (replace f (list '* * '+ + '- +))
+; (pretty f)
+; (inspect (f 80))
+; (newline)
