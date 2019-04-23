@@ -70,10 +70,10 @@
 		(cond
 			((stream-null? s) 
 				(print "...)")
-				(newline))
+				)
 			((= index 0)
 				(print "...)")
-				(newline))
+				)
 			(else
 				(begin (print (stream-car s) ",")
 					(iter (- index 1) (stream-cdr s)))
