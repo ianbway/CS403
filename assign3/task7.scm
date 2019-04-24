@@ -3,7 +3,29 @@
 
 (include "streams.scm")
 
-(sdisplay 12 integers)
+(define (mystery x)
+
+
+	)
+
+(define (ps-mystery x)
+
+
+	)
+
+(define (acc-mystery x)
+
+
+	)
+
+(define (super-mystery x)
+
+
+	)
+
+(define (symbolic-mystery)
+	(println "(mystery x) is $\\cos x$")
+	)
 
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))

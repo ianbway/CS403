@@ -3,17 +3,17 @@
 
 (include "streams.scm")
 
-(define (accumulate op initial sequence)
-	(if (nil? sequence)
-		initial
-		(op (car sequence)
-			(accumulate op initial (cdr sequence)))
-		)
-	)
+(define (partial-sums s) 
+   (add-streams s (cons-stream 0 (partial-sums s))))
+
+; (define (acc-stream stream op) 
+;    (stream-map op stream (cons-stream 0 (acc-stream stream op))))
 
 (define (smush stream op)
+	(define indicesAndStream (cons-stream indices stream))
+	(cons-stream indicesAndStream (partial-sums stream))
 
-
+	;(cons-stream indices (cons-stream stream (cons-stream (partial-sums stream))))
 	)
 
 (define (main)

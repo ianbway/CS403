@@ -10,6 +10,9 @@
 (define (weight i j)
   (+ (cube i) (cube j)))
 
+(define ramanujan 
+	)
+
 (define (main)
 	(setPort (open (getElement ScamArgs 1) 'read))
 	(define env this)

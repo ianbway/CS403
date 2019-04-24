@@ -21,11 +21,19 @@
 						 				(stream-cdr stream))))
 		(else (stream-filter pred (stream-cdr stream)))))
 
-(define (stream-map proc s)
-	(if (stream-null? s)
-		'()
-		(cons-stream (proc (stream-car s))
-			(stream-map proc (stream-cdr s)))))
+; (define (stream-map proc s)
+; 	(if (stream-null? s)
+; 		'()
+; 		(cons-stream (proc (stream-car s))
+; 			(stream-map proc (stream-cdr s)))))
+
+(define (stream-map proc . argstreams)
+  (if (stream-null? (car argstreams))
+    '()
+    (cons-stream
+      (apply proc (map stream-car argstreams))
+      (apply stream-map (cons proc
+                              (map stream-cdr argstreams))))))
 
 (define (shuffle s t)
 	(cons-stream (stream-car s) (shuffle t (stream-cdr s))))
@@ -105,6 +113,8 @@
 (define (integers-starting-from n)
 	(cons-stream n (integers-starting-from (+ n 1)))
 	)
+
+(define indices (integers-starting-from 0))
 
 (define integers (integers-starting-from 1))
 
