@@ -6,7 +6,7 @@
 (define (make-tableau transform s)
 	(cons-stream s 
 				 (make-tableau transform
-				 			   (transform s))))
+							   (transform s))))
 
 (define (accelerated-sequence transform s)
 	(stream-map stream-car
@@ -14,24 +14,24 @@
 
 (define (euler-transform stream)
   (let ((s0 (stream-ref stream 0))
-        (s1 (stream-ref stream 1))
-        (s2 (stream-ref stream 2)))
-    (cons-stream 
-    	(cond
-    		((= 0 (+ s0 (* s1 -2) s2)) 
-    			s2)
-    		(else
-    			(- s2 (/ (* (- s2 s1) (- s2 s1))
-                 (+ s0 (* s1 -2) s2)))
-    			)
-    		)
-    	(euler-transform (stream-cdr stream)))))
+		(s1 (stream-ref stream 1))
+		(s2 (stream-ref stream 2)))
+	(cons-stream 
+		(cond
+			((= 0 (+ s0 (* s1 -2) s2)) 
+				s2)
+			(else
+				(- s2 (/ (* (- s2 s1) (- s2 s1))
+				 (+ s0 (* s1 -2) s2)))
+				)
+			)
+		(euler-transform (stream-cdr stream)))))
 
 (define (partial-sums stream)
   (let ((first (stream-car stream)))
-    (cons-stream
-      first
-      (stream-map (lambda (x) (+ x first)) (partial-sums (stream-cdr stream))))))
+	(cons-stream
+	  first
+	  (stream-map (lambda (x) (+ x first)) (partial-sums (stream-cdr stream))))))
 
 (define (factorial number)
 	(cond
