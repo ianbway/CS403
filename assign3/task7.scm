@@ -18,11 +18,11 @@
 		(s2 (stream-ref stream 2)))
 	(cons-stream 
 		(cond
-			((= 0 (+ s0 (* s1 -2) s2)) 
+			((= 0.0 (+ s0 (* s1 -2.0) s2)) 
 				s2)
 			(else
 				(- s2 (/ (* (- s2 s1) (- s2 s1))
-				 (+ s0 (* s1 -2) s2)))
+				 (+ s0 (* s1 -2.0) s2)))
 				)
 			)
 		(euler-transform (stream-cdr stream)))))
@@ -35,10 +35,10 @@
 
 (define (factorial number)
 	(cond
-		((= number 1)
-			1)
+		((= number 1.0)
+			1.0)
 		(else
-			(* number (factorial (- number 1)))
+			(* number (factorial (- number 1.0)))
 			)
 		)
 	)
@@ -47,17 +47,17 @@
 	(cond
 		; even index
 		((= (% index 2) 0) 
-			(cons-stream (/ (real (^ x (* index 2))) (real (factorial (* index 2)))) (mystery-helper x (+ index 1)))
+			(cons-stream (/ (real (^ x (* index 2.0))) (real (factorial (* index 2.0)))) (mystery-helper x (+ index 1)))
 			)
 		; odd index
 		(else
-			(cons-stream (* (- 1.0) (/ (real (^ x (* index 2))) (real (factorial (* index 2))))) (mystery-helper x (+ index 1)))
+			(cons-stream (* (- 1.0) (/ (real (^ x (* index 2.0))) (real (factorial (* index 2.0))))) (mystery-helper x (+ index 1)))
 			)
 		)
 	)
 
 (define (mystery x)
-	(cons-stream (real 1) (mystery-helper x 1))
+	(cons-stream (real 1.0) (mystery-helper x 1))
 	)
 
 (define (ps-mystery x)
